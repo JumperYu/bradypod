@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yu.user.mapper.AccountMapper">
+
+	<select id="selectOne" resultType="com.yu.user.po.Account">
+		select * from Account limit 1
+	</select>
+	
+	<select id="queryAll" parameterType="Map" resultType="com.yu.user.po.Account">
+		<![CDATA[
+		select * from Account limit #{index},#{rows}
+		]]>
+	</select>
+	
+	<insert id="insert" parameterType="Map">
+	    insert into Account (passport, password) values (
+	    	#{passport}, #{password}
+	    )
+	</insert>
+	
+	<update id="update" parameterType="Map">
+		update Account set password=#{password}
+		where passport=#{passport}
+	</update>
+	
+	<delete id="delete" parameterType="String">
+		delete from Account where passport=#{passport}
+	</delete>
+	
+</mapper>

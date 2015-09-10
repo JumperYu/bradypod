@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>CORS解决方案计示例</title>
+</head>
+<body>
+<script type="text/javascript">
+	/**
+	 *  统计客户端请求CDN静态图片耗时
+	 *  
+	 *  @param IMG_URL 
+	 *		   - 图片资源地址
+	 *  @result 
+	 * 		   - 返回客户端IP，远程IP，请求时间间隔
+	 *	
+	 */
+	(function(){
+		var start_time, end_time;
+		//var IMG_URL = "http://192.168.1.102/picture/picture/album/saveAlbum.html";
+		//var IMG_URL = "http://resource.bradypod.com//static/images/rss.png"; 
+		var IMG_URL = "http://blog.bradypod.com/article/42"; 
+		
+		/**
+		 * 创建ActiveX对象
+		 */
+		var createRequest = function() {
+			if (window.ActiveXObject) {
+				req = new ActiveXObject("Microsoft.XMLHTTP");//IE
+			} else if (window.XMLHttpRequest) {
+				req = new XMLHttpRequest(); //其他浏览器
+			}
+			return req;
+		}
+		
+		// 获取CDN节点IP
+		req = createRequest();
+		if(req) {
+			req.onreadystatechange = function() {
+			    // 每次回调都可以打印下
+				// console.log(req.readyState + "," + new Date().getTime());
+				
+				// 开始建立请求
+				if(req.readyState == 1){
+					
+				}
+				// 接收到全部响应
+				if(req.readyState == 4) {
+					console.log("finish");
+				}
+			}
+			req.open('POST', IMG_URL + "?ts=" + new Date().getTime(), true);
+			req.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
+			req.send("{\"albumId\":123123123, \"pictureURL\": \"aaaa.jpg\"}"); // 
+		}// else 不支持ajax
+	
+	})();
+</script>
+</body>
+</html>

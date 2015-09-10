@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mybatis.BlogMapper">
+
+<!--  	<select id="selectBlogFromContent" resultType="mybatis.Blog">
+		select * from Blog where content =
+		#{content}
+	</select> -->
+	
+	<insert id="fuckItHard" parameterType="mybatis.Blog">
+		insert into blog(id, content) values(#{id}, #{content})
+	</insert>	
+
+</mapper>

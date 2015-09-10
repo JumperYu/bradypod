@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yu.sys.mapper.TaskMapper">
+
+	<!-- 获取一个实体 -->
+	<select id="get" parameterType="com.yu.sys.po.Task" resultType="com.yu.sys.po.Task">
+		select * from task
+		<where>
+			<if test="taskId > 0">
+				and task_id = ${taskId}
+			</if>
+		</where>
+	</select>
+
+	<!-- 获取全部实体 -->
+	<select id="getAll" resultType="com.yu.sys.po.Task">
+		<![CDATA[
+		select * from task
+		]]>
+	</select>
+
+	<!-- 保存一个实体 -->
+	<insert id="save" parameterType="com.yu.sys.po.Task"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into task (task_id,
+		task_desc, task_type, start_time, end_time, state, create_time,
+		create_operator, last_modify, last_operator, job_class_name,
+		job_class_path, job_cron_time, job_name,
+		job_group_name, trigger_name,
+		trigger_group_name)
+		values
+		(
+		${taskId},
+		#{taskDesc}, ${taskType},
+		#{startTime}, #{endTime}, #{state},
+		now(),
+		#{createOperator}, now(),
+		#{lastOperator}, #{jobClassName}, #{jobClassPath}, #{jobCronTime},
+		#{jobName},
+		#{jobGroupName}, #{triggerName},#{triggerGroupName}
+		)
+	</insert>
+
+	<!-- 更新一个实体 -->
+	<update id="update" parameterType="com.yu.sys.po.Task">
+		update task
+		<set>
+			<if test="taskDesc != null and taskDesc != ''">
+				task_desc = #{taskDesc},
+			</if>
+			<if test="taskType != null and taskType != ''">
+				task_type = #{taskType},
+			</if>
+			<if test="startTime != null and startTime != ''">
+				start_time = #{startTime},
+			</if>
+			<if test="endTime != null and endTime != ''">
+				end_time = #{endTime},
+			</if>
+			<if test="state != 0">
+				state = #{state},
+			</if>
+			<if test="lastOperator != null and lastOperator != ''">
+				last_operator = #{lastOperator},
+			</if>
+			<if test="jobClassName != null">
+				job_class_name = #{jobClassName},
+			</if>
+			<if test="jobClassPath != null">
+				job_class_path = #{jobClassPath},
+			</if>
+			<if test="jobCronTime != null">
+				job_cron_time = #{jobCronTime},
+			</if>
+			<if test="jobName != null">
+				job_name = #{jobName},
+			</if>
+			<if test="jobGroupName != null">
+				job_group_name = #{jobGroupName},
+			</if>
+			<if test="triggerName != null">
+				trigger_name = #{triggerName},
+			</if>
+			<if test="triggerGroupName != null">
+				trigger_group_name = #{triggerGroupName},
+			</if>
+			<!-- 每次更新都修改这个时间 -->
+			last_modify = now()
+		</set>
+		<where>
+			<if test="id > 0">
+				and id = ${id}
+			</if>
+			<if test="taskId > 0">
+				and task_id = ${taskId}
+			</if>
+			<!-- 加上时间判断 -->
+			<if test="lastModify != null and lastModify != ''">
+				and last_modify = #{lastModify}
+			</if>
+		</where>
+	</update>
+
+	<!-- 删除一个实体 -->
+	<delete id="delete" parameterType="com.yu.sys.po.Task">
+		delete from task
+		<where>
+			1 = 1
+			<if test="id > 0">
+				and id = #{id}
+			</if>
+			<if test="taskId > 0">
+				and task_id = #{taskId}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 获取全部实体 -->
+	<select id="listTasks" parameterType="com.yu.sys.po.Task"
+		resultType="com.yu.sys.po.Task">
+		select * from task
+		<where>
+			<if test="state != 0">
+				state = ${state}
+			</if>
+		</where>
+	</select>
+
+	<!-- 批量启动 -->
+	<update id="batchUpdate" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" open=""
+			close="" separator=";">
+			update task
+			<set>
+				state = ${item.state},
+				last_modify = now()
+			</set>
+			<where>
+				and task_id = #{item.taskId}
+				and last_modify =
+				#{item.lastModify}
+			</where>
+		</foreach>
+	</update>
+</mapper>

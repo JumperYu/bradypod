@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:cache="http://www.springframework.org/schema/cache" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/jdbc 
+       http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/data/jpa
+       http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/cache 
+       http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+	<!-- RMI Service -->
+	<bean id="business" class="com.yu.nio.BusinessImpl" />
+
+	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+		<property name="serviceName" value="Business" />
+		<property name="service" ref="business" />
+		<property name="serviceInterface" value="com.yu.nio.Business" />
+		<!-- defaults to 1099 -->
+		<property name="registryPort" value="1199" />
+	</bean>
+
+	<!-- RMI Client -->
+	<bean id="remoteService" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+		<property name="serviceUrl" value="rmi://localhost:1199/Business" />
+		<property name="serviceInterface" value="com.yu.nio.Business" />
+	</bean>
+
+	<!-- Hessian -->
+	<bean id="hessianService" class="com.yu.nio.HessianServiceImpl" />
+
+	<bean name="/hessianService"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+		<property name="service" ref="hessianService" />
+		<property name="serviceInterface" value="com.yu.nio.HessianService" />
+	</bean>
+
+	<bean id="remoteHessianService"
+		class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl" value="http://localhost/hessianService" />
+		<property name="serviceInterface" value="com.yu.nio.HessianService" />
+	</bean>
+
+	<!-- http invoker -->
+	<bean id="httpInvokerService" class="com.yu.nio.HttpInvokerServiceImpl" />
+
+	<bean name="/httpInvokerService"
+		class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
+		<property name="service" ref="httpInvokerService" />
+		<property name="serviceInterface" value="com.yu.nio.HttpInvokerService" />
+	</bean>
+
+	<bean id="httpInvokerProxy"
+		class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+		<property name="serviceUrl" value="http://localhost/httpInvokerService" />
+		<property name="serviceInterface" value="com.yu.nio.HttpInvokerService" />
+	</bean>
+</beans>

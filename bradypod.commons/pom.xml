@@ -1,0 +1,17 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>bradypod.commons</artifactId>
+	<packaging>pom</packaging>
+	<parent>
+		<relativePath>../../bradypod.pom</relativePath>
+		<groupId>com.bradypod</groupId>
+		<artifactId>bradypod.pom</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<modules>
+		<module>commons-util</module>
+		<module>commons-service</module>
+		<module>commons-web</module>
+	</modules>
+</project>
