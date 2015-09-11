@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.yu.aop.RedisCache;
-import com.yu.aop.RedisCacheKey;
+import com.bradypod.common.aop.RedisCache;
+import com.bradypod.common.aop.RedisCacheKey;
+import com.bradypod.common.po.Page;
+import com.bradypod.common.po.PageData;
+import com.bradypod.common.service.MyBatisBaseService;
 import com.yu.article.mapper.ArticleMapper;
 import com.yu.article.po.Article;
-import com.yu.common.po.Page;
-import com.yu.common.po.PageData;
-import com.yu.common.service.MyBatisBaseService;
 import com.yu.util.validate.AssertUtil;
 
 /**

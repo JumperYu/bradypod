@@ -12,7 +12,9 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>bradypod.shop.item.center</module>
+		<module>shop.item.center.web</module>
+		<module>shop.item.center.service</module>
+		<module>shop.item.center.service.impl</module>
 	</modules>
 
 	<properties>
@@ -25,18 +27,6 @@
 	<build>
 		<finalName>shop</finalName>
 		<plugins>
-			<!-- 指定编译级别 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.3</version>
-				<configuration>
-					<defaultLibBundleDir>lib</defaultLibBundleDir>
-					<source>1.7</source>
-					<target>1.7</target>
-					<encoding>UTF-8</encoding>
-				</configuration>
-			</plugin>
 			<!-- 自动部署到容器 -->
 			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>

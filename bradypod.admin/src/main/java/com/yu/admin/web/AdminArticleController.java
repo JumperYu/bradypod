@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.baidu.ueditor.ActionEnter;
+import com.bradypod.common.exception.ServiceException;
+import com.bradypod.common.po.Result;
+import com.bradypod.common.po.ResultCode;
+import com.bradypod.common.util.LoginUserContext;
+import com.bradypod.common.web.BaseController;
 import com.yu.article.po.Article;
-import com.yu.common.exception.ServiceException;
-import com.yu.common.po.Result;
-import com.yu.common.po.ResultCode;
-import com.yu.common.util.LoginUserContext;
-import com.yu.common.web.BaseController;
 import com.yu.user.po.Account;
 
 /**

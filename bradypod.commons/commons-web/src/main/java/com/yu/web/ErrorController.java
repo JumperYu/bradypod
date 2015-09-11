@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.yu.common.po.Result;
+import com.bradypod.common.po.Result;
 
 @Controller
 public class ErrorController {

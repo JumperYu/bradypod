@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.yu.common.service.MyBatisBaseService;
+import com.bradypod.common.service.MyBatisBaseService;
 import com.yu.sys.constant.TaskState;
 import com.yu.sys.mapper.TaskMapper;
 import com.yu.sys.po.Task;

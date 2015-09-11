@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
-import com.yu.common.po.Result;
-import com.yu.common.po.ResultCode;
+import com.bradypod.common.po.Result;
+import com.bradypod.common.po.ResultCode;
 import com.yu.sys.po.Task;
 import com.yu.util.date.DateUtils;
 import com.yu.util.gzip.GzipUtil;

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bradypod.shop.item.center.mapper.CategoryAttriMapper">
+
+	<!-- 获取一个实体 -->
+	<select id="get" parameterType="com.bradypod.shop.item.center.po.CategoryAttri" resultType="com.bradypod.shop.item.center.po.CategoryAttri">
+		select * from
+		t_ctg_attri
+		<where>
+			1 = 1
+		</where>
+	</select>
+	
+	<!-- 获取全部实体 -->
+	<select id="getAll" parameterType="com.bradypod.shop.item.center.po.CategoryAttri" resultType="com.bradypod.shop.item.center.po.CategoryAttri">
+		<![CDATA[
+		select * from t_ctg_attri 
+		]]>
+	</select>
+	
+	<!-- 保存一个实体 -->
+	<insert id="save" parameterType="com.bradypod.shop.item.center.po.CategoryAttri"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into t_ctg_attri (task_id, task_desc, task_type, start_time, end_time, state, create_time, create_operator, last_modify, last_operator, job_id)
+		values
+		(
+		${taskId}, '${taskDesc}', ${taskType}, '${startTime}', '${endTime}', ${state}, now(), '${createOperator}', now(), '${lastOperator}', ${jobId}
+		)
+	</insert>
+	
+	<!-- 更新一个实体 -->
+	<update id="update" parameterType="com.bradypod.shop.item.center.po.CategoryAttri">
+		update t_ctg_attri set
+		
+		<where>
+		    1 = 1
+		</where>
+	</update>
+	
+	<!-- 删除一个实体 -->
+	<delete id="delete" parameterType="com.bradypod.shop.item.center.po.CategoryAttri">
+		delete from t_ctg_attri
+		<where>
+		    1 = 1
+		</where>
+	</delete>
+
+</mapper>

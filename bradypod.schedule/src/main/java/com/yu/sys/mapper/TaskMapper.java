@@ -2,7 +2,7 @@ package com.yu.sys.mapper;
 
 import java.util.List;
 
-import com.yu.common.mapper.BaseMapper;
+import com.bradypod.common.mapper.BaseMapper;
 import com.yu.sys.po.Task;
 
 public interface TaskMapper extends BaseMapper<Task> {

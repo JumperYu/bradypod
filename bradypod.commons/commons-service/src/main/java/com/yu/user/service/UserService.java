@@ -7,7 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.yu.common.service.MyBatisBaseService;
+import com.bradypod.common.service.MyBatisBaseService;
 import com.yu.user.mapper.AccountMapper;
 import com.yu.user.po.Account;
 

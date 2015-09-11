@@ -6,8 +6,8 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
 
+import com.bradypod.common.mapper.BaseMapper;
 import com.yu.article.po.Article;
-import com.yu.common.mapper.BaseMapper;
 
 public interface ArticleMapper extends BaseMapper<Article> {
 	

@@ -3,8 +3,8 @@ package com.yu.service.test;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.bradypod.common.junit.BaseTest;
 import com.yu.article.service.ArticleService;
-import com.yu.junit.BaseTest;
 
 public class ArticleServiceTest extends BaseTest {
 

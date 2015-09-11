@@ -8,10 +8,10 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.bradypod.common.exception.ServiceException;
+import com.bradypod.common.po.ResultCode;
+import com.bradypod.common.web.BaseController;
 import com.yu.article.po.Article;
-import com.yu.common.exception.ServiceException;
-import com.yu.common.po.ResultCode;
-import com.yu.common.web.BaseController;
 
 /**
  * 

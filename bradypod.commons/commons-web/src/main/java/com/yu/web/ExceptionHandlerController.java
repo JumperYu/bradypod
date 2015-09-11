@@ -28,8 +28,8 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
-import com.yu.common.po.Result;
-import com.yu.common.po.ResultCode;
+import com.bradypod.common.po.Result;
+import com.bradypod.common.po.ResultCode;
 
 /**
  * 异常处理响应配置

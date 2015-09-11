@@ -8,8 +8,8 @@ import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.yu.aop.RedisAOP;
-import com.yu.aop.Waiter;
+import com.bradypod.common.aop.RedisAOP;
+import com.bradypod.common.aop.Waiter;
 import com.yu.article.service.ArticleService;
 
 /**

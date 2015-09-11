@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Select;
 
-import com.yu.common.mapper.BaseMapper;
+import com.bradypod.common.mapper.BaseMapper;
 import com.yu.user.po.Account;
 
 /**

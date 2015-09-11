@@ -21,6 +21,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.yu.util.date.DateUtils;
+
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
@@ -58,6 +60,10 @@ public class EntityUtil {
 	private List<String> colComments; // 列注释
 
 	private boolean hasDateColumn = false; // 含有时间类型
+
+	private boolean isServiceCreated = true;
+	private boolean isDaoCreated = true;
+	private boolean isXMLCreated = true;
 
 	public EntityUtil() {
 		this.hasDateColumn = false;
@@ -149,11 +155,14 @@ public class EntityUtil {
 
 		createEntityFile(); // step-1
 
-		createDaoFile(); // step-2
+		if (isDaoCreated)
+			createDaoFile(); // step-2
 
-		createServiceFile(); // step-3
+		if (isServiceCreated)
+			createServiceFile(); // step-3
 
-		createXMLTemplate(); // step-4
+		if (isXMLCreated)
+			createXMLTemplate(); // step-4
 	}
 
 	/**
@@ -267,7 +276,8 @@ public class EntityUtil {
 				.append(" * " + tableComment + "\r\n")
 				.append(" *" + "\r\n")
 				.append(" * @author " + author + "\r\n")
-				.append(" * @date " + new Date() + "\r\n")
+				.append(" * @date "
+						+ DateUtils.getDateStr("yyyy-MM-dd hh:mm:ss") + "\r\n")
 				.append(" *" + "\r\n")
 				.append(" */" + "\r\n")
 				.append("public class " + fileName + " implements Serializable"
@@ -345,11 +355,10 @@ public class EntityUtil {
 		String mapper_suffix = ".mapper.";
 		sb.append("package " + basePackage + service_suffix + ";\r\n")
 				.append("\r\n")
-				.append("import com.yu.common.service.MyBatisBaseService;\r\n")
-				.append("import " + basePackage + po_suffix + fileName
-						+ ";\r\n")
-				.append("import " + basePackage + mapper_suffix + fileName
-						+ "Mapper" + ";\r\n")
+				.append("import com.bradypod.common.service.BaseService;\r\n")
+//				.append("import " + basePackage + po_suffix + fileName + ";\r\n")
+				.append("import com.yu.common.mapper.BaseMapper;\r\n")
+				.append("import java.io.Serializable;;\r\n")
 				.append("/**\r\n")
 				.append(" * " + tableComment + "\r\n")
 				.append(" *" + "\r\n")
@@ -357,9 +366,13 @@ public class EntityUtil {
 				.append(" * @date " + new Date() + "\r\n")
 				.append(" *" + "\r\n")
 				.append(" */" + "\r\n")
-				.append("public class " + fileName
-						+ "Service extends MyBatisBaseService<" + fileName
-						+ ", " + fileName + "Mapper>" + " " + " {\r\n")
+				.append("public interface "
+						+ fileName
+						+ "Service<E extends Serializable, T extends BaseMapper<E>> extends BaseService<E, T>"
+						+ " " + " {\r\n")
+				// .append("public interface " + fileName +
+				// "Service extends BaseService<" + fileName + ", " + fileName +
+				// "Mapper>" + " " + " {\r\n")
 				.append("\r\n");
 		sb.append("}");
 		// 打印
@@ -393,7 +406,8 @@ public class EntityUtil {
 			cfg.setObjectWrapper(new DefaultObjectWrapper());
 			// 创建根哈希表
 			Map<String, String> root = new HashMap<>();
-			root.put("mapper_namespace", basePackage + ".mapper." + fileName + "Mapper");
+			root.put("mapper_namespace", basePackage + ".mapper." + fileName
+					+ "Mapper");
 			root.put("mapper_class", basePackage + ".po." + fileName);
 			root.put("mapper_table", tableName);
 			root.put(
@@ -561,5 +575,17 @@ public class EntityUtil {
 				+ "\\src\\main\\java\\";
 		EntityUtil util = new EntityUtil(ConnectionUtil.getConnection());
 		util.createJavaFile("cms.task", "zengxm", "com.yu.entity", mySrcDir);
+	}
+
+	public void setDaoCreated(boolean isDaoCreated) {
+		this.isDaoCreated = isDaoCreated;
+	}
+
+	public void setServiceCreated(boolean isServiceCreated) {
+		this.isServiceCreated = isServiceCreated;
+	}
+
+	public void setXMLCreated(boolean isXMLCreated) {
+		this.isXMLCreated = isXMLCreated;
 	}
 }
