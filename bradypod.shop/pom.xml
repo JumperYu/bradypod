@@ -7,7 +7,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
-	
+
 	<artifactId>bradypod.shop</artifactId>
 	<packaging>pom</packaging>
 
@@ -22,6 +22,36 @@
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -42,15 +72,14 @@
 			<!-- 指定war包插件 -->
 			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-war-plugin</artifactId> 
 				<version>2.6</version> <configuration> <webResources> <resource> <directory>src/main/webapp</directory> 
-				<excludes> <exclude>**/*.jpg</exclude> </excludes> </resource> </webResources> 
-				</configuration> </plugin> -->
+				<excludes> <exclude>**/*.jpg</exclude> </excludes> </resource> </webResources> </configuration> </plugin> -->
 			<!-- 指定jar包main程序入口 -->
 			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-shade-plugin</artifactId> 
-				<version>1.4</version> <executions> <execution> <phase>package</phase> <goals> 
-				<goal>shade</goal> </goals> <configuration> <transformers> <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer"> 
-				<mainClass>com.yu.Test</mainClass> </transformer> </transformers> </configuration> 
-				</execution> </executions> </plugin> -->
+				<version>1.4</version> <executions> <execution> <phase>package</phase> <goals> <goal>shade</goal> </goals> 
+				<configuration> <transformers> <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer"> 
+				<mainClass>com.yu.Test</mainClass> </transformer> </transformers> </configuration> </execution> </executions> 
+				</plugin> -->
 		</plugins>
 	</build>
-	
+
 </project>
