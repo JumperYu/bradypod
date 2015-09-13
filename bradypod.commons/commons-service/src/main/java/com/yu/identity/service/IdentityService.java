@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bradypod.common.service.MyBatisBaseService;
+import com.bradypod.common.service.BaseMybatisServiceImpl;
 import com.yu.identity.mapper.IdentityMapper;
 import com.yu.identity.po.Identity;
 
@@ -20,7 +20,7 @@ import com.yu.identity.po.Identity;
 @Service
 @Transactional(propagation = Propagation.SUPPORTS)
 public class IdentityService extends
-		MyBatisBaseService<Identity, IdentityMapper> {
+		BaseMybatisServiceImpl<Identity, IdentityMapper> {
 
 	static Logger log = LoggerFactory.getLogger(IdentityService.class);
 

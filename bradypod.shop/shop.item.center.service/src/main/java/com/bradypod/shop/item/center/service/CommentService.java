@@ -1,9 +1,6 @@
 package com.bradypod.shop.item.center.service;
 
-import java.io.Serializable;
-
-import com.bradypod.common.mapper.BaseMapper;
-import com.bradypod.common.service.BaseService;
+import com.bradypod.common.service.BaseMybatiService;
 import com.bradypod.shop.item.center.po.CommentCount;
 
 ;
@@ -14,8 +11,7 @@ import com.bradypod.shop.item.center.po.CommentCount;
  * @date Fri Sep 11 12:02:22 CST 2015
  *
  */
-public interface CommentService<E extends Serializable, T extends BaseMapper<E>> extends
-		BaseService<E, T> {
+public interface CommentService extends BaseMybatiService<CommentCount, Long> {
 
 	/**
 	 * 查询实体好评评论数
@@ -64,7 +60,8 @@ public interface CommentService<E extends Serializable, T extends BaseMapper<E>>
 	/**
 	 * 保存一个评论
 	 * 
-	 * @param commentCount - 评论个数
+	 * @param commentCount
+	 *            - 评论个数
 	 * 
 	 */
 	void saveInCommentCount(CommentCount commentCount);

@@ -9,12 +9,11 @@ import org.springframework.beans.BeanUtils;
 
 import com.bradypod.common.po.Page;
 import com.bradypod.common.po.PageData;
-import com.bradypod.common.service.MyBatisBaseService;
+import com.bradypod.common.service.BaseMybatisServiceImpl;
 import com.bradypod.shop.item.center.bo.CategoryInfoBO;
 import com.bradypod.shop.item.center.constants.CategoryInfoConstants;
 import com.bradypod.shop.item.center.mapper.CategoryInfoMapper;
 import com.bradypod.shop.item.center.po.CategoryInfo;
-
 
 /**
  * 分类信息
@@ -23,9 +22,9 @@ import com.bradypod.shop.item.center.po.CategoryInfo;
  * @date Wed Aug 26 11:47:20 CST 2015
  *
  */
-//@Service
+// @Service
 public class CategoryInfoServiceImpl extends
-		MyBatisBaseService<CategoryInfo, CategoryInfoMapper> {
+		BaseMybatisServiceImpl<CategoryInfo, CategoryInfoMapper> {
 
 	/**
 	 * 获取所有可用分类信息
@@ -44,7 +43,8 @@ public class CategoryInfoServiceImpl extends
 	 * @return - List<Long>
 	 */
 	private List<Long> getAllParentIdList() {
-		return getMapper().getAllParentId();
+//		return getMapper().getAllParentId();
+		return null;
 	}
 
 	/**

@@ -7,7 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bradypod.common.service.MyBatisBaseService;
+import com.bradypod.common.service.BaseMybatisServiceImpl;
 import com.yu.user.mapper.AccountMapper;
 import com.yu.user.po.Account;
 
@@ -21,7 +21,7 @@ import com.yu.user.po.Account;
  */
 @Service
 @Transactional
-public class UserService extends MyBatisBaseService<Account, AccountMapper> {
+public class UserService extends BaseMybatisServiceImpl<Account, AccountMapper> {
 
 	/**
 	 * 验证账号是否存在
@@ -40,8 +40,8 @@ public class UserService extends MyBatisBaseService<Account, AccountMapper> {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("passport", account.getPassport());
 		params.put("password", account.getPassword());
-		if (getMapper().isExists(params) != 1)
-			return false;
+		/*if (getMapper().isExists(params) != 1)
+			return false;*/
 
 		return true;
 	}

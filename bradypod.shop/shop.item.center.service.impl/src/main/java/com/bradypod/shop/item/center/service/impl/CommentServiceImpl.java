@@ -3,15 +3,14 @@ package com.bradypod.shop.item.center.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.bradypod.common.service.MyBatisBaseService;
+import com.bradypod.common.service.BaseMybatisServiceImpl;
 import com.bradypod.shop.item.center.constants.CommentConstants;
 import com.bradypod.shop.item.center.mapper.CommentCountMapper;
-import com.bradypod.shop.item.center.mapper.CommentMapper;
-import com.bradypod.shop.item.center.po.Comment;
 import com.bradypod.shop.item.center.po.CommentCount;
 import com.bradypod.shop.item.center.service.CommentService;
 
@@ -23,53 +22,64 @@ import com.bradypod.shop.item.center.service.CommentService;
  *         2015年9月11日 上午10:37:41
  */
 @Service
-public class CommentServiceImpl extends MyBatisBaseService<Comment, CommentMapper> implements
-		CommentService<Comment, CommentMapper> {
+@Transactional(propagation = Propagation.SUPPORTS)
+public class CommentServiceImpl extends
+		BaseMybatisServiceImpl<CommentCount, Long> implements CommentService {
 
 	/**
 	 * 查询评论个数
 	 */
-	private Integer getCommentCount(CommentConstants commentConstants, Long entityId,
-			Integer entityType) {
+	private Integer getCommentCount(CommentConstants commentConstants,
+			Long entityId, Integer entityType) {
 		Map<String, Object> params = new HashMap<>();
 		params.put("minStar", commentConstants.getMinStar());
 		params.put("maxStar", commentConstants.getMaxStar());
 		params.put("entityId", entityId);
 		params.put("entityType", entityType);
-		return commentCountMapper.countComment(params);
+		return getMapper().countComment(params);
 	}
 
 	@Override
 	public Integer getGoodCommentCount(Long entityId, Integer entityType) {
-		return getCommentCount(CommentConstants.GOOD_COMMENT, entityId, entityType);
+		System.out.println("do in here");
+		return getCommentCount(CommentConstants.GOOD_COMMENT, entityId,
+				entityType);
 	}
 
 	@Override
 	public Integer getGeneralCommentCount(Long entityId, Integer entityType) {
-		return getCommentCount(CommentConstants.GENERAL_COMMENT, entityId, entityType);
+		return getCommentCount(CommentConstants.GENERAL_COMMENT, entityId,
+				entityType);
 	}
 
 	@Override
 	public Integer getBadCommentCount(Long entityId, Integer entityType) {
-		return getCommentCount(CommentConstants.BAD_COMMENT, entityId, entityType);
+		return getCommentCount(CommentConstants.BAD_COMMENT, entityId,
+				entityType);
 	}
 
 	@Override
 	public Integer getAllCommentCount(Long entityId, Integer entityType) {
-		return getCommentCount(CommentConstants.ALL_COMMENT, entityId, entityType);
+		return getCommentCount(CommentConstants.ALL_COMMENT, entityId,
+				entityType);
 	}
 
 	@Override
 	public void saveInCommentCount(CommentCount commentCount) {
-		commentCountMapper.save(commentCount);
+		getMapper().save(commentCount);
 	}
 
 	/* set */
 	private CommentCountMapper commentCountMapper;
 
-	@PostConstruct
-	public void setCommentCountMapper() {
-		this.commentCountMapper = getMyBatisBaseDAO().getSqlSession().getMapper(
-				CommentCountMapper.class);
+	@Autowired
+	public void setCommentCountMapper(CommentCountMapper commentCountMapper) {
+		this.commentCountMapper = commentCountMapper;
+		super.setBaseMapper(this.commentCountMapper);
+	}
+
+	@Override
+	public CommentCountMapper getMapper() {
+		return this.commentCountMapper;
 	}
 }

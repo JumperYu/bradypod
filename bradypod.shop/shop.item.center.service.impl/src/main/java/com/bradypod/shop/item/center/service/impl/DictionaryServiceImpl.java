@@ -1,6 +1,6 @@
 package com.bradypod.shop.item.center.service.impl;
 
-import com.bradypod.common.service.MyBatisBaseService;
+import com.bradypod.common.service.BaseMybatisServiceImpl;
 import com.bradypod.shop.item.center.mapper.DictionaryMapper;
 import com.bradypod.shop.item.center.po.Dictionary;
 
@@ -11,9 +11,8 @@ import com.bradypod.shop.item.center.po.Dictionary;
  * @date 2015年9月5日
  *
  */
-//@Service
-public class DictionaryServiceImpl
-		extends
-			MyBatisBaseService<Dictionary, DictionaryMapper> {
+// @Service
+public class DictionaryServiceImpl extends
+		BaseMybatisServiceImpl<Dictionary, DictionaryMapper> {
 
 }

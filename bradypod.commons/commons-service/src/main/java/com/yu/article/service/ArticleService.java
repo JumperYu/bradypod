@@ -13,7 +13,7 @@ import com.bradypod.common.aop.RedisCache;
 import com.bradypod.common.aop.RedisCacheKey;
 import com.bradypod.common.po.Page;
 import com.bradypod.common.po.PageData;
-import com.bradypod.common.service.MyBatisBaseService;
+import com.bradypod.common.service.BaseMybatisServiceImpl;
 import com.yu.article.mapper.ArticleMapper;
 import com.yu.article.po.Article;
 import com.yu.util.validate.AssertUtil;
@@ -28,10 +28,12 @@ import com.yu.util.validate.AssertUtil;
  */
 @Service
 @Transactional(propagation = Propagation.SUPPORTS)
-public class ArticleService extends MyBatisBaseService<Article, ArticleMapper> {
+public class ArticleService extends
+		BaseMybatisServiceImpl<Article, ArticleMapper> {
 
 	/**
 	 * 添加或者更新文章
+	 * 
 	 * 
 	 * @param Article
 	 *            articleId决定
@@ -42,9 +44,9 @@ public class ArticleService extends MyBatisBaseService<Article, ArticleMapper> {
 	public void saveOrUpdateArticle(Article article) {
 		int ret = 0;
 		if (article.getArticleId() == 0) {
-			ret = getMapper().saveEntity(article);
+			ret = getMapper().save(article);
 		} else {
-			getMapper().updateEntity(article);
+			getMapper().update(article);
 		}
 		System.out.println(ret);
 	}
@@ -61,7 +63,7 @@ public class ArticleService extends MyBatisBaseService<Article, ArticleMapper> {
 		AssertUtil.assertGreaterThanZero(path, "需要传入大于0的正整数");
 		Article article = new Article();
 		article.setArticleId(path);
-		article = getMapper().queryArticle(article);
+		article = getMapper().get(article);
 		return article;
 	}
 
@@ -73,8 +75,7 @@ public class ArticleService extends MyBatisBaseService<Article, ArticleMapper> {
 	 */
 	@RedisCache(expire = 3600)
 	public List<Article> getAllArticles() {
-		List<Article> articles = getMapper().queryAllArticles(
-				new HashMap<String, Object>());
+		List<Article> articles = getMapper().getAll(new Article());
 		return articles;
 	}
 
@@ -96,15 +97,17 @@ public class ArticleService extends MyBatisBaseService<Article, ArticleMapper> {
 		params.put("year", StringUtils.isBlank(year) ? null : year);
 		params.put("month", StringUtils.isBlank(month) ? null : month);
 		params.put("day", StringUtils.isBlank(day) ? null : day);
-		List<Article> articles = getMapper().queryAllArticles(params);
+		List<Article> articles = getMapper().getAll(null);
 		return articles;
 	}
-	
+
 	/**
 	 * 分页查找数据
 	 * 
-	 * @param pageSize - 页大小
-	 * @param pageNO - 页码
+	 * @param pageSize
+	 *            - 页大小
+	 * @param pageNO
+	 *            - 页码
 	 * @return - PageData<List<Article>>
 	 */
 	public PageData<List<Article>> getArticles(int pageSize, int pageNO) {
