@@ -31,7 +31,7 @@
 	
 	<!-- 定义特殊包下的日志级别 -->
 	<logger name="org.springframework" level="WARN" />
-	<logger name="org.mybatis" level="DEBUG" />
+	<logger name="org.mybatis" level="WARN" />
 	<logger name="com.bradypod" level="INFO" />
 	
 	<root level="INFO">
