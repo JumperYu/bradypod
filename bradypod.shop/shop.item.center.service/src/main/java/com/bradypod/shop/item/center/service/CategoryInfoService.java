@@ -1,5 +1,6 @@
 package com.bradypod.shop.item.center.service;
 
+import com.bradypod.common.service.BaseMybatiService;
 import com.bradypod.shop.item.center.po.CategoryInfo;
 
 /**
@@ -9,14 +10,6 @@ import com.bradypod.shop.item.center.po.CategoryInfo;
  * @date Wed Aug 26 11:47:20 CST 2015
  *
  */
-public interface CategoryInfoService {
-
-	void save(CategoryInfo categroy);
-
-	Object get(CategoryInfo categroy);
-
-	Object findCategories(int i, int j, long l, int k);
-
-	void getCategoryInfoBO();
-
+public interface CategoryInfoService extends
+		BaseMybatiService<CategoryInfo, Long> {
 }
