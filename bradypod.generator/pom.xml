@@ -1,0 +1,49 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.bradypod</groupId>
+		<artifactId>bradypod.pom</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../../pom.xml</relativePath>
+	</parent>
+
+	<artifactId>bradypod.generator</artifactId>
+	<packaging>pom</packaging>
+
+	<modules>
+
+		<module>generator-framework</module>
+	</modules>
+
+	<properties>
+		<project.build.path>E:\work\server\apache-tomcat-7.0.59\webapps\</project.build.path>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<!-- <dependency> <groupId>com.googlecode.rapid-framework</groupId> <artifactId>rapid-core</artifactId> 
+			<version>4.0</version> </dependency> <dependency> <groupId>com.googlecode.rapid-framework</groupId> <artifactId>rapid-generator</artifactId> 
+			<version>4.0</version> </dependency> <dependency> <groupId>com.googlecode.rapid-framework</groupId> <artifactId>rapid-generator-ext</artifactId> 
+			<version>4.0</version> </dependency> <dependency> <groupId>com.googlecode.rapid-framework</groupId> <artifactId>rapid-generator-template</artifactId> 
+			<version>4.0</version> </dependency> -->
+	</dependencies>
+
+</project>

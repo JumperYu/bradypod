@@ -36,6 +36,7 @@
 		<guava.version>18.0</guava.version>
 		<spymemcached.version>2.11.5</spymemcached.version>
 		<mysql-connector-java.version>5.1.30</mysql-connector-java.version>
+		<h2.version>1.4.189</h2.version>
 		<jedis.version>2.7.3</jedis.version>
 		<mina-core.version>2.0.9</mina-core.version>
 		<hessian.version>4.0.38</hessian.version>
@@ -68,8 +69,8 @@
 				<version>1.2</version>
 				<scope>provided</scope>
 			</dependency>
-			<!-- <dependency> <groupId>taglibs</groupId> <artifactId>standard</artifactId> 
-				<version>1.1.2</version> </dependency> -->
+			<!-- <dependency> <groupId>taglibs</groupId> <artifactId>standard</artifactId> <version>1.1.2</version> 
+				</dependency> -->
 			<!-- Spring Framework -->
 			<dependency>
 				<groupId>org.springframework</groupId>
@@ -231,8 +232,8 @@
 				<artifactId>json</artifactId>
 				<version>${org.json.version}</version>
 			</dependency>
-			<!-- <dependency> <groupId>org.json</groupId> <artifactId>json</artifactId> 
-				<version>20140107</version> </dependency> -->
+			<!-- <dependency> <groupId>org.json</groupId> <artifactId>json</artifactId> <version>20140107</version> 
+				</dependency> -->
 			<!-- End of JSON -->
 			<!-- cache -->
 			<dependency>
@@ -248,10 +249,9 @@
 				<scope>runtime</scope>
 			</dependency>
 			<!-- 向logback改进 -->
-			<!-- <dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-log4j12</artifactId> 
-				<version>${org.slf4j-version}</version> <scope>runtime</scope> </dependency> 
-				<dependency> <groupId>log4j</groupId> <artifactId>log4j</artifactId> <version>1.2.17</version> 
-				<scope>runtime</scope> </dependency> -->
+			<!-- <dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-log4j12</artifactId> <version>${org.slf4j-version}</version> 
+				<scope>runtime</scope> </dependency> <dependency> <groupId>log4j</groupId> <artifactId>log4j</artifactId> 
+				<version>1.2.17</version> <scope>runtime</scope> </dependency> -->
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
@@ -278,6 +278,12 @@
 				<scope>runtime</scope>
 			</dependency>
 			<dependency>
+				<groupId>com.h2database</groupId>
+				<artifactId>h2</artifactId>
+				<version>${h2.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
 				<groupId>redis.clients</groupId>
 				<artifactId>jedis</artifactId>
 				<version>${jedis.version}</version>
@@ -289,8 +295,8 @@
 				<artifactId>hibernate-validator</artifactId>
 				<version>5.2.1.Final</version>
 				<!-- <exclusions> <exclusion> <artifactId>jaxb-impl</artifactId> <groupId>com.sun.xml.bind</groupId> 
-					</exclusion> <exclusion> <artifactId>jaxb-api</artifactId> <groupId>javax.xml.bind</groupId> 
-					</exclusion> </exclusions> -->
+					</exclusion> <exclusion> <artifactId>jaxb-api</artifactId> <groupId>javax.xml.bind</groupId> </exclusion> 
+					</exclusions> -->
 			</dependency>
 
 			<!-- dubbo -->
@@ -393,8 +399,7 @@
 
 	<distributionManagement>
 		<!-- <repository> <id>releases</id> <name>Internal Releases</name> <url>http://192.168.1.130:5050/nexus/content/repositories/releases</url> 
-			</repository> <snapshotRepository> <id>snapshots</id> <name>Internal Snapshots</name> 
-			<url>http://192.168.1.130:5050/nexus/content/repositories/snapshots</url> 
+			</repository> <snapshotRepository> <id>snapshots</id> <name>Internal Snapshots</name> <url>http://192.168.1.130:5050/nexus/content/repositories/snapshots</url> 
 			</snapshotRepository> -->
 	</distributionManagement>
 
