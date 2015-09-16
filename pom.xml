@@ -42,6 +42,7 @@
 		<hessian.version>4.0.38</hessian.version>
 		<org.slf4j-version>1.7.7</org.slf4j-version>
 		<jackson-version>2.3.3</jackson-version>
+		<gson.version>2.3.1</gson.version>
 		<org.json.version>20141113</org.json.version>
 		<logback.version>1.0.13</logback.version>
 		<junit.version>4.11</junit.version>
@@ -231,6 +232,11 @@
 				<groupId>org.json</groupId>
 				<artifactId>json</artifactId>
 				<version>${org.json.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>${gson.version}</version>
 			</dependency>
 			<!-- <dependency> <groupId>org.json</groupId> <artifactId>json</artifactId> <version>20140107</version> 
 				</dependency> -->

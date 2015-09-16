@@ -43,35 +43,47 @@ public class GeneratorFacade {
 		g.deleteOutRootDir();
 	}
 
-	public void generateByMap(Map map, String templateRootDir) throws Exception {
+	public void generateByMap(Map<String, Object> map, String templateRootDir) throws Exception {
 		new ProcessUtils().processByMap(map, templateRootDir, false);
 	}
 
-	public void deleteByMap(Map map, String templateRootDir) throws Exception {
+	public void deleteByMap(Map<String, Object> map, String templateRootDir) throws Exception {
 		new ProcessUtils().processByMap(map, templateRootDir, true);
 	}
 
+	/**
+	 * 生成所有表,指定模板目录
+	 */
 	public void generateByAllTable(String templateRootDir) throws Exception {
 		new ProcessUtils().processByAllTable(templateRootDir, false);
 	}
 
+	/**
+	 * 删除所有表,指定模板目录
+	 */
 	public void deleteByAllTable(String templateRootDir) throws Exception {
 		new ProcessUtils().processByAllTable(templateRootDir, true);
 	}
 
+	/**
+	 * 生成表,指定模板目录
+	 */
 	public void generateByTable(String tableName, String templateRootDir) throws Exception {
 		new ProcessUtils().processByTable(tableName, templateRootDir, false);
 	}
 
+	/**
+	 * 删除表,指定模板目录
+	 */
 	public void deleteByTable(String tableName, String templateRootDir) throws Exception {
 		new ProcessUtils().processByTable(tableName, templateRootDir, true);
 	}
 
-	public void generateByClass(Class clazz, String templateRootDir) throws Exception {
+	public void generateByClass(Class<?> clazz, String templateRootDir) throws Exception {
 		new ProcessUtils().processByClass(clazz, templateRootDir, false);
 	}
 
-	public void deleteByClass(Class clazz, String templateRootDir) throws Exception {
+	public void deleteByClass(Class<?> clazz, String templateRootDir) throws Exception {
 		new ProcessUtils().processByClass(clazz, templateRootDir, true);
 	}
 

@@ -1,4 +1,4 @@
-package com.bradypod.shop.item.center.web;
+package com.bradypod.shop.item.center.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;

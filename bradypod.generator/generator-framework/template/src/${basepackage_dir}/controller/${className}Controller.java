@@ -12,8 +12,6 @@ import java.util.Map;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javacommon.base.BaseRestSpringController;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -31,17 +29,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import cn.org.rapid_framework.page.Page;
-import cn.org.rapid_framework.web.scope.Flash;
-
 <#include "/java_imports.include">
 @Controller
 @RequestMapping("/${classNameLowerCase}")
-public class ${className}Controller extends BaseRestSpringController<${className},${pkJavaType}>{
+public class ${className}Controller {
 	//默认多列排序,example: username desc,createTime asc
 	protected static final String DEFAULT_SORT_COLUMNS = null; 
 	
-	private ${className}Manager ${classNameFirstLower}Manager;
+	private ${className}Service ${classNameFirstLower}Service;
 	
 	private final String LIST_ACTION = "redirect:/${classNameLowerCase}";
 	
