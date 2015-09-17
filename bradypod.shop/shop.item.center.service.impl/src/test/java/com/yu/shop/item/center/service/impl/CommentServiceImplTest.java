@@ -59,7 +59,7 @@ public class CommentServiceImplTest extends BaseTest {
 	public void testGet() {
 		CommentCount commentCount = new CommentCount();
 		commentCount.setId(1L);
-		commentCountMapper.get(commentCount);
+		System.out.println(commentCountMapper.get(commentCount));
 	}
 
 	@Test

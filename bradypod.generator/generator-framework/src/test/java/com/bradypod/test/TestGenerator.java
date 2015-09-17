@@ -1,16 +1,20 @@
 package com.bradypod.test;
 
-import java.lang.reflect.Type;
+import java.io.IOException;
 import java.util.Map;
 
 import org.junit.Test;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
 import cn.org.rapid_framework.generator.GeneratorFacade;
 import cn.org.rapid_framework.generator.GeneratorProperties;
+
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 /**
  * 测试生成数据
@@ -40,41 +44,6 @@ public class TestGenerator {
 		// 打开文件夹
 		Runtime.getRuntime().exec(
 				"cmd.exe /c start " + GeneratorProperties.getRequiredProperty("outRoot"));
-	}
-
-	@Test
-	public void testGson() {
-		Gson gson = new Gson();
-		Person p = new Person(1, "a");
-		System.out.println(gson.toJson(p));
-		System.out.println(gson.fromJson("{5:2,3:4}", Map.class));
-	}
-
-}
-
-class Person {
-	private int id;
-	private String name;
-
-	public Person(int id, String name) {
-		this.id = id;
-		this.name = name;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 }
