@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bradypod.common.mapper.BaseMapper;
+import com.bradypod.common.po.GenericQueryParam;
 import com.bradypod.common.po.Page;
 import com.bradypod.common.po.PageData;
 import com.yu.util.validate.AssertUtil;
@@ -125,7 +126,7 @@ public abstract class BaseMybatisServiceImpl<E, T> implements
 		params.put("pageNO", pageNO);
 
 		// 1.找到mapper的list位置 和 count位置
-		int count = countData(params);
+		long count = 0;//countData(params);
 		List<E> result = listData(params);
 
 		// 2.指定Page对象
@@ -148,7 +149,8 @@ public abstract class BaseMybatisServiceImpl<E, T> implements
 	 * @return - List<E>
 	 */
 	public List<E> listData(Map<String, Object> params) {
-		return getMapper().listData(params);
+//		return getMapper().listData(params);
+		return null;
 	}
 
 	/**
@@ -159,7 +161,7 @@ public abstract class BaseMybatisServiceImpl<E, T> implements
 	 * @return - int
 	 */
 	@Override
-	public int countData(Map<String, Object> params) {
+	public long countData(GenericQueryParam params) {
 		return getMapper().countData(params);
 	}
 

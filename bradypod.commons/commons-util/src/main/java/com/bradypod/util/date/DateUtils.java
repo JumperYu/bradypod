@@ -1,4 +1,4 @@
-package com.yu.util.date;
+package com.bradypod.util.date;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

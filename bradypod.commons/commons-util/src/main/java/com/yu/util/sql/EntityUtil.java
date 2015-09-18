@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.yu.util.date.DateUtils;
+import com.bradypod.util.date.DateUtils;
 
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
@@ -34,7 +34,9 @@ import freemarker.template.TemplateException;
  * @author zengxm
  * @date 2015年7月6日
  *
+ * @see bradypod.generator
  */
+@Deprecated
 public class EntityUtil {
 
 	private String table; // 限定性表名
@@ -351,8 +353,8 @@ public class EntityUtil {
 
 		StringBuffer sb = new StringBuffer();
 		String service_suffix = ".service";
-		String po_suffix = ".po.";
-		String mapper_suffix = ".mapper.";
+//		String po_suffix = ".po.";
+//		String mapper_suffix = ".mapper.";
 		sb.append("package " + basePackage + service_suffix + ";\r\n")
 				.append("\r\n")
 				.append("import com.bradypod.common.service.BaseService;\r\n")

@@ -8,6 +8,7 @@ import redis.clients.jedis.Jedis;
 import com.yu.article.po.Article;
 import com.yu.user.po.Account;
 import com.yu.util.redis.RedisPool;
+import com.yu.util.redis.RedisUtil;
 
 public class TestRedis {
 	
@@ -42,5 +43,12 @@ public class TestRedis {
 					.deserialize(value);
 			System.out.println(another);
 		}
+	}
+	
+	@Test
+	public void testLocalRedis(){
+		System.out.println(RedisUtil.createJedis("192.168.1.199", 7001).getSet("a", "1"));
+		System.out.println(RedisUtil.createJedis("192.168.1.199", 7002).getSet("a", "1"));
+		System.out.println(RedisUtil.createJedis("192.168.1.199", 7003).getSet("a", "1"));
 	}
 }

@@ -1,4 +1,4 @@
-package com.bradypod.test;
+package com.yu.shop.json;
 
 import java.io.IOException;
 import java.util.Map;

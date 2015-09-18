@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bradypod.common.po.GenericQueryParam;
 import com.bradypod.common.po.Page;
 import com.bradypod.common.po.PageData;
 
@@ -109,8 +110,8 @@ public interface BaseMybatiService<E, T> {
 	 * 
 	 * @param params
 	 *            - 参数
-	 * @return - int
+	 * @return - long
 	 */
-	public int countData(Map<String, Object> params);
+	public long countData(GenericQueryParam params);
 
 }

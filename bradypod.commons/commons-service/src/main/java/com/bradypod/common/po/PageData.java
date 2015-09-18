@@ -19,12 +19,12 @@ public class PageData<T> implements Serializable {
 	/**
 	 * 总页数
 	 */
-	private int totalPage;
+	private long totalPage;
 
 	/**
 	 * 总记录数
 	 */
-	private int count;
+	private long count;
 
 	private T data;
 
@@ -44,19 +44,19 @@ public class PageData<T> implements Serializable {
 		this.currentPage = currentPage;
 	}
 
-	public int getTotalPage() {
+	public long getTotalPage() {
 		return totalPage;
 	}
 
-	public void setTotalPage(int totalPage) {
+	public void setTotalPage(long totalPage) {
 		this.totalPage = totalPage;
 	}
 
-	public int getCount() {
+	public long getCount() {
 		return count;
 	}
 
-	public void setCount(int count) {
+	public void setCount(long count) {
 		this.count = count;
 	}
 

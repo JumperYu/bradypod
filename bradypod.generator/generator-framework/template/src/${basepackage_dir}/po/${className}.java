@@ -2,19 +2,17 @@
 <#include "/java_copyright.include">
 <#assign className = table.className>   
 <#assign classNameLower = className?uncap_first> 
-package ${basepackage}.model;
+package ${basepackage}.po;
 
 import javax.validation.constraints.*;
 import org.hibernate.validator.constraints.*;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import org.apache.commons.lang.builder.*;
+
+import com.bradypod.util.date.DateUtils;
 
 <#include "/java_imports.include">
 
-public class ${className} extends BaseEntity implements java.io.Serializable{
-	private static final long serialVersionUID = 5454155825314635342L;
+public class ${className} implements java.io.Serializable{
 	
 	//alias
 	public static final String TABLE_ALIAS = "${table.tableAlias}";
@@ -25,7 +23,7 @@ public class ${className} extends BaseEntity implements java.io.Serializable{
 	//date formats
 	<#list table.columns as column>
 	<#if column.isDateTimeColumn>
-	public static final String FORMAT_${column.constantName} = DATE_FORMAT;
+	public static final String FORMAT_${column.constantName} = "yyyy-MM-dd HH:mm:ss";//DATE_FORMAT
 	</#if>
 	</#list>
 	
@@ -68,16 +66,18 @@ public class ${className} extends BaseEntity implements java.io.Serializable{
 			</#list>
 			.isEquals();
 	}
+	
+	private static final long serialVersionUID = 5454155825314635342L;
 }
 
 <#macro generateJavaColumns>
 	<#list table.columns as column>
 		<#if column.isDateTimeColumn>
 	public String get${column.columnName}String() {
-		return DateConvertUtils.format(get${column.columnName}(), FORMAT_${column.constantName});
+		return DateUtils.timeToString(get${column.columnName}(), FORMAT_${column.constantName});
 	}
 	public void set${column.columnName}String(String value) {
-		set${column.columnName}(DateConvertUtils.parse(value, FORMAT_${column.constantName},${column.javaType}.class));
+		set${column.columnName}(DateUtils.strToDate(value, FORMAT_${column.constantName}));
 	}
 	
 		</#if>	

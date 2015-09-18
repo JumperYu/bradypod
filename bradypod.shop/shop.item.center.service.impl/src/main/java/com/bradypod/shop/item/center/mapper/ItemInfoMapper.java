@@ -1,17 +1,23 @@
+/*
+ * Powered By [generator-framework]
+ * Web Site: http://blog.bradypod.com
+ * Github: https://github.com/JumperYu
+ * Since 2015 - 2015
+ */
+
 package com.bradypod.shop.item.center.mapper;
 
+import com.bradypod.common.mapper.BaseMapper;
 import com.bradypod.shop.item.center.po.ItemInfo;
 
-public interface ItemInfoMapper {
-    int deleteByPrimaryKey(Long id);
 
-    int insert(ItemInfo record);
 
-    int insertSelective(ItemInfo record);
+/**
+ *
+ * @author zengxm<github.com/JumperYu>
+ *
+ * @date 2015-09-18
+ */
+public interface ItemInfoMapper extends BaseMapper<ItemInfo>  {
 
-    ItemInfo selectByPrimaryKey(Long id);
-
-    int updateByPrimaryKeySelective(ItemInfo record);
-
-    int updateByPrimaryKey(ItemInfo record);
 }

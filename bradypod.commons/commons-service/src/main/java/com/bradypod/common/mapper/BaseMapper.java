@@ -1,12 +1,13 @@
 package com.bradypod.common.mapper;
 
 import java.util.List;
-import java.util.Map;
+
+import com.bradypod.common.po.GenericQueryParam;
 
 /**
  * 
- * 基础映射方法 - 还不完善 - CRUD
- *
+ * 基础映射方法
+ * 
  * @author zengxm
  * @date 2015年4月30日
  *
@@ -69,22 +70,26 @@ public interface BaseMapper<E> {
 	 * @return int - 影响行数
 	 */
 	public int batchUpdate(List<E> list);
-	
+
 	/**
 	 * 分页查询
 	 * 
-	 * @param pageSize - 叶大小
-	 * @param pageNO - 页码
-	 * @param params - Map参数
+	 * @param pageSize
+	 *            - 叶大小
+	 * @param pageNO
+	 *            - 页码
+	 * @param params
+	 *            - 动态参数 需加上@param("参数名"), 否则以param1,2命名
 	 * @return - List<E>
 	 */
-	public List<E> listData(Map<String, Object> params);
-	
+	public List<E> listData(GenericQueryParam params);
+
 	/**
 	 * 统计条数
 	 * 
-	 * @param params - Map参数
+	 * @param params
+	 *            - Map参数
 	 * @return - 条数
 	 */
-	public int countData(Map<String, Object> params);
+	public long countData(GenericQueryParam params);
 }

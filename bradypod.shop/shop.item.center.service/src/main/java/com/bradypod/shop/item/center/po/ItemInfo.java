@@ -1,135 +1,242 @@
+/*
+ * Powered By [generator-framework]
+ * Web Site: http://blog.bradypod.com
+ * Github: https://github.com/JumperYu
+ * Since 2015 - 2015
+ */
+
 package com.bradypod.shop.item.center.po;
 
-import java.util.Date;
+import javax.validation.constraints.*;
+import org.hibernate.validator.constraints.*;
+import org.apache.commons.lang.builder.*;
 
-public class ItemInfo {
-    private Long id;
+import com.bradypod.util.date.DateUtils;
 
-    private Long user_id;
+/**
+ *
+ * @author zengxm<github.com/JumperYu>
+ *
+ * @date 2015-09-18
+ */
 
-    private Byte item_type;
+public class ItemInfo implements java.io.Serializable {
 
-    private Long ctg_id;
+	// alias
+	public static final String TABLE_ALIAS = "ItemInfo";
+	public static final String ALIAS_ID = "商品id";
+	public static final String ALIAS_USER_ID = "用户id";
+	public static final String ALIAS_ITEM_TYPE = "商品类型：1 自营商品";
+	public static final String ALIAS_CTG_ID = "商品分类id";
+	public static final String ALIAS_TITLE = "商品标题";
+	public static final String ALIAS_PIC_URL_LIST = "商品多图片地址";
+	public static final String ALIAS_DESCRIPTION = "商品描述";
+	public static final String ALIAS_ATTRI_JSON = "商品普通属性组合串 例如 {1:10001,2:10002,3:[10003,10004,10005]}";
+	public static final String ALIAS_PRICE = "金额单位（分）";
+	public static final String ALIAS_STATUS = "商品状态  1 正常";
+	public static final String ALIAS_APPROVAL_TIME = "最后一次审核通过时间";
+	public static final String ALIAS_CREATE_TIME = "创建时间";
+	public static final String ALIAS_UPDATE_TIME = "最后更新时间";
 
-    private String title;
+	// date formats
+	public static final String FORMAT_APPROVAL_TIME = "yyyy-MM-dd HH:mm:ss";// DATE_FORMAT
+	public static final String FORMAT_CREATE_TIME = "yyyy-MM-dd HH:mm:ss";// DATE_FORMAT
+	public static final String FORMAT_UPDATE_TIME = "yyyy-MM-dd HH:mm:ss";// DATE_FORMAT
 
-    private String pic_url_list;
+	// 可以直接使用: @Length(max=50,message="用户名长度不能大于50")显示错误消息
+	// columns START
 
-    private String description;
+	private java.lang.Long id;
+	@NotNull
+	private java.lang.Long userId;
+	@Max(127)
+	private Integer itemType;
+	@NotNull
+	private java.lang.Long ctgId;
+	@NotBlank
+	@Length(max = 500)
+	private java.lang.String title;
+	@NotBlank
+	@Length(max = 500)
+	private java.lang.String picUrlList;
+	@NotBlank
+	@Length(max = 500)
+	private java.lang.String description;
+	@NotBlank
+	@Length(max = 1000)
+	private java.lang.String attriJson;
+	@NotNull
+	private java.lang.Long price;
+	@NotNull
+	@Max(127)
+	private Integer status;
+	@NotNull
+	private java.util.Date approvalTime;
+	@NotNull
+	private java.util.Date createTime;
 
-    private String attri_json;
+	private java.util.Date updateTime;
 
-    private Long price;
+	// columns END
 
-    private Byte status;
+	public ItemInfo() {
+	}
 
-    private Date approval_time;
+	public ItemInfo(java.lang.Long id) {
+		this.id = id;
+	}
 
-    private Date create_time;
+	public void setId(java.lang.Long value) {
+		this.id = value;
+	}
 
-    private Date update_time;
+	public java.lang.Long getId() {
+		return this.id;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public void setUserId(java.lang.Long value) {
+		this.userId = value;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public java.lang.Long getUserId() {
+		return this.userId;
+	}
 
-    public Long getUser_id() {
-        return user_id;
-    }
+	public void setItemType(Integer value) {
+		this.itemType = value;
+	}
 
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
-    }
+	public Integer getItemType() {
+		return this.itemType;
+	}
 
-    public Byte getItem_type() {
-        return item_type;
-    }
+	public void setCtgId(java.lang.Long value) {
+		this.ctgId = value;
+	}
 
-    public void setItem_type(Byte item_type) {
-        this.item_type = item_type;
-    }
+	public java.lang.Long getCtgId() {
+		return this.ctgId;
+	}
 
-    public Long getCtg_id() {
-        return ctg_id;
-    }
+	public void setTitle(java.lang.String value) {
+		this.title = value;
+	}
 
-    public void setCtg_id(Long ctg_id) {
-        this.ctg_id = ctg_id;
-    }
+	public java.lang.String getTitle() {
+		return this.title;
+	}
 
-    public String getTitle() {
-        return title;
-    }
+	public void setPicUrlList(java.lang.String value) {
+		this.picUrlList = value;
+	}
 
-    public void setTitle(String title) {
-        this.title = title == null ? null : title.trim();
-    }
+	public java.lang.String getPicUrlList() {
+		return this.picUrlList;
+	}
 
-    public String getPic_url_list() {
-        return pic_url_list;
-    }
+	public void setDescription(java.lang.String value) {
+		this.description = value;
+	}
 
-    public void setPic_url_list(String pic_url_list) {
-        this.pic_url_list = pic_url_list == null ? null : pic_url_list.trim();
-    }
+	public java.lang.String getDescription() {
+		return this.description;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public void setAttriJson(java.lang.String value) {
+		this.attriJson = value;
+	}
 
-    public void setDescription(String description) {
-        this.description = description == null ? null : description.trim();
-    }
+	public java.lang.String getAttriJson() {
+		return this.attriJson;
+	}
 
-    public String getAttri_json() {
-        return attri_json;
-    }
+	public void setPrice(java.lang.Long value) {
+		this.price = value;
+	}
 
-    public void setAttri_json(String attri_json) {
-        this.attri_json = attri_json == null ? null : attri_json.trim();
-    }
+	public java.lang.Long getPrice() {
+		return this.price;
+	}
 
-    public Long getPrice() {
-        return price;
-    }
+	public void setStatus(Integer value) {
+		this.status = value;
+	}
 
-    public void setPrice(Long price) {
-        this.price = price;
-    }
+	public Integer getStatus() {
+		return this.status;
+	}
 
-    public Byte getStatus() {
-        return status;
-    }
+	public String getApprovalTimeString() {
+		return DateUtils.timeToString(getApprovalTime(), FORMAT_APPROVAL_TIME);
+	}
 
-    public void setStatus(Byte status) {
-        this.status = status;
-    }
+	public void setApprovalTimeString(String value) {
+		setApprovalTime(DateUtils.strToDate(value, FORMAT_APPROVAL_TIME));
+	}
 
-    public Date getApproval_time() {
-        return approval_time;
-    }
+	public void setApprovalTime(java.util.Date value) {
+		this.approvalTime = value;
+	}
 
-    public void setApproval_time(Date approval_time) {
-        this.approval_time = approval_time;
-    }
+	public java.util.Date getApprovalTime() {
+		return this.approvalTime;
+	}
 
-    public Date getCreate_time() {
-        return create_time;
-    }
+	public String getCreateTimeString() {
+		return DateUtils.timeToString(getCreateTime(), FORMAT_CREATE_TIME);
+	}
 
-    public void setCreate_time(Date create_time) {
-        this.create_time = create_time;
-    }
+	public void setCreateTimeString(String value) {
+		setCreateTime(DateUtils.strToDate(value, FORMAT_CREATE_TIME));
+	}
 
-    public Date getUpdate_time() {
-        return update_time;
-    }
+	public void setCreateTime(java.util.Date value) {
+		this.createTime = value;
+	}
 
-    public void setUpdate_time(Date update_time) {
-        this.update_time = update_time;
-    }
+	public java.util.Date getCreateTime() {
+		return this.createTime;
+	}
+
+	public String getUpdateTimeString() {
+		return DateUtils.timeToString(getUpdateTime(), FORMAT_UPDATE_TIME);
+	}
+
+	public void setUpdateTimeString(String value) {
+		setUpdateTime(DateUtils.strToDate(value, FORMAT_UPDATE_TIME));
+	}
+
+	public void setUpdateTime(java.util.Date value) {
+		this.updateTime = value;
+	}
+
+	public java.util.Date getUpdateTime() {
+		return this.updateTime;
+	}
+
+	public String toString() {
+		return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).append("Id", getId())
+				.append("UserId", getUserId()).append("ItemType", getItemType())
+				.append("CtgId", getCtgId()).append("Title", getTitle())
+				.append("PicUrlList", getPicUrlList()).append("Description", getDescription())
+				.append("AttriJson", getAttriJson()).append("Price", getPrice())
+				.append("Status", getStatus()).append("ApprovalTime", getApprovalTime())
+				.append("CreateTime", getCreateTime()).append("UpdateTime", getUpdateTime())
+				.toString();
+	}
+
+	public int hashCode() {
+		return new HashCodeBuilder().append(getId()).toHashCode();
+	}
+
+	public boolean equals(Object obj) {
+		if (obj instanceof ItemInfo == false)
+			return false;
+		if (this == obj)
+			return true;
+		ItemInfo other = (ItemInfo) obj;
+		return new EqualsBuilder().append(getId(), other.getId()).isEquals();
+	}
+
+	private static final long serialVersionUID = 5454155825314635342L;
 }
