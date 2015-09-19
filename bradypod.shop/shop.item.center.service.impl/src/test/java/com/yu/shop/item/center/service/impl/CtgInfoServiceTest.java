@@ -9,18 +9,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.bradypod.common.po.GenericQueryParam;
 import com.bradypod.shop.item.center.constants.CategoryInfoConstants;
-import com.bradypod.shop.item.center.po.CategoryInfo;
-import com.bradypod.shop.item.center.service.CategoryInfoService;
+import com.bradypod.shop.item.center.mapper.CtgInfoMapper;
+import com.bradypod.shop.item.center.po.CtgInfo;
 
-public class CategoryInfoServiceTest {
+public class CtgInfoServiceTest {
 
 	private static Logger log = LoggerFactory
-			.getLogger(CategoryInfoServiceTest.class);
+			.getLogger(CtgInfoServiceTest.class);
 
 	private ApplicationContext applicationContext;
 
-	public CategoryInfoService categoryInfoService;
+	public CtgInfoMapper ctgInfoMapper;
 
 	// 1.启动spring工程需要找到对应的xml， 下面是示例
 	@Before
@@ -28,39 +29,39 @@ public class CategoryInfoServiceTest {
 		System.setProperty("ENV", "release");
 		applicationContext = new ClassPathXmlApplicationContext(
 				"/config/spring/applicationContext**.xml");
-		categoryInfoService = applicationContext
-				.getBean(CategoryInfoService.class);
+		ctgInfoMapper = applicationContext.getBean(CtgInfoMapper.class);
 	}
 
 	@Test
 	public void testSave() {
 		log.info("目前的开发环境是:" + System.getProperty("ENV"));
-		CategoryInfo categroy = new CategoryInfo();
+		CtgInfo categroy = new CtgInfo();
+		categroy.setId(17L);
 		categroy.setParentId(CategoryInfoConstants.ROOT_ID);
 		categroy.setDepth(1);
-		categroy.setOrderNum(1L);
 		categroy.setName("男装");
 		categroy.setNickName("男装");
 		categroy.setDescription("衣服");
 		categroy.setStatus(CategoryInfoConstants.STATUS_NORMAL);
 		categroy.setCreateTime(new Date());
-		categoryInfoService.save(categroy);
-
+		categroy.setOrderNum(1);
+		ctgInfoMapper.save(categroy);
 	}
 
 	@Test
 	public void testGet() {
 		log.info("目前的开发环境是:" + System.getProperty("ENV"));
-		CategoryInfo categroy = new CategoryInfo();
+		CtgInfo categroy = new CtgInfo();
 		categroy.setId(1L);
-		log.info(categoryInfoService.get(categroy).toString());
+		log.info(ctgInfoMapper.get(categroy).toString());
 	}
 
 	@Test
 	public void testGetAll() throws Exception {
 		log.info("目前的开发环境是:" + System.getProperty("ENV"));
-		// log.info(categoryInfoService.getAllAvailableInfo().toString());
-//		categoryInfoService.getCategoryInfoBO();
+		GenericQueryParam genericQueryParam = new GenericQueryParam(0, 15);
+		/*genericQueryParam.setSortKey("id desc");*/
+		log.info(ctgInfoMapper.listData(genericQueryParam).toString());
 	}
 
 	@Test
@@ -81,7 +82,5 @@ public class CategoryInfoServiceTest {
 	@Test
 	public void testPageData() throws Exception {
 		log.info("目前的开发环境是:" + System.getProperty("ENV"));
-		/*log.info(JacksonUtil.beanToJson(categoryInfoService.findCategories(10,
-				1, 1L, 2)));*/
 	}
 }

@@ -1,4 +1,3 @@
-
 <#include "/macro.include"/>
 <#assign className = table.className>
 <#assign classNameFirstLower = table.classNameFirstLower>   
@@ -68,7 +67,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	        WHERE 
 				<#list table.compositeIdColumns as column>
 		        ${column.sqlName} = <@mapperEl 'id'/> <#if column_has_next>,</#if>
-		        </#list>    
+		        </#list> 
 	    ]]>
 	</select>
 
@@ -93,7 +92,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	</sql>
 
 	<sql id="pageLimit">
-		limit #{pageNO}, #{pageSize}
+		limit <@mapperEl "pageNO"/>, <@mapperEl "pageSize"/>
 	</sql>
 
 	<select id="countData" resultType="long">
@@ -108,8 +107,8 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		FROM ${table.sqlName}
 		<include refid="find_where" />
 
-		<if test="@Ognl@isNotEmpty(sortColumns)">
-			ORDER BY <@jspEl 'sortColumns'/>
+		<if test="@Ognl@isNotEmpty(sort)">
+			ORDER BY <@jspEl 'sort'/>
 		</if>
 	</select>
 

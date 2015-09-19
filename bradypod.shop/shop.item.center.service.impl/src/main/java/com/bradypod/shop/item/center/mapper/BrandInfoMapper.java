@@ -8,7 +8,7 @@
 package com.bradypod.shop.item.center.mapper;
 
 import com.bradypod.common.mapper.BaseMapper;
-import com.bradypod.shop.item.center.po.Comment;
+import com.bradypod.shop.item.center.po.BrandInfo;
 
 
 
@@ -18,6 +18,6 @@ import com.bradypod.shop.item.center.po.Comment;
  *
  * @date 2015-09-19
  */
-public interface CommentMapper extends BaseMapper<Comment>  {
+public interface BrandInfoMapper extends BaseMapper<BrandInfo>  {
 
 }

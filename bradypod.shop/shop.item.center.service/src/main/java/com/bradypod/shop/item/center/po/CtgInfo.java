@@ -22,22 +22,19 @@ import com.bradypod.util.date.DateUtils;
  * @date 2015-09-19
  */
 
-public class Comment implements java.io.Serializable{
+public class CtgInfo implements java.io.Serializable{
 	
 	//alias
-	public static final String TABLE_ALIAS = "Comment";
-	public static final String ALIAS_ID = "主键";
-	public static final String ALIAS_USER_ID = "创建评论的用户id";
-	public static final String ALIAS_ENTITY_USER_ID = "创建评论的用户id";
-	public static final String ALIAS_ENTITY_ID = "被评论的实体id";
-	public static final String ALIAS_ENTITY_TYPE = "被评论的实体类型";
-	public static final String ALIAS_ENTITY_INFO = "被评论的对象信息";
-	public static final String ALIAS_STAR_NUM = "评星数 1-5";
-	public static final String ALIAS_TITLE = "评论标题";
-	public static final String ALIAS_DESCRIPTION = "评论描述";
-	public static final String ALIAS_PIC_URL = "买家上传图片地址";
-	public static final String ALIAS_STATUS = "图片状态 1: 正常; 2: 删除";
-	public static final String ALIAS_CREATE_TIME = "记录生成时间";
+	public static final String TABLE_ALIAS = "CtgInfo";
+	public static final String ALIAS_ID = "分类id";
+	public static final String ALIAS_DEPTH = "层深度 1 - 3 ";
+	public static final String ALIAS_PARENT_ID = "父类的id号";
+	public static final String ALIAS_ORDER_NUM = "数字越小排序越大";
+	public static final String ALIAS_NAME = "分类名称";
+	public static final String ALIAS_NICK_NAME = "别名";
+	public static final String ALIAS_DESCRIPTION = "分类描述";
+	public static final String ALIAS_STATUS = "状态，0：正常；1：删除";
+	public static final String ALIAS_CREATE_TIME = "创建的时间";
 	public static final String ALIAS_UPDATE_TIME = "最后更新时间";
 	
 	//date formats
@@ -48,25 +45,19 @@ public class Comment implements java.io.Serializable{
 	//columns START
 	
 	private java.lang.Long id;
+	@NotNull @Max(127)
+	private Integer depth;
+	
+	private java.lang.Long parentId;
 	@NotNull 
-	private java.lang.Long userId;
-	@NotNull 
-	private java.lang.Long entityUserId;
-	@NotNull 
-	private java.lang.Long entityId;
-	@Max(127)
-	private Integer entityType;
-	@NotBlank @Length(max=300)
-	private java.lang.String entityInfo;
-	@NotNull 
-	private java.lang.Integer starNum;
-	@Length(max=50)
-	private java.lang.String title;
-	@Length(max=250)
+	private java.lang.Integer orderNum;
+	@NotBlank @Length(max=100)
+	private java.lang.String name;
+	@NotBlank @Length(max=100)
+	private java.lang.String nickName;
+	@NotBlank @Length(max=500)
 	private java.lang.String description;
-	@Length(max=100)
-	private java.lang.String picUrl;
-	@Max(127)
+	@NotNull @Max(127)
 	private Integer status;
 	@NotNull 
 	private java.util.Date createTime;
@@ -74,10 +65,10 @@ public class Comment implements java.io.Serializable{
 	private java.util.Date updateTime;
 	//columns END
 
-	public Comment(){
+	public CtgInfo(){
 	}
 
-	public Comment(
+	public CtgInfo(
 		java.lang.Long id
 	){
 		this.id = id;
@@ -90,54 +81,40 @@ public class Comment implements java.io.Serializable{
 	public java.lang.Long getId() {
 		return this.id;
 	}
-	public void setUserId(java.lang.Long value) {
-		this.userId = value;
+	public void setDepth(Integer value) {
+		this.depth = value;
 	}
 	
-	public java.lang.Long getUserId() {
-		return this.userId;
+	public Integer getDepth() {
+		return this.depth;
 	}
-	public void setEntityUserId(java.lang.Long value) {
-		this.entityUserId = value;
-	}
-	
-	public java.lang.Long getEntityUserId() {
-		return this.entityUserId;
-	}
-	public void setEntityId(java.lang.Long value) {
-		this.entityId = value;
+	public void setParentId(java.lang.Long value) {
+		this.parentId = value;
 	}
 	
-	public java.lang.Long getEntityId() {
-		return this.entityId;
+	public java.lang.Long getParentId() {
+		return this.parentId;
 	}
-	public void setEntityType(Integer value) {
-		this.entityType = value;
-	}
-	
-	public Integer getEntityType() {
-		return this.entityType;
-	}
-	public void setEntityInfo(java.lang.String value) {
-		this.entityInfo = value;
+	public void setOrderNum(java.lang.Integer value) {
+		this.orderNum = value;
 	}
 	
-	public java.lang.String getEntityInfo() {
-		return this.entityInfo;
+	public java.lang.Integer getOrderNum() {
+		return this.orderNum;
 	}
-	public void setStarNum(java.lang.Integer value) {
-		this.starNum = value;
-	}
-	
-	public java.lang.Integer getStarNum() {
-		return this.starNum;
-	}
-	public void setTitle(java.lang.String value) {
-		this.title = value;
+	public void setName(java.lang.String value) {
+		this.name = value;
 	}
 	
-	public java.lang.String getTitle() {
-		return this.title;
+	public java.lang.String getName() {
+		return this.name;
+	}
+	public void setNickName(java.lang.String value) {
+		this.nickName = value;
+	}
+	
+	public java.lang.String getNickName() {
+		return this.nickName;
 	}
 	public void setDescription(java.lang.String value) {
 		this.description = value;
@@ -145,13 +122,6 @@ public class Comment implements java.io.Serializable{
 	
 	public java.lang.String getDescription() {
 		return this.description;
-	}
-	public void setPicUrl(java.lang.String value) {
-		this.picUrl = value;
-	}
-	
-	public java.lang.String getPicUrl() {
-		return this.picUrl;
 	}
 	public void setStatus(Integer value) {
 		this.status = value;
@@ -192,15 +162,12 @@ public class Comment implements java.io.Serializable{
 	public String toString() {
 		return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
 			.append("Id",getId())
-			.append("UserId",getUserId())
-			.append("EntityUserId",getEntityUserId())
-			.append("EntityId",getEntityId())
-			.append("EntityType",getEntityType())
-			.append("EntityInfo",getEntityInfo())
-			.append("StarNum",getStarNum())
-			.append("Title",getTitle())
+			.append("Depth",getDepth())
+			.append("ParentId",getParentId())
+			.append("OrderNum",getOrderNum())
+			.append("Name",getName())
+			.append("NickName",getNickName())
 			.append("Description",getDescription())
-			.append("PicUrl",getPicUrl())
 			.append("Status",getStatus())
 			.append("CreateTime",getCreateTime())
 			.append("UpdateTime",getUpdateTime())
@@ -214,9 +181,9 @@ public class Comment implements java.io.Serializable{
 	}
 	
 	public boolean equals(Object obj) {
-		if(obj instanceof Comment == false) return false;
+		if(obj instanceof CtgInfo == false) return false;
 		if(this == obj) return true;
-		Comment other = (Comment)obj;
+		CtgInfo other = (CtgInfo)obj;
 		return new EqualsBuilder()
 			.append(getId(),other.getId())
 			.isEquals();

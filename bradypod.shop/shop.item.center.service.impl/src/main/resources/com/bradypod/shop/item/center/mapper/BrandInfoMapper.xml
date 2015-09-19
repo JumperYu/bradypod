@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.bradypod.shop.item.center.mapper.BrandInfoMapper">
+
+	<!-- <resultMap id="BrandInfo" type="com.bradypod.shop.item.center.po.BrandInfo">  
+		<result property="id" column="id"/>  
+		<result property="name" column="name"/>  
+		<result property="logoPath" column="logo_path"/>  
+		<result property="orderNum" column="order_num"/>  
+		<result property="status" column="status"/>  
+		<result property="createTime" column="create_time"/>  
+		<result property="updateTime" column="update_time"/>  </resultMap> -->
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="select_columns">
+	    <![CDATA[
+		id,name,logo_path,order_num,status,create_time,update_time
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="save" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_brand_info (
+        	id ,
+        	name ,
+        	logo_path ,
+        	order_num ,
+        	status ,
+        	create_time ,
+        	update_time 
+        ) VALUES (
+        	#{id} ,
+        	#{name} ,
+        	#{logoPath} ,
+        	#{orderNum} ,
+        	#{status} ,
+        	#{createTime} ,
+        	#{updateTime} 
+        )
+    ]]>
+	</insert>
+
+	<update id="update">
+    <![CDATA[
+        UPDATE t_brand_info SET
+	        name = #{name} ,
+	        logo_path = #{logoPath} ,
+	        order_num = #{orderNum} ,
+	        status = #{status} ,
+	        create_time = #{createTime} ,
+	        update_time = #{updateTime} 
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+
+	<delete id="delete">
+    <![CDATA[
+        DELETE FROM t_brand_info WHERE
+        id = #{id} 
+    ]]>
+	</delete>
+
+	<select id="get" resultType="BrandInfo">
+		SELECT
+		<include refid="select_columns" />
+	    <![CDATA[
+		    FROM t_brand_info 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+
+	<sql id="find_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args) -->
+		<where>
+			<if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+			<if test="@Ognl@isNotEmpty(name)">
+				AND name = #{name}
+			</if>
+			<if test="@Ognl@isNotEmpty(logoPath)">
+				AND logo_path = #{logoPath}
+			</if>
+			<if test="@Ognl@isNotEmpty(orderNum)">
+				AND order_num = #{orderNum}
+			</if>
+			<if test="@Ognl@isNotEmpty(status)">
+				AND status = #{status}
+			</if>
+			<if test="@Ognl@isNotEmpty(createTimeBegin)">
+				AND create_time >= #{createTimeBegin}
+			</if>
+			<if test="@Ognl@isNotEmpty(createTimeEnd)">
+				AND create_time &lt;= #{createTimeEnd}
+			</if>
+			<if test="@Ognl@isNotEmpty(updateTimeBegin)">
+				AND update_time >= #{updateTimeBegin}
+			</if>
+			<if test="@Ognl@isNotEmpty(updateTimeEnd)">
+				AND update_time &lt;= #{updateTimeEnd}
+			</if>
+		</where>
+	</sql>
+
+	<sql id="pageLimit">
+		limit #{pageNO}, #{pageSize}
+	</sql>
+
+	<select id="countData" resultType="long">
+		SELECT count(1) FROM t_brand_info
+		<include refid="find_where" />
+		<include refid="pageLimit" />
+	</select>
+
+	<select id="listData" resultType="BrandInfo">
+		SELECT
+		<include refid="select_columns" />
+		FROM t_brand_info
+		<include refid="find_where" />
+
+		<if test="@Ognl@isNotEmpty(sort)">
+			ORDER BY ${sort}
+		</if>
+	</select>
+
+
+</mapper>

@@ -57,7 +57,7 @@ public class Ognl {
 		return !isEmpty(o);
 	}
 
-	public static boolean isNotEmpty(Object... objects) {
+/*	public static boolean isNotEmpty(Object... objects) {
 		if (objects == null)
 			return false;
 		for (Object obj : objects) {
@@ -66,7 +66,7 @@ public class Ognl {
 			}
 		}
 		return true;
-	}
+	}*/
 
 	public static boolean isNotBlank(Object o) {
 		return !isBlank(o);

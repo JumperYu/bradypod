@@ -171,7 +171,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	    FROM t_item_info 
 		<!-- <include refid="find_where"/> -->
 		<if test="@Ognl@isNotEmpty(sort) == true">
-			ORDER BY #{sort}
+		ORDER BY ${sort}
 		</if>
 		<include refid="pageLimit"/>
     </select>
