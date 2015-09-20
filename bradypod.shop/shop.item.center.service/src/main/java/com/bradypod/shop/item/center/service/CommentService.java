@@ -11,7 +11,7 @@ import com.bradypod.shop.item.center.po.CommentCount;
  * @date Fri Sep 11 12:02:22 CST 2015
  *
  */
-public interface CommentService extends BaseMybatiService<CommentCount, Long> {
+public interface CommentService extends BaseMybatiService<CommentCount> {
 
 	/**
 	 * 查询实体好评评论数

@@ -13,6 +13,6 @@ import com.bradypod.shop.item.center.po.Dictionary;
  */
 // @Service
 public class DictionaryServiceImpl extends
-		BaseMybatisServiceImpl<Dictionary, DictionaryMapper> {
+		BaseMybatisServiceImpl<DictionaryMapper, Dictionary> {
 
 }

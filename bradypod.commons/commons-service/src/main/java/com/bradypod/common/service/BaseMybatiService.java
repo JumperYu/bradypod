@@ -1,5 +1,6 @@
 package com.bradypod.common.service;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -17,11 +18,11 @@ import com.bradypod.common.po.PageData;
  * @date 2015年9月5日
  *
  */
-public interface BaseMybatiService<E, T> {
+public interface BaseMybatiService<E extends Serializable> {
 
 	/**
 	 * 保存
-	 * 
+	 * 	
 	 * @param <E>
 	 * 
 	 * @param e

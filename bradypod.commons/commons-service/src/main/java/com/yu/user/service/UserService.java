@@ -21,7 +21,7 @@ import com.yu.user.po.Account;
  */
 @Service
 @Transactional
-public class UserService extends BaseMybatisServiceImpl<Account, AccountMapper> {
+public class UserService extends BaseMybatisServiceImpl<AccountMapper, Account> {
 
 	/**
 	 * 验证账号是否存在
@@ -40,8 +40,9 @@ public class UserService extends BaseMybatisServiceImpl<Account, AccountMapper> 
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("passport", account.getPassport());
 		params.put("password", account.getPassword());
-		/*if (getMapper().isExists(params) != 1)
-			return false;*/
+		/*
+		 * if (getMapper().isExists(params) != 1) return false;
+		 */
 
 		return true;
 	}

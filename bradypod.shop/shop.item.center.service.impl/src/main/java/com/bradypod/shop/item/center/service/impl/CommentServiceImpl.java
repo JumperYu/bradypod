@@ -3,7 +3,6 @@ package com.bradypod.shop.item.center.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +23,8 @@ import com.bradypod.shop.item.center.service.CommentService;
 @Service
 @Transactional(propagation = Propagation.SUPPORTS)
 public class CommentServiceImpl extends
-		BaseMybatisServiceImpl<CommentCount, Long> implements CommentService {
+		BaseMybatisServiceImpl<CommentCountMapper, CommentCount> implements
+		CommentService {
 
 	/**
 	 * 查询评论个数
@@ -69,17 +69,4 @@ public class CommentServiceImpl extends
 		getMapper().save(commentCount);
 	}
 
-	/* set */
-	private CommentCountMapper commentCountMapper;
-
-	@Autowired
-	public void setCommentCountMapper(CommentCountMapper commentCountMapper) {
-		this.commentCountMapper = commentCountMapper;
-		super.setBaseMapper(this.commentCountMapper);
-	}
-
-	@Override
-	public CommentCountMapper getMapper() {
-		return this.commentCountMapper;
-	}
 }

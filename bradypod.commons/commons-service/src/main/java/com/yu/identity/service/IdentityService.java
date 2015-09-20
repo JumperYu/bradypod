@@ -20,7 +20,7 @@ import com.yu.identity.po.Identity;
 @Service
 @Transactional(propagation = Propagation.SUPPORTS)
 public class IdentityService extends
-		BaseMybatisServiceImpl<Identity, IdentityMapper> {
+		BaseMybatisServiceImpl<IdentityMapper, Identity> {
 
 	static Logger log = LoggerFactory.getLogger(IdentityService.class);
 

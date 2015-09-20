@@ -1,11 +1,13 @@
 package com.bradypod.common.service;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,18 +24,8 @@ import com.yu.util.validate.AssertUtil;
  * @date 2015年7月8日
  *
  */
-public abstract class BaseMybatisServiceImpl<E, T> implements
-		BaseMybatiService<E, T> {
-
-	private BaseMapper<E> mapper;
-
-	public void setBaseMapper(BaseMapper<E> mapper) {
-		this.mapper = mapper;
-	}
-
-	public BaseMapper<E> getMapper() {
-		return mapper;
-	}
+public abstract class BaseMybatisServiceImpl<M extends BaseMapper<E>, E extends Serializable>
+		implements BaseMybatiService<E> {
 
 	@Transactional(propagation = Propagation.REQUIRED)
 	@Override
@@ -126,7 +118,7 @@ public abstract class BaseMybatisServiceImpl<E, T> implements
 		params.put("pageNO", pageNO);
 
 		// 1.找到mapper的list位置 和 count位置
-		long count = 0;//countData(params);
+		long count = 0;// countData(params);
 		List<E> result = listData(params);
 
 		// 2.指定Page对象
@@ -149,7 +141,7 @@ public abstract class BaseMybatisServiceImpl<E, T> implements
 	 * @return - List<E>
 	 */
 	public List<E> listData(Map<String, Object> params) {
-//		return getMapper().listData(params);
+		// return getMapper().listData(params);
 		return null;
 	}
 
@@ -168,4 +160,14 @@ public abstract class BaseMybatisServiceImpl<E, T> implements
 	protected static final Logger log = LoggerFactory
 			.getLogger(BaseMybatisServiceImpl.class);
 
+	private M mapper;
+
+	@Autowired
+	private void setMapper(M mapper) {
+		this.mapper = mapper;
+	}
+
+	public M getMapper() {
+		return mapper;
+	}
 }

@@ -29,7 +29,7 @@ import com.yu.util.validate.AssertUtil;
 @Service
 @Transactional(propagation = Propagation.SUPPORTS)
 public class ArticleService extends
-		BaseMybatisServiceImpl<Article, ArticleMapper> {
+		BaseMybatisServiceImpl<ArticleMapper, Article> {
 
 	/**
 	 * 添加或者更新文章
