@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<!-- 不使用namespace的话sql搜索定位会比较方便 -->
+<mapper namespace="com.bradypod.shop.item.center.mapper.CtgItemMapper">
+
+	<!-- <resultMap id="CtgItem" type="com.bradypod.shop.item.center.po.CtgItem"> 
+		<result property="id" column="id"/> <result property="ctgId" column="ctg_id"/> 
+		<result property="itemId" column="item_id"/> </resultMap> -->
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="select_columns">
+	    <![CDATA[
+		id,ctg_id,item_id
+	    ]]>
+	</sql>
+
+	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
+	<insert id="save" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+        INSERT INTO t_ctg_item (
+        	id ,
+        	ctg_id ,
+        	item_id 
+        ) VALUES (
+        	#{id} ,
+        	#{ctgId} ,
+        	#{itemId} 
+        )
+    ]]>
+	</insert>
+
+	<update id="update">
+    <![CDATA[
+        UPDATE t_ctg_item SET
+	        ctg_id = #{ctgId} ,
+	        item_id = #{itemId} 
+        WHERE 
+	        id = #{id} 
+    ]]>
+	</update>
+
+	<delete id="delete">
+    <![CDATA[
+        DELETE FROM t_ctg_item WHERE
+        id = #{id} 
+    ]]>
+	</delete>
+
+	<select id="get" resultType="CtgItem">
+		SELECT
+		<include refid="select_columns" />
+	    <![CDATA[
+		    FROM t_ctg_item 
+	        WHERE 
+		        id = #{id} 
+	    ]]>
+	</select>
+
+	<sql id="find_where">
+		<!-- ognl访问静态方法的表达式 为@class@method(args) -->
+		<where>
+			<if test="@Ognl@isNotEmpty(id)">
+				AND id = #{id}
+			</if>
+			<if test="@Ognl@isNotEmpty(ctgId)">
+				AND ctg_id = #{ctgId}
+			</if>
+			<if test="@Ognl@isNotEmpty(itemId)">
+				AND item_id = #{itemId}
+			</if>
+		</where>
+	</sql>
+
+	<sql id="pageLimit">
+		limit #{pageNO}, #{pageSize}
+	</sql>
+
+	<select id="countData" resultType="long">
+		SELECT count(1) FROM t_ctg_item
+		<include refid="find_where" />
+		<include refid="pageLimit" />
+	</select>
+
+	<select id="listData" resultType="CtgItem">
+		SELECT
+		<include refid="select_columns" />
+		FROM t_ctg_item
+		<include refid="find_where" />
+
+		<if test="@Ognl@isNotEmpty(sort)">
+			ORDER BY ${sort}
+		</if>
+	</select>
+
+	<select id="getAll" resultType="CtgItem">
+		select
+		<include refid="select_columns" />
+		from t_ctg_item
+		<where>
+			<if test="ctgId != null">
+				and ctg_id = #{ctgId}
+			</if>
+		</where>
+	</select>
+
+</mapper>

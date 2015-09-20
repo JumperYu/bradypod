@@ -155,4 +155,13 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		t_ctg_info
 		group by parent_id order by parent_id ASC
 	</select>
+
+	<select id="getAll" resultType="CtgInfo">
+		select
+		<include refid="select_columns" />
+		from t_ctg_info
+		<where>
+			status=1
+		</where>
+	</select>
 </mapper>

@@ -8,7 +8,7 @@
 package com.bradypod.shop.item.center.service;
 
 import com.bradypod.common.service.BaseMybatiService;
-import com.bradypod.shop.item.center.po.ItemInfo;
+import com.bradypod.shop.item.center.po.CtgItem;
 
 
 
@@ -18,8 +18,6 @@ import com.bradypod.shop.item.center.po.ItemInfo;
  *
  * @date 2015-09-20
  */
-public interface ItemInfoService extends BaseMybatiService<ItemInfo>  {
-	
-	
-	
+public interface CtgItemService extends BaseMybatiService<CtgItem>  {
+
 }

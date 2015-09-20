@@ -11,14 +11,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bradypod.common.service.BaseMybatisServiceImpl;
-import com.bradypod.shop.item.center.mapper.ItemInfoMapper;
-import com.bradypod.shop.item.center.po.ItemInfo;
-import com.bradypod.shop.item.center.service.ItemInfoService;
+import com.bradypod.shop.item.center.mapper.CtgItemMapper;
+import com.bradypod.shop.item.center.po.CtgItem;
+import com.bradypod.shop.item.center.service.CtgItemService;
 
-@Service
 @Transactional
-public class ItemInfoServiceImpl extends
-		BaseMybatisServiceImpl<ItemInfoMapper, ItemInfo> implements
-		ItemInfoService {
+@Service
+public class CtgItemServiceImpl extends
+		BaseMybatisServiceImpl<CtgItemMapper, CtgItem> implements
+		CtgItemService {
 
 }

@@ -7,27 +7,25 @@ import org.junit.Test;
 
 import com.bradypod.common.junit.BaseTest;
 import com.bradypod.common.po.GenericQueryParam;
-import com.bradypod.shop.item.center.mapper.ItemInfoMapper;
+import com.bradypod.shop.item.center.mapper.CtgItemMapper;
+import com.bradypod.shop.item.center.po.CtgItem;
 import com.bradypod.shop.item.center.po.ItemInfo;
-import com.bradypod.shop.item.center.service.ItemInfoService;
+import com.bradypod.shop.item.center.service.CtgItemService;
 
-public class ItemInfoServiceImplTest extends BaseTest {
+public class CtgItemServiceImplTest extends BaseTest {
 
-	ItemInfoMapper mapper;
-	ItemInfoService itemInfoService;
+	CtgItemMapper mapper;
+	CtgItemService ctgItemService;
 
 	@Before
 	public void getBean() {
-		mapper = applicationContext.getBean(ItemInfoMapper.class);
-		itemInfoService = applicationContext.getBean(ItemInfoService.class);
+		mapper = applicationContext.getBean(CtgItemMapper.class);
+		ctgItemService = applicationContext.getBean(CtgItemService.class);
 	}
 
 	@Test
 	public void testGet() {
-		ItemInfo item = new ItemInfo();
-		item.setId(2L);
-//		mapper.get(item);
-		log.info(itemInfoService.get(item).toString());
+		log.info(ctgItemService.get(new CtgItem()).toString());
 	}
 
 	@Test
@@ -45,32 +43,20 @@ public class ItemInfoServiceImplTest extends BaseTest {
 		item.setStatus(1);
 		item.setApprovalTime(new Date());
 		item.setCreateTime(new Date());
-		mapper.update(item);
+		// mapper.update(item);
 	}
 
 	@Test
 	public void testDelete() {
-		ItemInfo item = new ItemInfo();
-		item.setId(1L);
-		mapper.delete(item);
+		// mapper.delete(item);
 	}
 
 	@Test
 	public void testSave() {
-		ItemInfo item = new ItemInfo();
-		item.setId(3L);
-		item.setUserId(1L);
-		item.setItemType(1);
-		item.setCtgId(1L);
-		item.setTitle("衣服");
-		item.setPicUrlList("1.jpg;2.jpg");
-		item.setDescription("商品");
-		item.setAttriJson("{1:2,3:4}");
-		item.setPrice(1000L);
-		item.setStatus(1);
-		item.setApprovalTime(new Date());
-		item.setCreateTime(new Date());
-		mapper.save(item);
+		CtgItem ctgItem = new CtgItem();
+		ctgItem.setCtgId(1L);
+		ctgItem.setItemId(1L);
+		ctgItemService.save(ctgItem);
 	}
 
 	@Test
@@ -85,5 +71,12 @@ public class ItemInfoServiceImplTest extends BaseTest {
 		GenericQueryParam genericQueryParam = new GenericQueryParam();
 		// genericQueryParam.put("id", "2");
 		System.out.println(mapper.countData(genericQueryParam));
+	}
+
+	@Test
+	public void testGetAll() {
+		CtgItem ctgItem = new CtgItem();
+		ctgItem.setCtgId(1L);
+		log.info(mapper.getAll(ctgItem).toString());
 	}
 }

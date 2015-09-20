@@ -4,7 +4,7 @@
 package ${basepackage}.service.impl;
 
 import com.bradypod.common.service.BaseMybatisServiceImpl;
-import com.bradypod.shop.item.center.mapper.ItemInfoMapper;
+import com.bradypod.shop.item.center.mapper.${className}Mapper;
 import ${basepackage}.po.${className};
 import ${basepackage}.service.${className}Service;
 

@@ -1,48 +1,59 @@
+/*
+ * Powered By [generator-framework]
+ * Web Site: http://blog.bradypod.com
+ * Github: https://github.com/JumperYu
+ * Since 2015 - 2015
+ */
+
 package com.bradypod.shop.item.center.service.impl;
 
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-/**
- * 分类信息
- *
- * @author zengxm
- * @date Wed Aug 26 11:47:20 CST 2015
- *
- */
+import com.bradypod.common.po.GenericQueryParam;
+import com.bradypod.common.po.PageData;
+import com.bradypod.common.service.BaseMybatisServiceImpl;
+import com.bradypod.shop.item.center.constants.CtgInfoConstants;
+import com.bradypod.shop.item.center.mapper.CtgInfoMapper;
+import com.bradypod.shop.item.center.po.CtgInfo;
+import com.bradypod.shop.item.center.po.CtgItem;
+import com.bradypod.shop.item.center.po.ItemInfo;
+import com.bradypod.shop.item.center.service.CtgInfoService;
+import com.bradypod.shop.item.center.service.CtgItemService;
+import com.bradypod.shop.item.center.service.ItemInfoService;
+
+@Transactional(propagation = Propagation.SUPPORTS)
 @Service
-public class CtgInfoServiceImpl {
+public class CtgInfoServiceImpl extends
+		BaseMybatisServiceImpl<CtgInfoMapper, CtgInfo> implements
+		CtgInfoService {
 
-/*	*//**
-	 * 获取所有可用分类信息
-	 * 
-	 * @return - List<CtgInfo>
-	 *//*
-	public List<CtgInfo> getAllAvailableInfo() {
-		CtgInfo CtgInfo = new CtgInfo();
-		CtgInfo.setStatus(CtgInfoConstants.STATUS_NORMAL);
-		return getAll(CtgInfo);
-	}
-
-	*//**
+	/**
 	 * 查找所有父节点
 	 * 
 	 * @return - List<Long>
-	 *//*
+	 */
 	private List<Long> getAllParentIdList() {
-		// return getMapper().getAllParentId();
-		return null;
+		return getMapper().getAllParentId();
 	}
 
-	*//**
+	/**
 	 * 获取类目信息业务模型
 	 * 
 	 * TODO : 需要完善
 	 * 
 	 * @return - 树形结构的JavaBean对象 @see {CtgInfo}
-	 *//*
-	public CtgInfo getCtgInfo() {
+	 */
+	@Override
+	public CtgInfo getCtgInfoTree() {
 		List<Long> parentIdList = getAllParentIdList(); // 找到所有父节点
-		List<CtgInfo> availableList = getAllAvailableInfo(); // 查找所有可用数据
+		List<CtgInfo> availableList = getAll(new CtgInfo()); // 查找所有可用数据
 		// 填装数据
 		CtgInfo root = new CtgInfo();
 		root.setId(CtgInfoConstants.ROOT_ID);
@@ -50,23 +61,22 @@ public class CtgInfoServiceImpl {
 		root.setDescription("NOT-MEANFUL");
 
 		for (Long pid : parentIdList) {// <-- begin for
-			for (CtgInfo CtgInfo : availableList) {// <-- begin for
+			for (CtgInfo ctgInfo : availableList) {// <-- begin for
 				// step-1: 如果是当前节点
-				if (pid.equals(CtgInfo.getParentId())) {// <-- begin if
-					CtgInfo bo = new CtgInfo();
-					BeanUtils.copyProperties(CtgInfo, bo);
-					if (CtgInfo.getDepth() == CtgInfoConstants.DEPTH_ROOT_LEVEL) {
+				if (pid.equals(ctgInfo.getParentId())) {// <-- begin if
+					CtgInfo ctg = new CtgInfo();
+					if (ctgInfo.getDepth() == CtgInfoConstants.DEPTH_ROOT_LEVEL) {
 						// 根
-						root.getChildren().add(bo);
-					} else if (CtgInfo.getDepth() == CtgInfoConstants.DEPTH_SECOND_LEVEL) {
+						root.getChildren().add(ctgInfo);
+					} else if (ctgInfo.getDepth() == CtgInfoConstants.DEPTH_SECOND_LEVEL) {
 						// 二级节点
 						Set<CtgInfo> children = root.getChildren();
 						for (CtgInfo child : children) {
 							if (pid.equals(child.getId())) {
-								child.getChildren().add(bo);
+								child.getChildren().add(ctgInfo);
 							}
 						}
-					} else if (CtgInfo.getDepth() == CtgInfoConstants.DEPTH_SECOND_LEVEL) {
+					} else if (ctgInfo.getDepth() == CtgInfoConstants.DEPTH_THIRD__LEVEL) {
 						// 三级节点
 						Set<CtgInfo> children = root.getChildren();
 						for (CtgInfo child : children) {
@@ -74,7 +84,7 @@ public class CtgInfoServiceImpl {
 									.getChildren();
 							for (CtgInfo child_child : children_children) {
 								if (pid.equals(child.getId())) {
-									child_child.getChildren().add(bo);
+									child_child.getChildren().add(ctg);
 								}
 							}
 						}
@@ -86,7 +96,7 @@ public class CtgInfoServiceImpl {
 		return root;
 	}
 
-	*//**
+	/**
 	 * 分页查找查找分类信息
 	 * 
 	 * @param pageSize
@@ -94,15 +104,37 @@ public class CtgInfoServiceImpl {
 	 * @param pid
 	 * @param depth
 	 * @return
-	 *//*
-	public PageData<List<CtgInfo>> findCategories(int pageSize,
-			int pageNO, Long pid, Integer depth) {
-		Page page = new Page(pageSize, pageNO);
-		Map<String, Object> params = new HashMap<String, Object>();
+	 */
+	public PageData<List<CtgInfo>> findCategories(int pageNO, int pageSize,
+			Long pid, Integer depth) {
+		GenericQueryParam params = new GenericQueryParam(pageSize, pageNO);
 		params.put("pid", pid);
 		params.put("depth", depth);
-//		return findPageData(page, params);
-		return null;
-	}*/
 
+		List<CtgInfo> list = getMapper().listData(params);
+		long count = getMapper().countData(params);
+		return null;
+	}
+
+	@Override
+	public List<ItemInfo> getItemsByCtgId(long ctgId) {
+		List<ItemInfo> items = new LinkedList<ItemInfo>();
+
+		CtgItem ctgItem = new CtgItem();
+		ctgItem.setId(ctgId);
+		List<CtgItem> ctgItems = ctgItemService.getAll(ctgItem);
+		for (CtgItem ctg : ctgItems) {
+			ItemInfo itemInfo = new ItemInfo();
+			itemInfo.setId(ctg.getItemId());
+			itemInfo = itemInfoService.get(itemInfo);
+			items.add(itemInfo);
+		}
+		return items;
+	}
+
+	@Autowired
+	private ItemInfoService itemInfoService;
+
+	@Autowired
+	private CtgItemService ctgItemService;
 }

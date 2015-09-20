@@ -5,8 +5,7 @@
 <configuration>
 
 	<!-- 有顺序之分 还可以在SessionFactory改变properties -->
-	<properties resource="config/props/mybatis-db.properties">
-	</properties>
+	<!-- <properties resource="config/props/mybatis-db.properties" /> -->
 
 	<!-- 运行环境配置 -->
 	<settings>
