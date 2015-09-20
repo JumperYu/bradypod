@@ -25,49 +25,15 @@
        http://www.springframework.org/schema/cache 
        http://www.springframework.org/schema/cache/spring-cache.xsd">
 
-	<!-- RMI Service -->
-<!-- 	<bean id="business" class="com.yu.nio.BusinessImpl" /> -->
+	<!-- Bradypod RPC Begin -->
 
-<!-- 	<bean id="itemInfoService" class="org.springframework.remoting.rmi.RmiServiceExporter">
+	<!-- RMI Service Export -->
+	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
 		<property name="serviceName" value="ItemInfoService" />
 		<property name="service" ref="itemInfoService" />
-		<property name="serviceInterface" value="com.bradypod.shop.item.center.service.ItemInfoService" />
+		<property name="serviceInterface"
+			value="com.bradypod.shop.item.center.service.ItemInfoService" />
 		<property name="registryPort" value="${proxy.port}" />
-	</bean> -->
-
-	<!-- RMI Client -->
-	<bean id="itemInfoService" class="org.springframework.remoting.rmi.RmiProxyFactoryBean"> 
-		<property name="serviceUrl" value="rmi://localhost:1191/ItemInfoService" /> 
-		<property name="serviceInterface" value="com.bradypod.shop.item.center.service.ItemInfoService" /> 
 	</bean>
 
-	<!-- Hessian -->
-<!-- 	<bean id="hessianService" class="com.yu.nio.HessianServiceImpl" />
-
-	<bean name="/hessianService"
-		class="org.springframework.remoting.caucho.HessianServiceExporter">
-		<property name="service" ref="hessianService" />
-		<property name="serviceInterface" value="com.yu.nio.HessianService" />
-	</bean>
-
-	<bean id="remoteHessianService"
-		class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
-		<property name="serviceUrl" value="http://localhost/hessianService" />
-		<property name="serviceInterface" value="com.yu.nio.HessianService" />
-	</bean> -->
-
-	<!-- http invoker -->
-<!-- 	<bean id="httpInvokerService" class="com.yu.nio.HttpInvokerServiceImpl" />
-
-	<bean name="/httpInvokerService"
-		class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
-		<property name="service" ref="httpInvokerService" />
-		<property name="serviceInterface" value="com.yu.nio.HttpInvokerService" />
-	</bean>
-
-	<bean id="httpInvokerProxy"
-		class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
-		<property name="serviceUrl" value="http://localhost/httpInvokerService" />
-		<property name="serviceInterface" value="com.yu.nio.HttpInvokerService" />
-	</bean> -->
 </beans>

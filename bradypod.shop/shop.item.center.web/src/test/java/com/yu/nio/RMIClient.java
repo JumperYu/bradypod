@@ -10,9 +10,9 @@ public class RMIClient {
 	public static void main(String[] args) throws RemoteException,
 			NotBoundException {
 		Registry registry = LocateRegistry.getRegistry(1199);
-		String name = "Business";//"RMIDemo";
-		Business business = (Business) registry.lookup(name);
-		System.out.println(business.hello());
+		String name = "ItemInfoService";// "RMIDemo";
+		// ItemInfoService business = (ItemInfoService) registry.lookup(name);
+		System.out.println( registry.lookup(name).getClass());
 	}
 
 }

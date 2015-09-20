@@ -15,7 +15,7 @@ import com.bradypod.shop.item.center.mapper.ItemInfoMapper;
 import com.bradypod.shop.item.center.po.ItemInfo;
 import com.bradypod.shop.item.center.service.ItemInfoService;
 
-@Service
+@Service("itemInfoService")
 @Transactional
 public class ItemInfoServiceImpl extends
 		BaseMybatisServiceImpl<ItemInfoMapper, ItemInfo> implements
