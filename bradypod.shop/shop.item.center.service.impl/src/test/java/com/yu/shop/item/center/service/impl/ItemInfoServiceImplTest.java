@@ -58,7 +58,7 @@ public class ItemInfoServiceImplTest extends BaseTest {
 	@Test
 	public void testSave() {
 		ItemInfo item = new ItemInfo();
-		item.setId(3L);
+		item.setId(4L);
 		item.setUserId(1L);
 		item.setItemType(1);
 		item.setCtgId(1L);

@@ -1,9 +1,11 @@
-package com.bradypod.util.redis;
+package com.bradypod.util.redis.lock;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.bradypod.util.redis.Redis;
 
 /**
  * 分布式锁

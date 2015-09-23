@@ -1,9 +1,11 @@
 package com.bradypod.util.redis;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import redis.clients.jedis.BinaryJedisCommands;
 import redis.clients.jedis.Client;
 import redis.clients.jedis.JedisCommands;
 import redis.clients.jedis.ScanResult;
@@ -17,7 +19,7 @@ import redis.clients.jedis.Tuple;
  *
  * @date 2015年9月21日 上午10:51:12
  */
-public interface Redis extends JedisCommands {
+public interface Redis extends JedisCommands, BinaryJedisCommands {
 
 	/**
 	 * 设置key的value <br/>
@@ -575,4 +577,315 @@ public interface Redis extends JedisCommands {
 
 	long pfcount(final String key);
 
+	/* binary cache */
+	@Override
+	String set(byte[] key, byte[] value);
+	
+	@Override
+	String set(byte[] key, byte[] value, byte[] nxxx, byte[] expx, long time);
+	
+	@Override
+	byte[] get(byte[] key);
+	
+	@Override
+	Boolean exists(byte[] key);
+	
+	@Override
+	Long persist(byte[] key);
+	
+	@Override
+	String type(byte[] key);
+	
+	@Override
+	Long expire(byte[] key, int seconds);
+	
+	@Override
+	Long pexpire(byte[] key, final long milliseconds);
+	
+	@Override
+	Long expireAt(byte[] key, long unixTime);
+	
+	@Override
+	Long pexpireAt(byte[] key, long millisecondsTimestamp);
+
+	@Override
+	Long ttl(byte[] key);
+	
+	@Override
+	Boolean setbit(byte[] key, long offset, boolean value);
+
+	@Override
+	Boolean setbit(byte[] key, long offset, byte[] value);
+
+	@Override
+	Boolean getbit(byte[] key, long offset);
+
+	@Override
+	Long setrange(byte[] key, long offset, byte[] value);
+	
+	@Override
+	byte[] getrange(byte[] key, long startOffset, long endOffset);
+	
+	@Override
+	byte[] getSet(byte[] key, byte[] value);
+
+	@Override
+	Long setnx(byte[] key, byte[] value);
+	
+	@Override
+	String setex(byte[] key, int seconds, byte[] value);
+
+	@Override
+	Long decrBy(byte[] key, long integer);
+
+	@Override
+	Long decr(byte[] key);
+
+	@Override
+	Long incrBy(byte[] key, long integer);
+
+	@Override
+	Double incrByFloat(byte[] key, double value);
+
+	@Override
+	Long incr(byte[] key);
+
+	Long append(byte[] key, byte[] value);
+
+	byte[] substr(byte[] key, int start, int end);
+
+	Long hset(byte[] key, byte[] field, byte[] value);
+
+	byte[] hget(byte[] key, byte[] field);
+
+	Long hsetnx(byte[] key, byte[] field, byte[] value);
+
+	String hmset(byte[] key, Map<byte[], byte[]> hash);
+
+	List<byte[]> hmget(byte[] key, byte[]... fields);
+
+	Long hincrBy(byte[] key, byte[] field, long value);
+
+	Double hincrByFloat(byte[] key, byte[] field, double value);
+
+	Boolean hexists(byte[] key, byte[] field);
+
+	Long hdel(byte[] key, byte[]... field);
+
+	Long hlen(byte[] key);
+
+	Set<byte[]> hkeys(byte[] key);
+
+	Collection<byte[]> hvals(byte[] key);
+
+	Map<byte[], byte[]> hgetAll(byte[] key);
+
+	Long rpush(byte[] key, byte[]... args);
+
+	Long lpush(byte[] key, byte[]... args);
+
+	Long llen(byte[] key);
+
+	List<byte[]> lrange(byte[] key, long start, long end);
+
+	String ltrim(byte[] key, long start, long end);
+
+	byte[] lindex(byte[] key, long index);
+
+	String lset(byte[] key, long index, byte[] value);
+
+	Long lrem(byte[] key, long count, byte[] value);
+
+	byte[] lpop(byte[] key);
+
+	byte[] rpop(byte[] key);
+
+	Long sadd(byte[] key, byte[]... member);
+
+	Set<byte[]> smembers(byte[] key);
+
+	Long srem(byte[] key, byte[]... member);
+
+	byte[] spop(byte[] key);
+
+	Set<byte[]> spop(byte[] key, long count);
+
+	Long scard(byte[] key);
+
+	Boolean sismember(byte[] key, byte[] member);
+
+	byte[] srandmember(byte[] key);
+
+	@Override
+	List<byte[]> srandmember(final byte[] key, final int count);
+
+	@Override
+	Long strlen(byte[] key);
+
+	@Override
+	Long zadd(byte[] key, double score, byte[] member);
+
+	@Override
+	Long zadd(byte[] key, Map<byte[], Double> scoreMembers);
+	
+	@Override
+	Set<byte[]> zrange(byte[] key, long start, long end);
+
+	@Override
+	Long zrem(byte[] key, byte[]... member);
+
+	@Override
+	Double zincrby(byte[] key, double score, byte[] member);
+
+	@Override
+	Long zrank(byte[] key, byte[] member);
+
+	@Override
+	Long zrevrank(byte[] key, byte[] member);
+
+	@Override
+	Set<byte[]> zrevrange(byte[] key, long start, long end);
+
+	@Override
+	Set<Tuple> zrangeWithScores(byte[] key, long start, long end);
+
+	@Override
+	Set<Tuple> zrevrangeWithScores(byte[] key, long start, long end);
+
+	@Override
+	Long zcard(byte[] key);
+
+	@Override
+	Double zscore(byte[] key, byte[] member);
+
+	@Override
+	List<byte[]> sort(byte[] key);
+
+	@Override
+	List<byte[]> sort(byte[] key, SortingParams sortingParameters);
+
+	@Override
+	Long zcount(byte[] key, double min, double max);
+
+	@Override
+	Long zcount(byte[] key, byte[] min, byte[] max);
+
+	@Override
+	Set<byte[]> zrangeByScore(byte[] key, double min, double max);
+
+	@Override
+	Set<byte[]> zrangeByScore(byte[] key, byte[] min, byte[] max);
+
+	@Override
+	Set<byte[]> zrevrangeByScore(byte[] key, double max, double min);
+
+	@Override
+	Set<byte[]> zrangeByScore(byte[] key, double min, double max, int offset, int count);
+
+	@Override
+	Set<byte[]> zrevrangeByScore(byte[] key, byte[] max, byte[] min);
+
+	@Override
+	Set<byte[]> zrangeByScore(byte[] key, byte[] min, byte[] max, int offset, int count);
+
+	@Override
+	Set<byte[]> zrevrangeByScore(byte[] key, double max, double min, int offset, int count);
+
+	@Override
+	Set<Tuple> zrangeByScoreWithScores(byte[] key, double min, double max);
+
+	@Override
+	Set<Tuple> zrevrangeByScoreWithScores(byte[] key, double max, double min);
+
+	@Override
+	Set<Tuple> zrangeByScoreWithScores(byte[] key, double min, double max, int offset, int count);
+
+	@Override
+	Set<byte[]> zrevrangeByScore(byte[] key, byte[] max, byte[] min, int offset, int count);
+	
+	@Override
+	Set<Tuple> zrangeByScoreWithScores(byte[] key, byte[] min, byte[] max);
+	
+	@Override
+	Set<Tuple> zrevrangeByScoreWithScores(byte[] key, byte[] max, byte[] min);
+
+	@Override
+	Set<Tuple> zrangeByScoreWithScores(byte[] key, byte[] min, byte[] max, int offset, int count);
+	
+	@Override
+	Set<Tuple> zrevrangeByScoreWithScores(byte[] key, double max, double min, int offset, int count);
+
+	@Override
+	Set<Tuple> zrevrangeByScoreWithScores(byte[] key, byte[] max, byte[] min, int offset, int count);
+
+	@Override
+	Long zremrangeByRank(byte[] key, long start, long end);
+	
+	@Override
+	Long zremrangeByScore(byte[] key, double start, double end);
+
+	@Override
+	Long zremrangeByScore(byte[] key, byte[] start, byte[] end);
+
+	@Override
+	Long zlexcount(final byte[] key, final byte[] min, final byte[] max);
+
+	@Override
+	Set<byte[]> zrangeByLex(final byte[] key, final byte[] min, final byte[] max);
+
+	@Override
+	Set<byte[]> zrangeByLex(final byte[] key, final byte[] min, final byte[] max, int offset,
+			int count);
+
+	@Override
+	Set<byte[]> zrevrangeByLex(final byte[] key, final byte[] max, final byte[] min);
+
+	@Override
+	Set<byte[]> zrevrangeByLex(final byte[] key, final byte[] max, final byte[] min, int offset,
+			int count);
+
+	@Override
+	Long zremrangeByLex(final byte[] key, final byte[] min, final byte[] max);
+
+	@Override
+	Long linsert(byte[] key, Client.LIST_POSITION where, byte[] pivot, byte[] value);
+
+	@Override
+	Long lpushx(byte[] key, byte[]... arg);
+
+	@Override
+	Long rpushx(byte[] key, byte[]... arg);
+
+	/**
+	 * @deprecated unusable command, this command will be removed in 3.0.0.
+	 */
+	@Deprecated
+	List<byte[]> blpop(byte[] arg);
+
+	/**
+	 * @deprecated unusable command, this command will be removed in 3.0.0.
+	 */
+	@Deprecated
+	List<byte[]> brpop(byte[] arg);
+
+	@Override
+	Long del(byte[] key);
+
+	@Override
+	byte[] echo(byte[] arg);
+
+	@Override
+	Long move(byte[] key, int dbIndex);
+
+	@Override
+	Long bitcount(final byte[] key);
+
+	@Override
+	Long bitcount(final byte[] key, long start, long end);
+
+	@Override
+	Long pfadd(final byte[] key, final byte[]... elements);
+
+	@Override
+	long pfcount(final byte[] key);
 }

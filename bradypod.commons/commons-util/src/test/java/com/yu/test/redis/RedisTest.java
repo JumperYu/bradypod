@@ -1,5 +1,6 @@
-package com.yu.test.pool;
+package com.yu.test.redis;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import redis.clients.jedis.JedisPool;
 
 import com.bradypod.util.redis.RedisImpl;
+import com.bradypod.util.redis.cache.RedisCache;
 
 /**
  * 测试Redis
@@ -21,15 +23,18 @@ import com.bradypod.util.redis.RedisImpl;
  *
  * @date 2015年9月21日 下午12:04:15
  */
-public class RedisTest {
+public class RedisTest implements Serializable {
 
 	private RedisImpl redis;
+	RedisCache redisCache;
 
 	@Before
 	public void init() {
-		redis = new RedisImpl();
 		JedisPool pool = new JedisPool("redis.bradypod.com", 6379);
+		redis = new RedisImpl();
 		redis.setPool(pool);
+		redisCache = new RedisCache();
+		redisCache.setRedis(redis);
 	}
 
 	@Test
@@ -218,5 +223,34 @@ public class RedisTest {
 		redis.del("zset");
 	}
 
+	@Test
+	public void testRedisCache() {
+		RedisTest test = new RedisTest();
+		test.setId(1L);
+		test.setUserId(1L);
+		// OgnlUtil.getValue("id", test);
+	}
+
+	private Long id;
+	private Long userId;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
 	private Logger LOGGER = LoggerFactory.getLogger(getClass());
+
+	private static final long serialVersionUID = 1L;
 }

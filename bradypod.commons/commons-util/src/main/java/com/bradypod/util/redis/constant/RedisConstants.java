@@ -1,4 +1,4 @@
-package com.bradypod.util.redis;
+package com.bradypod.util.redis.constant;
 
 /**
  * Redis的部分常量

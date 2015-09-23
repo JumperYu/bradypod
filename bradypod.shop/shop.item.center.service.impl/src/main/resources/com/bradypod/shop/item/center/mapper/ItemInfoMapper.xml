@@ -7,6 +7,8 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 <!-- 不使用namespace的话sql搜索定位会比较方便 -->
 <mapper namespace="com.bradypod.shop.item.center.mapper.ItemInfoMapper">
 	
+	<cache type="org.mybatis.caches.redis.RedisCache"/>
+	
 	<!-- 
 	<resultMap id="ItemInfo" type="com.bradypod.shop.item.center.po.ItemInfo">
         <result property="id" column="id"/>
