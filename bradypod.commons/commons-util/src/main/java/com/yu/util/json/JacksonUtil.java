@@ -58,8 +58,7 @@ public class JacksonUtil {
 	 * @return json字符串
 	 * @throws JsonProcessingException
 	 */
-	public static String beanToJson(Object obj, Boolean createNew)
-			throws JsonProcessingException {
+	public static String beanToJson(Object obj, Boolean createNew) throws JsonProcessingException {
 		ObjectMapper objectMapper = getMapperInstance(createNew);
 		String json = objectMapper.writeValueAsString(obj);
 		return json;
@@ -67,6 +66,8 @@ public class JacksonUtil {
 
 	/**
 	 * 将json字符串转换成java对象
+	 * 
+	 * @param <E>
 	 * 
 	 * @param json
 	 *            准备转换的json字符串
@@ -78,12 +79,11 @@ public class JacksonUtil {
 	 * @throws Exception
 	 * @return
 	 */
-	public static Object jsonToBean(String json, Class<?> cls)
-			throws JsonParseException, JsonMappingException, IOException {
+	public static <E> E jsonToBean(String json, Class<E> cls) throws JsonParseException,
+			JsonMappingException, IOException {
 
 		ObjectMapper objectMapper = getMapperInstance(false);
-		Object vo = objectMapper.readValue(json, cls);
-		return vo;
+		return objectMapper.readValue(json, cls);
 
 	}
 

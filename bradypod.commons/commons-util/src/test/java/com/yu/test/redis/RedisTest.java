@@ -4,8 +4,11 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.math.RandomUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -13,8 +16,11 @@ import org.slf4j.LoggerFactory;
 
 import redis.clients.jedis.JedisPool;
 
+import com.alibaba.fastjson.JSON;
 import com.bradypod.util.redis.RedisImpl;
 import com.bradypod.util.redis.cache.RedisCache;
+import com.google.gson.Gson;
+import com.yu.util.json.JacksonUtil;
 
 /**
  * 测试Redis
@@ -30,7 +36,8 @@ public class RedisTest implements Serializable {
 
 	@Before
 	public void init() {
-		JedisPool pool = new JedisPool("redis.bradypod.com", 6379);
+		// JedisPool pool = new JedisPool("redis.bradypod.com", 6379);
+		JedisPool pool = new JedisPool("192.168.1.201", 7001);
 		redis = new RedisImpl();
 		redis.setPool(pool);
 		redisCache = new RedisCache();
@@ -55,8 +62,11 @@ public class RedisTest implements Serializable {
 
 	@Test
 	public void testGet() {
-		String ret = redis.get("zxm");
+		long start = System.currentTimeMillis();
+		String ret = redis.getSet("zxm", "123");
 		LOGGER.info(ret);
+		long end = System.currentTimeMillis();
+		System.out.println("------------- jackson 总计耗时 -------------" + (end - start) + " 毫秒");
 	}
 
 	@Test
@@ -229,6 +239,77 @@ public class RedisTest implements Serializable {
 		test.setId(1L);
 		test.setUserId(1L);
 		// OgnlUtil.getValue("id", test);
+	}
+
+	@Test
+	public void testJson() throws Exception {
+		testJdkSerialiable();
+		for (int i = 0; i < 10; i++)
+			testFasterJson();
+		for (int i = 0; i < 10; i++)
+			testJacksonSerialiable();
+		for (int i = 0; i < 10; i++)
+			testGson();
+	}
+
+	@Test
+	public void testJdkSerialiable() {
+
+	}
+
+	@Test
+	public void testJacksonSerialiable() throws Exception {
+		long start = System.currentTimeMillis();
+		String json = "";
+		List<TestUser> list = new LinkedList<>();
+		for (int i = 0; i < 1000; i++) {
+			TestUser testUser = new TestUser();
+			testUser.setId(RandomUtils.nextLong());
+			testUser.setUserId(RandomUtils.nextLong());
+			list.add(testUser);
+		}
+		json = JacksonUtil.beanToJson(list);
+		redis.set("jackson".getBytes(), json.getBytes());
+		long end = System.currentTimeMillis();
+		System.out.println("字符串原长度:" + json.length());
+		System.out.println("------------- jackson 总计耗时 -------------" + (end - start) + " 毫秒");
+	}
+
+	@Test
+	public void testFasterJson() {
+		long start = System.currentTimeMillis();
+		String json = "";
+		List<TestUser> list = new LinkedList<>();
+		for (int i = 0; i < 1000; i++) {
+			TestUser testUser = new TestUser();
+			testUser.setId(RandomUtils.nextLong());
+			testUser.setUserId(RandomUtils.nextLong());
+			list.add(testUser);
+		}
+		json = JSON.toJSONString(list);
+		redis.set("fasterjson".getBytes(), json.getBytes());
+		long end = System.currentTimeMillis();
+		System.out.println("字符串原长度:" + json.length());
+		System.out.println("------------- faster 总计耗时 -------------" + (end - start) + " 毫秒");
+	}
+
+	@Test
+	public void testGson() {
+		long start = System.currentTimeMillis();
+		String json = "";
+		Gson gson = new Gson();
+		List<TestUser> list = new LinkedList<>();
+		for (int i = 0; i < 1000; i++) {
+			TestUser testUser = new TestUser();
+			testUser.setId(RandomUtils.nextLong());
+			testUser.setUserId(RandomUtils.nextLong());
+			list.add(testUser);
+		}
+		json = gson.toJson(list);
+		redis.set("gson".getBytes(), json.getBytes());
+		long end = System.currentTimeMillis();
+		System.out.println("字符串原长度:" + json.length());
+		System.out.println("-------------gson 总计耗时 -------------" + (end - start) + " 毫秒");
 	}
 
 	private Long id;
