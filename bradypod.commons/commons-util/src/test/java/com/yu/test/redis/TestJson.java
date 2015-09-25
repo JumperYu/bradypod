@@ -31,11 +31,11 @@ public class TestJson {
 		// 假设redis连接恒定耗时30ms偏差
 		init();
 		// 序列化 + redis
-//		int count = 1000;
-//		testJdkSerialaize(count);
-//		testJacksonSerialize(count);
-//		testGsonSerialize(count);
-//		testFasterJsonSerialize(count);
+		int count = 1000;
+		testJdkSerialaize(count);
+		testJacksonSerialize(count);
+		testGsonSerialize(count);
+		testFasterJsonSerialize(count);
 
 		// testJacksonDeserialize();
 		// testFasterDeserialize();
@@ -53,7 +53,7 @@ public class TestJson {
 			list.add(testUser);
 		}
 		json = JacksonUtil.beanToJson(list);
-		redis.set("jackson", json);
+//		redis.set("jackson", json);
 		long end = System.currentTimeMillis();
 		System.out.println("字符串原长度:" + json.length());
 		System.out.println("------------- jackson 总计耗时 -------------" + (end - start) + " 毫秒");
