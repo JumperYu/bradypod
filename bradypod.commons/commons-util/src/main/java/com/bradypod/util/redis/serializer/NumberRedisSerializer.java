@@ -2,7 +2,6 @@ package com.bradypod.util.redis.serializer;
 
 import java.nio.charset.Charset;
 
-import org.springframework.data.redis.serializer.SerializationException;
 import org.springframework.util.Assert;
 
 public class NumberRedisSerializer implements RedisSerializer<Number> {
@@ -19,14 +18,25 @@ public class NumberRedisSerializer implements RedisSerializer<Number> {
 	}
 
 	@Override
-	public byte[] serialize(Number number) throws SerializationException {
-		return (number == null ? null : number.toString().getBytes(charset));
+	public byte[] serialize(Number value) {
+		if (value instanceof Integer) {
+			return ((Integer) value).toString().getBytes(charset);
+		} else if (value instanceof Long) {
+			return ((Long) value).toString().getBytes(charset);
+		} else if (value instanceof Float) {
+			return ((Float) value).toString().getBytes(charset);
+		} else if (value instanceof Double) {
+			return ((Double) value).toString().getBytes(charset);
+		} else if (value instanceof Byte) {
+			return ((Byte) value).toString().getBytes(charset);
+		} else {
+			throw new RuntimeException("Prefer number type : [Integer,Long,Float,Double]");
+		}
 	}
 
 	@Override
-	public Number deserialize(byte[] bytes) throws SerializationException {
-		return (bytes == null ? null : Long
-				.parseLong(new String(bytes, charset)));
+	public Number deserialize(byte[] bytes) {
+		return (bytes == null ? null : Long.parseLong(new String(bytes, charset)));
 	}
 
 }

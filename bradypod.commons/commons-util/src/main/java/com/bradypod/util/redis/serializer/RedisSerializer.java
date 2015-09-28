@@ -1,6 +1,6 @@
 package com.bradypod.util.redis.serializer;
 
-import org.springframework.data.redis.serializer.SerializationException;
+import org.apache.commons.lang.SerializationException;
 
 public interface RedisSerializer<T> {
 
@@ -10,7 +10,7 @@ public interface RedisSerializer<T> {
 	 * @return
 	 * @throws SerializationException
 	 */
-	byte[] serialize(T t) throws SerializationException;
+	byte[] serialize( T t );
 
 	/**
 	 * 
@@ -18,6 +18,6 @@ public interface RedisSerializer<T> {
 	 * @return
 	 * @throws SerializationException
 	 */
-	T deserialize(byte[] bytes) throws SerializationException;
+	T deserialize( byte[] bytes );
 
 }
