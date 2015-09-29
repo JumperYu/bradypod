@@ -5,7 +5,6 @@
 		<groupId>com.bradypod</groupId>
 		<artifactId>bradypod.pom</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
 	<artifactId>bradypod.shop</artifactId>
@@ -78,27 +77,20 @@
 		<finalName>shop</finalName>
 		<plugins>
 			<!-- 自动部署到容器 -->
-			<plugin>
-				<groupId>org.apache.tomcat.maven</groupId>
-				<artifactId>tomcat7-maven-plugin</artifactId>
-				<version>2.2</version>
-				<configuration>
-					<url>http://localhost:8080/manager/text</url>
-					<server>tomcat7</server>
-					<!-- <serverXml>src/main/tomcatconf/server.xml</serverXml> -->
-					<path>/</path>
-				</configuration>
-			</plugin>
+			<!-- <plugin> <groupId>org.apache.tomcat.maven</groupId> <artifactId>tomcat7-maven-plugin</artifactId> 
+				<version>2.2</version> <configuration> <url>http://localhost:8080/manager/text</url> 
+				<server>tomcat7</server> <path>/</path> </configuration> </plugin> -->
 			<!-- 指定war包插件 -->
 			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-war-plugin</artifactId> 
 				<version>2.6</version> <configuration> <webResources> <resource> <directory>src/main/webapp</directory> 
-				<excludes> <exclude>**/*.jpg</exclude> </excludes> </resource> </webResources> </configuration> </plugin> -->
+				<excludes> <exclude>**/*.jpg</exclude> </excludes> </resource> </webResources> 
+				</configuration> </plugin> -->
 			<!-- 指定jar包main程序入口 -->
 			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-shade-plugin</artifactId> 
-				<version>1.4</version> <executions> <execution> <phase>package</phase> <goals> <goal>shade</goal> </goals> 
-				<configuration> <transformers> <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer"> 
-				<mainClass>com.yu.Test</mainClass> </transformer> </transformers> </configuration> </execution> </executions> 
-				</plugin> -->
+				<version>1.4</version> <executions> <execution> <phase>package</phase> <goals> 
+				<goal>shade</goal> </goals> <configuration> <transformers> <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer"> 
+				<mainClass>com.yu.Test</mainClass> </transformer> </transformers> </configuration> 
+				</execution> </executions> </plugin> -->
 		</plugins>
 	</build>
 

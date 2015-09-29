@@ -1,4 +1,4 @@
-package com.yu.web;
+package com.bradypod.web;
 
 import javax.servlet.http.HttpServletRequest;
 

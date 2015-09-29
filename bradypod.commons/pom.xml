@@ -4,7 +4,6 @@
 	<artifactId>bradypod.commons</artifactId>
 	<packaging>pom</packaging>
 	<parent>
-		<relativePath>../../bradypod.pom</relativePath>
 		<groupId>com.bradypod</groupId>
 		<artifactId>bradypod.pom</artifactId>
 		<version>0.0.1-SNAPSHOT</version>

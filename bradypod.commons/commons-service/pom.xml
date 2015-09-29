@@ -10,8 +10,7 @@
 	<description>业务模块</description>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>commons-service</artifactId>
-	<version>1.0.0</version>
-
+	<packaging>jar</packaging>
 
 	<dependencies>
 		<dependency>
@@ -44,7 +43,6 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 </project>

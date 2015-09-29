@@ -27,17 +27,15 @@
 
 	<!-- 使用annotation 自动注册bean,并检查@Required,@Autowired的属性已被注入 -->
 	<context:annotation-config />
-	<context:component-scan base-package="com.yu">
+	<context:component-scan base-package="com.bradypod">
 	</context:component-scan>
 
 	<mvc:annotation-driven>
-		<mvc:argument-resolvers>
-			<bean class="com.yu.shop.item.center.web.MyMethodArgumentResolver" />
-		</mvc:argument-resolvers>
 		<mvc:message-converters register-defaults="true">
 			<!-- String -->
 			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
 				<constructor-arg value="UTF-8" />
+				<property name="writeAcceptCharset" value="false"/>
 			</bean>
 			<!-- Jackson -->
 			<bean

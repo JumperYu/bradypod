@@ -29,7 +29,7 @@
 		<dependency>
 			<groupId>com.bradypod</groupId>
 			<artifactId>commons-service</artifactId>
-			<version>1.0.0</version>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>

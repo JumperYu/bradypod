@@ -1,6 +1,5 @@
 package com.bradypod.common.junit;
 
-import org.junit.Before;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -20,7 +19,7 @@ public class BaseTest {
 	protected ApplicationContext applicationContext;
 
 	// 1.启动spring工程需要找到对应的xml， 下面是示例
-	@Before
+//	@Before
 	public void initApplicationContext() {
 		System.setProperty("ENV", "release");
 		applicationContext = new ClassPathXmlApplicationContext(
