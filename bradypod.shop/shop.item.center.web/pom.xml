@@ -12,11 +12,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.bradypod</groupId>
-			<artifactId>shop.item.center.service</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
@@ -100,6 +95,11 @@
 			<artifactId>jsp-2.1-jetty</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.bradypod</groupId>
+			<artifactId>shop.item.center.service</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -107,9 +107,21 @@
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
-				<version>9.3.4.RC0</version>
+				<configuration>
+					<scanIntervalSeconds>10</scanIntervalSeconds>
+					<webApp>
+						<contextPath>/</contextPath>
+					</webApp>
+					<jvmArgs>env=release</jvmArgs>
+					<httpConnector>
+						<port>80</port>
+						<host>localhost</host>
+						<name>jetty-server</name>
+						<idleTimeout>60</idleTimeout>
+					</httpConnector>
+					<classesDirectory>${project.basedir}/target/classes</classesDirectory>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-
 </project>

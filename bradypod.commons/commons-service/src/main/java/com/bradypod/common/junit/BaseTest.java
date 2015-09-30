@@ -19,6 +19,7 @@ public class BaseTest {
 	protected ApplicationContext applicationContext;
 
 	// 1.启动spring工程需要找到对应的xml， 下面是示例
+//	@Before
 	public void initApplicationContext() {
 		System.setProperty("ENV", "release");
 		applicationContext = new ClassPathXmlApplicationContext(

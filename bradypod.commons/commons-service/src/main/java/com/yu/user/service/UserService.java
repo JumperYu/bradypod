@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bradypod.common.service.BaseMybatisServiceImpl;
 import com.yu.user.mapper.AccountMapper;
