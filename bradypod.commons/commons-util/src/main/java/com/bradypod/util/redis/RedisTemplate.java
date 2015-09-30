@@ -112,6 +112,11 @@ public class RedisTemplate {
 				jacksonRedisSerializer.serialize(value));
 	}
 
+	public void hset(final String key, final String field, final Object value) {
+		hset(stringRedisSerializer.serialize(key), stringRedisSerializer.serialize(field),
+				jdkRedisSerializer.serialize(value));
+	}
+
 	/**
 	 * 字节存储, 节省内存
 	 * 
@@ -238,6 +243,22 @@ public class RedisTemplate {
 		});
 	}
 
+	public <T> T hgetObject(final String key, final String field) {
+		return execute(new ShardedRedisCallback<T>() {
+
+			@SuppressWarnings("unchecked")
+			@Override
+			public T execute(ShardedJedis shardedJedis) {
+				byte[] bytes = shardedJedis.hget(stringRedisSerializer.serialize(key),
+						stringRedisSerializer.serialize(field));
+				if (bytes != null)
+					return (T) jdkRedisSerializer.deserialize(bytes);
+				else
+					return null;
+			}
+		});
+	}
+
 	public String hgetString(final String key, final String field) {
 		return execute(new ShardedRedisCallback<String>() {
 
@@ -272,16 +293,6 @@ public class RedisTemplate {
 	 * 删除缓存, 先不处理返回值
 	 */
 	public void delete(final String key) {
-		execute(new ShardedRedisCallback<Long>() {
-
-			@Override
-			public Long execute(ShardedJedis shardedJedis) {
-				return shardedJedis.del(key);
-			}
-		});
-	}
-
-	public void delete(final byte[] key) {
 		execute(new ShardedRedisCallback<Long>() {
 
 			@Override
