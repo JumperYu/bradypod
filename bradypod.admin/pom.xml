@@ -15,6 +15,12 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>com.bradypod</groupId>
+			<artifactId>commons-web</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
@@ -77,7 +83,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.json</groupId>
-	<artifactId>json</artifactId>
+			<artifactId>json</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>joda-time</groupId>
@@ -165,21 +171,6 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.bradypod</groupId>
-			<artifactId>commons-service</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.bradypod</groupId>
-			<artifactId>commons-util</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.bradypod</groupId>
-			<artifactId>commons-web</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mortbay.jetty</groupId>

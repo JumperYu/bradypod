@@ -71,8 +71,8 @@
 				<version>1.2</version>
 				<scope>provided</scope>
 			</dependency>
-			<!-- <dependency> <groupId>taglibs</groupId> <artifactId>standard</artifactId> 
-				<version>1.1.2</version> </dependency> -->
+			<!-- <dependency> <groupId>taglibs</groupId> <artifactId>standard</artifactId> <version>1.1.2</version> 
+				</dependency> -->
 			<!-- Spring Framework -->
 			<dependency>
 				<groupId>org.springframework</groupId>
@@ -249,8 +249,8 @@
 				<artifactId>fastjson</artifactId>
 				<version>${fastjson.version}</version>
 			</dependency>
-			<!-- <dependency> <groupId>org.json</groupId> <artifactId>json</artifactId> 
-				<version>20140107</version> </dependency> -->
+			<!-- <dependency> <groupId>org.json</groupId> <artifactId>json</artifactId> <version>20140107</version> 
+				</dependency> -->
 			<!-- End of JSON -->
 			<!-- cache -->
 			<dependency>
@@ -263,13 +263,11 @@
 				<groupId>org.slf4j</groupId>
 				<artifactId>slf4j-api</artifactId>
 				<version>${org.slf4j-version}</version>
-				<scope>runtime</scope>
 			</dependency>
 			<!-- 向logback改进 -->
-			<!-- <dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-log4j12</artifactId> 
-				<version>${org.slf4j-version}</version> <scope>runtime</scope> </dependency> 
-				<dependency> <groupId>log4j</groupId> <artifactId>log4j</artifactId> <version>1.2.17</version> 
-				<scope>runtime</scope> </dependency> -->
+			<!-- <dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-log4j12</artifactId> <version>${org.slf4j-version}</version> 
+				<scope>runtime</scope> </dependency> <dependency> <groupId>log4j</groupId> <artifactId>log4j</artifactId> 
+				<version>1.2.17</version> <scope>runtime</scope> </dependency> -->
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
@@ -313,8 +311,8 @@
 				<artifactId>hibernate-validator</artifactId>
 				<version>5.2.1.Final</version>
 				<!-- <exclusions> <exclusion> <artifactId>jaxb-impl</artifactId> <groupId>com.sun.xml.bind</groupId> 
-					</exclusion> <exclusion> <artifactId>jaxb-api</artifactId> <groupId>javax.xml.bind</groupId> 
-					</exclusion> </exclusions> -->
+					</exclusion> <exclusion> <artifactId>jaxb-api</artifactId> <groupId>javax.xml.bind</groupId> </exclusion> 
+					</exclusions> -->
 			</dependency>
 
 			<!-- dubbo -->
@@ -417,8 +415,7 @@
 
 	<distributionManagement>
 		<!-- <repository> <id>releases</id> <name>Internal Releases</name> <url>http://192.168.1.130:5050/nexus/content/repositories/releases</url> 
-			</repository> <snapshotRepository> <id>snapshots</id> <name>Internal Snapshots</name> 
-			<url>http://192.168.1.130:5050/nexus/content/repositories/snapshots</url> 
+			</repository> <snapshotRepository> <id>snapshots</id> <name>Internal Snapshots</name> <url>http://192.168.1.130:5050/nexus/content/repositories/snapshots</url> 
 			</snapshotRepository> -->
 	</distributionManagement>
 
@@ -427,13 +424,15 @@
 		<plugins>
 			<!-- compile plugin -->
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.3</version>
 				<configuration>
 					<source>${java-version}</source>
 					<target>${java-version}</target>
+					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
-
 </project>

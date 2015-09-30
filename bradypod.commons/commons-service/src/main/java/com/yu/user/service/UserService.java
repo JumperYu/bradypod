@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.bradypod.common.service.BaseMybatisServiceImpl;
 import com.yu.user.mapper.AccountMapper;
@@ -19,8 +17,8 @@ import com.yu.user.po.Account;
  * @date 2015年4月30日
  *
  */
-@Service
-@Transactional
+//@Service
+//@Transactional
 public class UserService extends BaseMybatisServiceImpl<AccountMapper, Account> {
 
 	/**

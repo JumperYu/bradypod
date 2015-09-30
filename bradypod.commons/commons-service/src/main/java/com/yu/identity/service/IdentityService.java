@@ -17,7 +17,7 @@ import com.yu.identity.po.Identity;
  * @date 2015-08-24
  *
  */
-@Service
+//@Service
 @Transactional(propagation = Propagation.SUPPORTS)
 public class IdentityService extends
 		BaseMybatisServiceImpl<IdentityMapper, Identity> {

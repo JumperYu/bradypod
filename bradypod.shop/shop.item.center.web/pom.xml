@@ -12,6 +12,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>com.bradypod</groupId>
+			<artifactId>shop.item.center.service</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
@@ -95,11 +100,16 @@
 			<artifactId>jsp-2.1-jetty</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.bradypod</groupId>
-			<artifactId>shop.item.center.service.impl</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.3.4.RC0</version>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

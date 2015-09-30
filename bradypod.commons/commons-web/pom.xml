@@ -13,7 +13,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.bradypod</groupId>
-			<artifactId>commons-util</artifactId>
+			<artifactId>commons-service</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
@@ -25,11 +25,6 @@
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.bradypod</groupId>
-			<artifactId>commons-service</artifactId>
-			<version>1.0.0</version>
 		</dependency>
 	</dependencies>
 </project>

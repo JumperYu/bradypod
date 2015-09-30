@@ -15,6 +15,12 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>com.bradypod</groupId>
+			<artifactId>commons-web</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
@@ -167,21 +173,6 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.bradypod</groupId>
-			<artifactId>commons-service</artifactId>
-			<version>1.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.bradypod</groupId>
-			<artifactId>commons-util</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.bradypod</groupId>
-			<artifactId>commons-web</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
 			<groupId>org.mortbay.jetty</groupId>
 			<artifactId>jetty</artifactId>
 			<scope>test</scope>
@@ -204,8 +195,7 @@
 		<plugins>
 			<!-- mvn jetty plugin -->
 			<plugin>
-				<!-- <groupId>org.eclipse.jetty</groupId> <artifactId>jetty-maven-plugin</artifactId> 
-					<version>9.3.1-SNAPSHOT</version> -->
+				<!-- <groupId>org.eclipse.jetty</groupId> <artifactId>jetty-maven-plugin</artifactId> <version>9.3.1-SNAPSHOT</version> -->
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>maven-jetty-plugin</artifactId>
 				<version>6.1.24</version>

@@ -5,7 +5,6 @@
 		<groupId>com.bradypod</groupId>
 		<artifactId>bradypod.pom</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
 	<artifactId>bradypod.shop</artifactId>

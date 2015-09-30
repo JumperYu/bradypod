@@ -31,8 +31,14 @@ public class TestGenerator {
 //		generatorFacade.generateByTable("t_brand_info", "template");
 //		generatorFacade.deleteByTable("t_ctg_info", "template");
 //		generatorFacade.generateByTable("t_ctg_info", "template");
-		generatorFacade.deleteByTable("t_ctg_item", "template");
-		generatorFacade.generateByTable("t_ctg_item", "template");
+//		generatorFacade.deleteByTable("t_ctg_item", "template");
+//		generatorFacade.generateByTable("t_ctg_item", "template");
+//		generatorFacade.deleteByTable("t_ctg_attri", "template");
+//		generatorFacade.generateByTable("t_ctg_attri", "template");
+//		generatorFacade.deleteByTable("t_dict_sys", "template");
+//		generatorFacade.generateByTable("t_dict_sys", "template");
+		generatorFacade.deleteByTable("t_dict_user", "template");
+		generatorFacade.generateByTable("t_dict_user", "template");
 		
 		// generatorFacade.generateByAllTable("template");
 		// 自动搜索数据库中的所有表并生成文件,template为模板的根目录

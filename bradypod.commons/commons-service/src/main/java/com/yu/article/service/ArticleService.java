@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,8 +25,8 @@ import com.yu.util.validate.AssertUtil;
  * @date 2015年5月7日
  *
  */
-@Service
-@Transactional(propagation = Propagation.SUPPORTS)
+//@Service
+//@Transactional(propagation = Propagation.SUPPORTS)
 public class ArticleService extends
 		BaseMybatisServiceImpl<ArticleMapper, Article> {
 

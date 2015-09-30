@@ -1265,8 +1265,6 @@ public class RedisImpl implements Redis {
 		this.pool = pool;
 	}
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(RedisImpl.class);
-
 	@Override
 	public String set(final byte[] key, final byte[] value) {
 		return execute(new RedisCallback<String>() {
@@ -1954,4 +1952,6 @@ public class RedisImpl implements Redis {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(RedisImpl.class);
 }
