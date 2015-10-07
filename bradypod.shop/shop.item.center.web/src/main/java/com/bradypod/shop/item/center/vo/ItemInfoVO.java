@@ -1,11 +1,4 @@
-/*
- * Powered By [generator-framework]
- * Web Site: http://blog.bradypod.com
- * Github: https://github.com/JumperYu
- * Since 2015 - 2015
- */
-
-package com.bradypod.shop.item.center.po;
+package com.bradypod.shop.item.center.vo;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
@@ -24,7 +17,7 @@ import org.hibernate.validator.constraints.NotBlank;
  * @date 2015-09-18
  */
 
-public class ItemInfo implements java.io.Serializable {
+public class ItemInfoVO implements java.io.Serializable {
 
 	// alias
 	public static final String TABLE_ALIAS = "ItemInfo";
@@ -42,18 +35,10 @@ public class ItemInfo implements java.io.Serializable {
 	public static final String ALIAS_CREATE_TIME = "创建时间";
 	public static final String ALIAS_UPDATE_TIME = "最后更新时间";
 
-	// date formats
-	public static final String FORMAT_APPROVAL_TIME = "yyyy-MM-dd HH:mm:ss";// DATE_FORMAT
-	public static final String FORMAT_CREATE_TIME = "yyyy-MM-dd HH:mm:ss";// DATE_FORMAT
-	public static final String FORMAT_UPDATE_TIME = "yyyy-MM-dd HH:mm:ss";// DATE_FORMAT
-
-	// 可以直接使用: @Length(max=50,message="用户名长度不能大于50")显示错误消息
-	// columns START
-
 	private java.lang.Long id;
 	@NotNull
 	private java.lang.Long userId;
-	@Max(127)
+	/*@Max(127)
 	private Integer itemType;
 	@NotNull
 	private java.lang.Long ctgId;
@@ -80,13 +65,13 @@ public class ItemInfo implements java.io.Serializable {
 	private java.util.Date createTime;
 
 	private java.util.Date updateTime;
-
+*/
 	// columns END
 
-	public ItemInfo() {
+	public ItemInfoVO() {
 	}
 
-	public ItemInfo(java.lang.Long id) {
+	public ItemInfoVO(java.lang.Long id) {
 		this.id = id;
 	}
 
@@ -106,7 +91,7 @@ public class ItemInfo implements java.io.Serializable {
 		return this.userId;
 	}
 
-	public void setItemType(Integer value) {
+	/*public void setItemType(Integer value) {
 		this.itemType = value;
 	}
 
@@ -192,9 +177,9 @@ public class ItemInfo implements java.io.Serializable {
 
 	public java.util.Date getUpdateTime() {
 		return this.updateTime;
-	}
+	}*/
 
-	public String toString() {
+/*	public String toString() {
 		return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).append("Id", getId())
 				.append("UserId", getUserId()).append("ItemType", getItemType())
 				.append("CtgId", getCtgId()).append("Title", getTitle())
@@ -204,17 +189,17 @@ public class ItemInfo implements java.io.Serializable {
 				.append("CreateTime", getCreateTime()).append("UpdateTime", getUpdateTime())
 				.toString();
 	}
-
+*/
 	public int hashCode() {
 		return new HashCodeBuilder().append(getId()).toHashCode();
 	}
 
 	public boolean equals(Object obj) {
-		if (obj instanceof ItemInfo == false)
+		if (obj instanceof ItemInfoVO == false)
 			return false;
 		if (this == obj)
 			return true;
-		ItemInfo other = (ItemInfo) obj;
+		ItemInfoVO other = (ItemInfoVO) obj;
 		return new EqualsBuilder().append(getId(), other.getId()).isEquals();
 	}
 

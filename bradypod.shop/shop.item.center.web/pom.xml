@@ -12,6 +12,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>com.bradypod</groupId>
+			<artifactId>commons-web</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
@@ -49,16 +54,6 @@
 		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.bradypod</groupId>
-			<artifactId>commons-web</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.bradypod</groupId>
-			<artifactId>commons-util</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
@@ -112,7 +107,7 @@
 					<webApp>
 						<contextPath>/</contextPath>
 					</webApp>
-					<jvmArgs>env=release</jvmArgs>
+					<jvmArgs>env=dev</jvmArgs>
 					<httpConnector>
 						<port>80</port>
 						<host>localhost</host>

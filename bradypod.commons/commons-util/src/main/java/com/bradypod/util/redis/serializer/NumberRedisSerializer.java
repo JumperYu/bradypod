@@ -2,9 +2,16 @@ package com.bradypod.util.redis.serializer;
 
 import java.nio.charset.Charset;
 
-import org.springframework.util.Assert;
+import com.yu.util.validate.AssertUtil;
 
-public class NumberRedisSerializer implements RedisSerializer<Number> {
+/**
+ * 数字序列化
+ *
+ * @author zengxm
+ * @date 2015年10月3日
+ *
+ */
+public class NumberRedisSerializer {
 
 	private final Charset charset;
 
@@ -13,12 +20,12 @@ public class NumberRedisSerializer implements RedisSerializer<Number> {
 	}
 
 	public NumberRedisSerializer(Charset charset) {
-		Assert.notNull(charset);
+		AssertUtil.notNull(charset);
 		this.charset = charset;
 	}
 
-	@Override
 	public byte[] serialize(Number value) {
+		AssertUtil.notNull(value);
 		if (value instanceof Integer) {
 			return ((Integer) value).toString().getBytes(charset);
 		} else if (value instanceof Long) {
@@ -30,13 +37,35 @@ public class NumberRedisSerializer implements RedisSerializer<Number> {
 		} else if (value instanceof Byte) {
 			return ((Byte) value).toString().getBytes(charset);
 		} else {
-			throw new RuntimeException("Prefer number type : [Integer,Long,Float,Double]");
+			throw new RuntimeException(
+					"Prefer number type : [Integer,Long,Float,Double]");
 		}
 	}
+	
+	/* 解析不同的数字类型  */
+	public Long deserializeLong(byte[] bytes) {
+		return (bytes == null ? null : Long
+				.parseLong(new String(bytes, charset)));
+	}
 
-	@Override
-	public Number deserialize(byte[] bytes) {
-		return (bytes == null ? null : Long.parseLong(new String(bytes, charset)));
+	public Byte deserializeByte(byte[] bytes) {
+		return (bytes == null ? null : Byte
+				.parseByte(new String(bytes, charset)));
+	}
+
+	public Float deserializeFloat(byte[] bytes) {
+		return (bytes == null ? null : Float.parseFloat(new String(bytes,
+				charset)));
+	}
+
+	public Double deserializeDouble(byte[] bytes) {
+		return (bytes == null ? null : Double.parseDouble(new String(bytes,
+				charset)));
+	}
+
+	public Integer deserializeInteger(byte[] bytes) {
+		return (bytes == null ? null : Integer.parseInt(new String(bytes,
+				charset)));
 	}
 
 }

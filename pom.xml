@@ -48,6 +48,8 @@
 		<logback.version>1.0.13</logback.version>
 		<junit.version>4.11</junit.version>
 		<jetty.version>6.1.24</jetty.version>
+		<maven-shade-plugin.version>2.4.1</maven-shade-plugin.version>
+		<jetty-maven-plugin.version>9.2.9.v20150224</jetty-maven-plugin.version>
 	</properties>
 
 	<dependencyManagement>
@@ -438,7 +440,12 @@
 				<plugin>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-maven-plugin</artifactId>
-					<version>9.2.9.v20150224</version>
+					<version>${jetty-maven-plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-shade-plugin</artifactId>
+					<version>${maven-shade-plugin.version}</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>

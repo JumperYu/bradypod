@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:context="http://www.springframework.org/schema/context" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:cache="http://www.springframework.org/schema/cache"
-	xmlns:util="http://www.springframework.org/schema/util"
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:cache="http://www.springframework.org/schema/cache" xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="
        http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -27,7 +27,7 @@
 
 	<!-- 使用annotation 自动注册bean,并检查@Required,@Autowired的属性已被注入 -->
 	<context:annotation-config />
-	<context:component-scan base-package="com.bradypod">
+	<context:component-scan base-package="com.bradypod.*">
 	</context:component-scan>
 
 	<mvc:annotation-driven>
@@ -35,7 +35,7 @@
 			<!-- String -->
 			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
 				<constructor-arg value="UTF-8" />
-				<property name="writeAcceptCharset" value="false"/>
+				<property name="writeAcceptCharset" value="false" />
 			</bean>
 			<!-- Jackson -->
 			<bean
@@ -62,7 +62,8 @@
 		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
 	<!-- 将Controller抛出的异常转到特定View -->
-	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+	<bean
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="exceptionMappings">
 			<props>
 				<prop key="java.lang.Throwable">error</prop>
@@ -104,7 +105,8 @@
 	</bean>
 
 	<!-- 定义JSP文件的位置 -->
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
@@ -122,9 +124,8 @@
 	<!-- 重写properties文件的加载 -->
 	<bean class="com.yu.util.spring.MyPropertyPlaceholderConfigurer">
 		<property name="ignoreResourceNotFound" value="false" />
-		<!-- <property name="locations" value="classpath*:config/props/${ENV}/global.properties" 
-			/> -->
-		<property name="locations" value="classpath*:config/props/release/global.properties" />
+		<property name="locations"
+			value="classpath*:config/props/${ENV}/global.properties" />
 	</bean>
 
 	<!-- 缓存框架 -->
@@ -134,7 +135,8 @@
 	<bean id="simpleCache" class="org.springframework.cache.support.SimpleCacheManager">
 		<property name="caches">
 			<set>
-				<bean class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
+				<bean
+					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
 					p:name="default" />
 			</set>
 		</property>
@@ -152,7 +154,8 @@
 	<!-- 缓存配置结束 -->
 
 	<!-- 数据源 -->
-	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="${db.class}" />
 		<property name="url" value="${db.url}" />
 		<property name="username" value="${db.user}" />
@@ -166,7 +169,8 @@
 
 	<!-- JNDI数据源 -->
 	<!-- <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean"> 
-		<property name="jndiName"> <value>java:comp/env/jdbc/cphoto</value> </property> </bean> -->
+		<property name="jndiName"> <value>java:comp/env/jdbc/cphoto</value> </property> 
+		</bean> -->
 
 	<!-- ORM 框架 <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"> 
 		<property name="dataSource"> <ref bean="dataSource" /> </property> </bean> -->
@@ -180,9 +184,10 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<!-- 定义事务通知 <tx:advice id="txAdvice" transaction-manager="transactionManager"> <tx:attributes> 
-		<tx:method name="*" propagation="REQUIRED"/> <tx:method name="login" read-only="true" 
-		/> </tx:attributes> </tx:advice> -->
+	<!-- 定义事务通知 <tx:advice id="txAdvice" transaction-manager="transactionManager"> 
+		<tx:attributes> <tx:method name="*" propagation="REQUIRED"/> <tx:method name="login" 
+		read-only="true" /> </tx:attributes> </tx:advice> -->
 	<!-- 定义AOP配置 <aop:config> <aop:pointcut expression="execution (* com.cp.user.service.*.*(..))" 
-		id="service" /> <aop:advisor advice-ref="txAdvice" pointcut-ref="service" /> </aop:config> -->
+		id="service" /> <aop:advisor advice-ref="txAdvice" pointcut-ref="service" 
+		/> </aop:config> -->
 </beans>

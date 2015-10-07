@@ -2,8 +2,15 @@ package com.bradypod.util.redis.serializer;
 
 import java.nio.charset.Charset;
 
-import org.springframework.util.Assert;
+import com.yu.util.validate.AssertUtil;
 
+/**
+ * 字符串序列化, 转化为字节, 默认UTF-8编码
+ *
+ * @author    zengxm
+ * @date      2015年10月3日
+ *
+ */
 public class StringRedisSerializer implements RedisSerializer<String> {
 
 	private final Charset charset;
@@ -13,7 +20,7 @@ public class StringRedisSerializer implements RedisSerializer<String> {
 	}
 
 	public StringRedisSerializer( Charset charset ) {
-		Assert.notNull( charset );
+		AssertUtil.notNull( charset );
 		this.charset = charset;
 	}
 

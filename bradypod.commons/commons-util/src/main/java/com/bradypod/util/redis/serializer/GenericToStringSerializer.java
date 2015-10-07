@@ -9,7 +9,6 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.support.DefaultConversionService;
-import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.util.Assert;
 
 public class GenericToStringSerializer<T> implements RedisSerializer<T>, BeanFactoryAware {
