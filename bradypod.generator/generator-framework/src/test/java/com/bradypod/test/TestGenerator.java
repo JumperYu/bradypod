@@ -37,8 +37,19 @@ public class TestGenerator {
 //		generatorFacade.generateByTable("t_ctg_attri", "template");
 //		generatorFacade.deleteByTable("t_dict_sys", "template");
 //		generatorFacade.generateByTable("t_dict_sys", "template");
-		generatorFacade.deleteByTable("t_dict_user", "template");
-		generatorFacade.generateByTable("t_dict_user", "template");
+//		generatorFacade.deleteByTable("t_dict_user", "template");
+//		generatorFacade.generateByTable("t_dict_user", "template");
+//		generatorFacade.deleteByTable("t_comment_item", "template");
+//		generatorFacade.generateByTable("t_comment_item", "template");
+		
+//		generatorFacade.deleteByTable("t_comment_item_count", "template");
+//		generatorFacade.generateByTable("t_comment_item_count", "template");
+		generatorFacade.generateByTable("t_trade_flow_unionpay", "template");
+		generatorFacade.generateByTable("t_trade_flow_unionpay", "template");
+		generatorFacade.generateByTable("t_trade_flow_alipay", "template");
+		generatorFacade.generateByTable("t_trade_flow_alipay", "template");
+		generatorFacade.generateByTable("t_trade_flow_weixin", "template");
+		generatorFacade.generateByTable("t_trade_flow_weixin", "template");
 		
 		// generatorFacade.generateByAllTable("template");
 		// 自动搜索数据库中的所有表并生成文件,template为模板的根目录
