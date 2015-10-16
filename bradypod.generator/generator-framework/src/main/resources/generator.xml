@@ -42,7 +42,7 @@
 
 	<!-- Mysql -->
 	<!-- <entry key="jdbc.url">jdbc:mysql://mysql.bradypod.com:3306/item_center?useUnicode=true&amp;characterEncoding=UTF-8</entry> -->
-	<entry key="jdbc.url">jdbc:mysql://192.168.1.130:3306/ttwg_item?useUnicode=true&amp;characterEncoding=UTF-8</entry>
+	<entry key="jdbc.url">jdbc:mysql://192.168.1.130:3306/ttwg_trade?useUnicode=true&amp;characterEncoding=UTF-8</entry>
 	<entry key="jdbc.driver">com.mysql.jdbc.Driver</entry>
 
 	<!-- Oracle jdbc:oracle:oci:@tnsname_devdb <entry key="jdbc.url">jdbc:oracle:thin:@192.168.0.177:1521:[sid]</entry> 

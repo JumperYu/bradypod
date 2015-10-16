@@ -79,7 +79,6 @@ public class RedisTemplateTest {
 		System.out.println(redisTemplate.hgetFloat("my-hash", "key-4"));
 		System.out.println(redisTemplate.hgetDouble("my-hash", "key-5"));
 		System.out.println(redisTemplate.hgetByte("my-hash", "key-6"));
-		System.out.println(redisTemplate.hgetObject("my-hash", "key-7"));
 		System.out.println(redisTemplate.hgetObject("my-hash", "key-8", new TypeReference<List<TestUser>>() {
 		}));
 	}

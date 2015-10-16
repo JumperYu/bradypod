@@ -33,15 +33,15 @@ public class TestJson {
 		init();
 		// 序列化 + redis
 		// int count = 100000;
-		int time = 100;
+//		int time = 100;
 		// testJdkSerialaize(count);
 		// testGsonSerialize(count, time);
 		// testJacksonSerialize(count, time);
 		// testFasterJsonSerialize(count, time);
 
-		testJacksonDeserialize(time);
-		testGsonDeserialize(time);
-		testFasterDeserialize(time);
+//		testJacksonDeserialize(time);
+//		testGsonDeserialize(time);
+//		testFasterDeserialize(time);
 	}
 
 	public static void testJacksonSerialize(int listSize, int time)
