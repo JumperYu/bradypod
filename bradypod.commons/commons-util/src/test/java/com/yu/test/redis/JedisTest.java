@@ -194,7 +194,12 @@ public class JedisTest {
 		System.out.println(jedis.sort("a")); // [1, 3, 6, 9] //输入排序后结果
 		System.out.println(jedis.lrange("a", 0, -1));
 	}
-
+	
+	@Test
+	public void testSetExNx(){
+		System.out.println(jedis.set("my-key", "value", "nx", "ex", 1000));
+	}
+	
 	@Test
 	public void testLock() {
 		try (RedisLock lock = new RedisLock("sign")) {

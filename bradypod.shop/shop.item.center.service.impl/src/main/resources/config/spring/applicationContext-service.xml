@@ -13,6 +13,7 @@
 		<property name="service" ref="itemInfoService" />
 		<property name="serviceInterface"
 			value="com.bradypod.shop.item.center.service.ItemInfoService" />
+		<!-- <property name="registryHost" value="${proxy.host}" /> -->
 		<property name="registryPort" value="${proxy.port}" />
 	</bean>
 

@@ -37,7 +37,7 @@
 
 	<!-- RMI Client -->
 	<bean id="itemInfoService" class="org.springframework.remoting.rmi.RmiProxyFactoryBean"> 
-		<property name="serviceUrl" value="rmi://localhost:1191/ItemInfoService" /> 
+		<property name="serviceUrl" value="rmi://112.124.126.31:1191/ItemInfoService" /> 
 		<property name="serviceInterface" value="com.bradypod.shop.item.center.service.ItemInfoService" /> 
 	</bean>
 
