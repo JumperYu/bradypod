@@ -14,6 +14,7 @@ import com.bradypod.util.redis.util.SerializeUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
 public class TestJson {
@@ -38,7 +39,7 @@ public class TestJson {
 		// testGsonSerialize(count, time);
 		// testJacksonSerialize(count, time);
 		// testFasterJsonSerialize(count, time);
-
+		System.out.println(new JsonParser().parse("{中国:'#美国'}"));
 //		testJacksonDeserialize(time);
 //		testGsonDeserialize(time);
 //		testFasterDeserialize(time);
