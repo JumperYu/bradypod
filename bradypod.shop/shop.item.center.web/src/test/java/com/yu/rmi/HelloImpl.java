@@ -1,7 +1,7 @@
 package com.yu.rmi;
 
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.rmi.server.RMIClientSocketFactory;
 import java.rmi.server.RMIServerSocketFactory;
 import java.rmi.server.UnicastRemoteObject;
@@ -11,13 +11,13 @@ public class HelloImpl implements Hello {
 	/*
 	 * Constructs a HelloImpl remote object.
 	 */
-	public HelloImpl() {
+	public HelloImpl() throws RemoteException {
 	}
 
 	/*
 	 * Returns the string "Hello World!".
 	 */
-	public String sayHello() {
+	public String sayHello() throws RemoteException {
 		return "Hello World!";
 	}
 
@@ -39,15 +39,10 @@ public class HelloImpl implements Hello {
 			HelloImpl obj = new HelloImpl();
 			RMIClientSocketFactory csf = new XorClientSocketFactory(pattern);
 			RMIServerSocketFactory ssf = new XorServerSocketFactory(pattern);
-			Hello stub = (Hello) UnicastRemoteObject.exportObject(obj, 0, csf,
-					ssf);
 
-			/*
-			 * Create a registry and bind stub in registry.
-			 */
-			LocateRegistry.createRegistry(2001);
-			Registry registry = LocateRegistry.getRegistry(2001);
-			registry.rebind("Hello", stub);
+			LocateRegistry.createRegistry(2001).bind("Hello",
+					UnicastRemoteObject.exportObject(obj, 0, csf, ssf));
+
 			System.out.println("HelloImpl bound in registry");
 
 		} catch (Exception e) {
