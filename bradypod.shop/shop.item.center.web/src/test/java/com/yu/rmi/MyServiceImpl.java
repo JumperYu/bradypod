@@ -15,8 +15,7 @@ public class MyServiceImpl implements MyService {
 		return "hello rmi";
 	}
 
-	public static void main(String[] args) throws RemoteException,
-			MalformedURLException {
+	public static void main(String[] args) throws RemoteException, MalformedURLException {
 		// 发布服务
 		try {
 			MyServiceImpl serviceImpl = new MyServiceImpl();

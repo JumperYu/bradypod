@@ -11,7 +11,6 @@ public class TestX509 {
 	public static void main( String[] args ) {
 		final String KEYSTORE_FILE = "/cert/release/PM_700000000000001_acp.pfx";
 		final String KEYSTORE_PASSWORD = "000000";
-		final String KEYSTORE_ALIAS = "alias";
 
 		try
 		{
