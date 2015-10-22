@@ -16,6 +16,7 @@ public class XorClientSocketFactory implements RMIClientSocketFactory,
 		this.pattern = pattern;
 	}
 
+	@Override
 	public Socket createSocket(String host, int port) throws IOException {
 		return new XorSocket(host, port, pattern);
 	}

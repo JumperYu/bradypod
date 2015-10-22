@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 
 public class TestSecurity {
 
-	// -Djava.security.manager -Djava.security.policy=my.policy
+	// -Djava.security.manager -Djava.security.policy=E:/my.policy
 	public static void main(String[] args) {
 		
 		if (System.getSecurityManager() == null)

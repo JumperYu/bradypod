@@ -1,11 +1,14 @@
 package com.yu.rmi;
 
 import java.net.MalformedURLException;
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 
-public class MyServiceImpl implements MyService {
+public class MyServiceImpl extends UnicastRemoteObject implements MyService {
+
+	private static final long serialVersionUID = 1L;
 
 	protected MyServiceImpl() throws RemoteException {
 	}
@@ -19,9 +22,12 @@ public class MyServiceImpl implements MyService {
 		// 发布服务
 		try {
 			MyServiceImpl serviceImpl = new MyServiceImpl();
-			LocateRegistry.createRegistry(1998).bind("MyService",
-					UnicastRemoteObject.exportObject(serviceImpl, 0));
-			// Naming.rebind("rmi://192.168.64.1:2001/MyService", serviceImpl);
+			String host = "192.168.1.116";
+			int port = 1991;
+			String name = "MyService";
+			LocateRegistry.createRegistry(port);
+			Naming.rebind(String.format("rmi://%s:%d/%s", host, port, name), serviceImpl);
+			
 			System.err.println("Read to start");
 		} catch (Exception e) {
 			e.printStackTrace();

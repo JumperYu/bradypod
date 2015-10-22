@@ -1,4 +1,4 @@
-grant codeBase "${examples.activation.setup.codebase}" {
+grant codeBase "file:E:/work/after89/bradypod/bradypod.shop/shop.item.center.web/target/test-classes/" {
 
     // permissions to read system properties required by setup program
     permission java.util.PropertyPermission "examples.activation.impl.codebase","read";

@@ -1,8 +1,8 @@
 package com.bradypod.shop.item.center.cmd;
 
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
+
+import com.bradypod.util.spring.SpringContext;
 
 /**
  * RMI服务启动
@@ -15,14 +15,15 @@ import java.rmi.registry.Registry;
 public class ShopServiceCommand {
 
 	public static void main(String[] args) throws RemoteException {
-	/*	System.setProperty("java.rmi.server.hostname", "192.168.1.2");
-		System.setProperty("ENV", "dev");
+		// -Djava.rmi.server.hostname=192.168.1.116;
+		// java -jar -server shop.item.center.service.impl.jar -Djava.rmi.server.hostname=112.124.126.31 -Denv=release
+		System.setProperty("ENV", "release");
 		// 启动spring
 		SpringContext.newInstance().buildContextByClassPathXml(
 				"config/spring/applicationContext.xml",
-				"config/spring/applicationContext-service.xml");*/
-		Registry reg = LocateRegistry.getRegistry("192.168.1.2", 1991);
-		reg.list();
+				"config/spring/applicationContext-service.xml");
+		
+		System.err.println("Server startup");
 	}
 
 }

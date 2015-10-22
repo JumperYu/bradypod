@@ -31,6 +31,7 @@
 
 	<!-- 定义特殊包下的日志级别 -->
 	<logger name="org.springframework" level="WARN" />
+	<logger name="org.springframework.remoting.rmi" level="INFO" />
 	<logger name="org.mybatis" level="WARN" />
 	<logger name="com.bradypod" level="INFO" />
 

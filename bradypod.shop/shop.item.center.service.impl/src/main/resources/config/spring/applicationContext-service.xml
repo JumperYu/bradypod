@@ -1,20 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
        http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<!-- Bradypod RPC Begin -->
+	<bean id="shopRegistry" class="com.bradypod.shop.item.center.cmd.ShopRegistry">
+		<constructor-arg index="0" value="${proxy.host}" />
+		<constructor-arg index="1" value="${proxy.port}" />
+	</bean>
 
 	<!-- RMI Service Export -->
 	<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
 		<property name="serviceName" value="ItemInfoService" />
 		<property name="service" ref="itemInfoService" />
-		<property name="serviceInterface"
-			value="com.bradypod.shop.item.center.service.ItemInfoService" />
+		<property name="serviceInterface" value="com.bradypod.shop.item.center.service.ItemInfoService" />
+		<!-- <property name="registry" ref="shopRegistry" /> -->
 		<!-- <property name="registryHost" value="${proxy.host}" /> -->
 		<property name="registryPort" value="${proxy.port}" />
+		<property name="alwaysCreateRegistry" value="true" />
 	</bean>
 
+	<!-- Bradypod RPC End -->
 </beans>

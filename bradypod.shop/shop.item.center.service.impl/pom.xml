@@ -8,6 +8,8 @@
 	</parent>
 	<artifactId>shop.item.center.service.impl</artifactId>
 	<packaging>jar</packaging>
+	<name>shop.item.center.service.impl</name>
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.bradypod</groupId>
@@ -25,6 +27,10 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.zookeeper</groupId>
+			<artifactId>zookeeper</artifactId>
+		</dependency>
+		<dependency>
 			<artifactId>junit</artifactId>
 			<groupId>junit</groupId>
 			<scope>test</scope>
@@ -32,6 +38,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>shop.item.center.service.impl</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins </groupId>
@@ -44,16 +51,13 @@
 						</goals>
 						<configuration>
 							<transformers>
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>com.bradypod.shop.item.center.cmd.ShopServiceCommand</mainClass>
 								</transformer>
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+								<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
 									<resource>META-INF/spring.handlers</resource>
 								</transformer>
-								<transformer
-									implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+								<transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
 									<resource>META-INF/spring.schemas</resource>
 								</transformer>
 							</transformers>

@@ -40,7 +40,7 @@ public class HelloImpl implements Hello {
 			RMIClientSocketFactory csf = new XorClientSocketFactory(pattern);
 			RMIServerSocketFactory ssf = new XorServerSocketFactory(pattern);
 
-			LocateRegistry.createRegistry(2001).bind("Hello",
+			LocateRegistry.createRegistry(1024).rebind("Hello",
 					UnicastRemoteObject.exportObject(obj, 0, csf, ssf));
 
 			System.out.println("HelloImpl bound in registry");
