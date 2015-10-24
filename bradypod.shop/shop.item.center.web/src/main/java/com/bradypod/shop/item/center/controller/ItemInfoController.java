@@ -59,6 +59,7 @@ public class ItemInfoController {
 	@RequestMapping(value = "/{id}")
 	public String show(ModelMap model, @PathVariable java.lang.Long id)
 			throws Exception {
+		itemInfoService.save(null);
 		return "/iteminfo/show";
 	}
 

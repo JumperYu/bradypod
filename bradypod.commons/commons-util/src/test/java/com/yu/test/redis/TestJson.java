@@ -10,7 +10,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.bradypod.util.redis.RedisFactory;
 import com.bradypod.util.redis.RedisTemplate;
-import com.bradypod.util.redis.util.SerializeUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
@@ -82,13 +81,6 @@ public class TestJson {
 	}
 
 	public static void testJdkSerialaize(int listSize) {
-		List<TestUser> list = buildData(listSize);
-		long start = System.currentTimeMillis();
-		byte[] bytes = SerializeUtil.serialize(list);
-		redis.set("jdk".getBytes(), bytes);
-		long end = System.currentTimeMillis();
-		System.out.println("-------------jdk 总计耗时 -------------"
-				+ (end - start) + " 毫秒");
 	}
 
 	public static List<TestUser> buildData(int listSize) {

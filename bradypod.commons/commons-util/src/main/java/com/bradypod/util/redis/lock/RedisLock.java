@@ -5,7 +5,7 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.bradypod.util.redis.Redis;
+import redis.clients.jedis.Jedis;
 
 /**
  * 分布式锁
@@ -18,7 +18,7 @@ public class RedisLock {
 
 	private Logger logger = LoggerFactory.getLogger(RedisLock.class);
 
-	private Redis redis;
+	private Jedis redis;
 
 	/**
 	 * 锁的key
@@ -44,7 +44,7 @@ public class RedisLock {
 	 * @param key
 	 *            - 要锁的key
 	 */
-	public RedisLock(Redis redis, String key) {
+	public RedisLock(Jedis redis, String key) {
 		this(redis, key, 8 * 60);
 	}
 
@@ -58,7 +58,7 @@ public class RedisLock {
 	 * @param expire
 	 *            - 过期时间，单位秒，必须大于0
 	 */
-	public RedisLock(Redis redis, String key, int expire) {
+	public RedisLock(Jedis redis, String key, int expire) {
 		if (redis == null || key == null) {
 			throw new IllegalArgumentException("redis和key不能为null");
 		}
@@ -162,7 +162,7 @@ public class RedisLock {
 	 * @param key
 	 *            - 要清除锁的key
 	 */
-	public static void clearLock(Redis redis, final String key) {
+	public static void clearLock(Jedis redis, final String key) {
 		String tmp = getLockKey(key);
 		redis.del(tmp);
 	}
