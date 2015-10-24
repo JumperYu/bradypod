@@ -347,4 +347,5 @@ public class RedisTemplate {
 	public void setRedisFactory(RedisFactory redisFactory) {
 		this.redisFactory = redisFactory;
 	}
+	
 }

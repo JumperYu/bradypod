@@ -77,7 +77,7 @@ public class TestPool {
 		pool.setMaxTotal(20);
 		pool.setMaxIdle(20);
 
-		int count = 100000;
+		int count = 100;
 		// 手动添加对象
 		final CountDownLatch latch = new CountDownLatch(count);
 		for (int i = 0; i < count; i++) {

@@ -8,12 +8,16 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang.time.StopWatch;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.util.SerializationUtils;
 
+import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.ShardedJedis;
 
 import com.bradypod.util.date.DateUtils;
@@ -27,22 +31,21 @@ import com.yu.util.thread.ThreadWorker;
 
 public class JedisTest {
 
-	static final String HOST = "redis.bradypod.com";
-	static final int PORT = 6379;
-
 	Jedis jedis;
 	ShardedJedis shardedJedis;
+	JedisCluster jedisCluster;
 
 	@Before
 	public void init() {
-		jedis = RedisUtil.createJedis(HOST, PORT);
-		shardedJedis = RedisUtil.createShardJedis(new String[] { HOST },
-				new int[] { PORT }, new String[] { "" });
+		// jedis = RedisUtil.createJedis(HOST, PORT);
+		// shardedJedis = RedisUtil.createShardJedis();
+		jedisCluster = RedisUtil.createCluster(new HostAndPort[] {
+				new HostAndPort("192.168.1.201", 30001), new HostAndPort("192.168.1.201", 30002),
+				new HostAndPort("192.168.1.201", 30003) });
 	}
 
 	@Test
-	public void testGet() throws JsonParseException, JsonMappingException,
-			IOException {
+	public void testGet() throws JsonParseException, JsonMappingException, IOException {
 		System.out.println(System.currentTimeMillis());
 		byte[] bytes = jedis.get("articles".getBytes());
 		SerializationUtils.deserialize(bytes);
@@ -53,6 +56,19 @@ public class JedisTest {
 	public void testShardedGetSet() {
 		System.out.println(shardedJedis.set("haha", "1"));
 		System.out.println(shardedJedis.get("haha"));
+	}
+
+	@Test
+	public void testCluster() throws InterruptedException {
+		StopWatch stopWatch = new StopWatch();
+		// for (int i = 0;; i++) {
+		// TimeUnit.MILLISECONDS.sleep(300);
+		stopWatch.start();
+		System.out.println(jedisCluster.set("foo-" + 1, "" + 1));
+		System.out.println(jedisCluster.set("foo-" + 2, "" + 2));
+		stopWatch.stop();
+		System.out.println("time:" + stopWatch.getTime());
+		// }
 	}
 
 	@Test
@@ -71,9 +87,8 @@ public class JedisTest {
 					try (Jedis redis = RedisPool.getJedis()) {
 						redis.get("key_1");
 
-						System.out.println("active:"
-								+ RedisPool.jedisPool.getNumActive() + ";idle:"
-								+ RedisPool.jedisPool.getNumIdle() + ";wait:"
+						System.out.println("active:" + RedisPool.jedisPool.getNumActive()
+								+ ";idle:" + RedisPool.jedisPool.getNumIdle() + ";wait:"
 								+ RedisPool.jedisPool.getNumWaiters());
 
 					}
@@ -87,7 +102,7 @@ public class JedisTest {
 	}
 
 	@Test
-	public void testJedisRock() {
+	public void testJedisLock() {
 		int count = 10;
 		ThreadPool pool = new ThreadPool(count);
 		pool.executeThread(new ThreadWorker() {
@@ -96,8 +111,7 @@ public class JedisTest {
 			public void execute() {
 				try (RedisLock redisLock = new RedisLock("key.lock")) {
 					System.out.println(Thread.currentThread().getName() + ","
-							+ DateUtils.getDateStr("yyyy-MM-dd HH:mm:ss") + ";"
-							+ redisLock.lock());
+							+ DateUtils.getDateStr("yyyy-MM-dd HH:mm:ss") + ";" + redisLock.lock());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -182,7 +196,7 @@ public class JedisTest {
 	}
 
 	@Test
-	public void test() throws InterruptedException {
+	public void testL() throws InterruptedException {
 		// jedis 排序
 		// 注意，此处的rpush和lpush是List的操作。是一个双向链表（但从表现来看的）
 		jedis.del("a");// 先清除数据，再加入数据进行测试
@@ -194,12 +208,12 @@ public class JedisTest {
 		System.out.println(jedis.sort("a")); // [1, 3, 6, 9] //输入排序后结果
 		System.out.println(jedis.lrange("a", 0, -1));
 	}
-	
+
 	@Test
-	public void testSetExNx(){
+	public void testSetExNx() {
 		System.out.println(jedis.set("my-key", "value", "nx", "ex", 1000));
 	}
-	
+
 	@Test
 	public void testLock() {
 		try (RedisLock lock = new RedisLock("sign")) {

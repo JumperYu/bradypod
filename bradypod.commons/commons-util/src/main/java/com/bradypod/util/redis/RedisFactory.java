@@ -22,10 +22,14 @@ public class RedisFactory {
 	private String host;
 	private int port;
 	private String password; // 可以不设置密码
-	
+
+	private String hosts[];
+	private int ports[];
+	private String passwords[];
+
 	private JedisPool jedisPool;
-	private ShardedJedisPool shardedJedisPool;	// 推荐使用哈希一致性连接池
-	
+	private ShardedJedisPool shardedJedisPool; // 推荐使用哈希一致性连接池
+
 	/* 创建连接池 */
 	public JedisPool createJedisPool() {
 		if (this.jedisPool == null) {
@@ -34,18 +38,42 @@ public class RedisFactory {
 		return this.jedisPool;
 	}
 
+	/**
+	 * 创建redis分片客户端
+	 * 
+	 */
 	public ShardedJedisPool createShardedJedisPool() {
 		if (this.shardedJedisPool == null) {
 			List<JedisShardInfo> shards = new ArrayList<JedisShardInfo>();
-			JedisShardInfo si = new JedisShardInfo(host, port);
-			if (StringUtils.isNotBlank(password)) {
-				si.setPassword(password);
+			if (hosts != null) {
+				for (int i = 0, len = hosts.length; i < len; i++) {
+					shards.add(createJedisShardInfo(hosts[i], ports[i], passwords[i]));
+				}
+			} else {
+				shards.add(createJedisShardInfo(host, port, password));
 			}
-			shards.add(si);
-			this.shardedJedisPool = new ShardedJedisPool(buildPoolConfig(),
-					shards);
+			this.shardedJedisPool = new ShardedJedisPool(buildPoolConfig(), shards);
 		}
 		return this.shardedJedisPool;
+	}
+
+	/**
+	 * 分片实例
+	 * 
+	 * @param host
+	 *            - 主机地址
+	 * @param port
+	 *            - 端口
+	 * @param password
+	 *            - 可不传
+	 * @return
+	 */
+	private JedisShardInfo createJedisShardInfo(String host, int port, String password) {
+		JedisShardInfo jedisShardInfo = new JedisShardInfo(host, port);
+		if (StringUtils.isNotBlank(password)) {
+			jedisShardInfo.setPassword(password);
+		}
+		return jedisShardInfo;
 	}
 
 	/**
@@ -91,7 +119,31 @@ public class RedisFactory {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
+	public String[] getHosts() {
+		return hosts;
+	}
+
+	public void setHosts(String[] hosts) {
+		this.hosts = hosts;
+	}
+
+	public int[] getPorts() {
+		return ports;
+	}
+
+	public void setPorts(int[] ports) {
+		this.ports = ports;
+	}
+
+	public String[] getPasswords() {
+		return passwords;
+	}
+
+	public void setPasswords(String[] passwords) {
+		this.passwords = passwords;
+	}
+
 	public JedisPool getJedisPool() {
 		return jedisPool;
 	}
