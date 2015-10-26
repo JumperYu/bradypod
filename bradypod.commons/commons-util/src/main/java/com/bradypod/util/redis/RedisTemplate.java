@@ -3,9 +3,10 @@ package com.bradypod.util.redis;
 import java.util.Collection;
 import java.util.Map;
 
-import redis.clients.jedis.ShardedJedis;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPubSub;
 
-import com.bradypod.util.redis.invoker.ShardedRedisCallback;
+import com.bradypod.util.redis.invoker.RedisCallback;
 import com.bradypod.util.redis.serializer.JacksonRedisSerializer;
 import com.bradypod.util.redis.serializer.JdkRedisSerializer;
 import com.bradypod.util.redis.serializer.NumberRedisSerializer;
@@ -33,13 +34,12 @@ public class RedisTemplate {
 	JacksonRedisSerializer jacksonRedisSerializer = new JacksonRedisSerializer();
 
 	/* 处理回调 */
-	protected <T> T execute(final ShardedRedisCallback<T> callback) {
-		if (redisFactory.getShardedJedisPool() == null) {
-			redisFactory.createShardedJedisPool();
+	protected <T> T execute(final RedisCallback<T> callback) {
+		if (redisFactory.getJedisPool() == null) {
+			redisFactory.createJedisPool();
 		}
-		try (ShardedJedis shardedJedis = redisFactory.getShardedJedisPool()
-				.getResource()) {
-			return callback.execute(shardedJedis);
+		try (Jedis jedis = redisFactory.getJedisPool().getResource()) {
+			return callback.execute(jedis);
 		}
 	}
 
@@ -52,8 +52,7 @@ public class RedisTemplate {
 	 * @param value
 	 */
 	public void set(final String key, final Number value) {
-		set(stringRedisSerializer.serialize(key),
-				numberRedisSerializer.serialize(value));
+		set(stringRedisSerializer.serialize(key), numberRedisSerializer.serialize(value));
 	}
 
 	/**
@@ -63,8 +62,7 @@ public class RedisTemplate {
 	 * @param value
 	 */
 	public void set(final String key, final String value) {
-		set(stringRedisSerializer.serialize(key),
-				stringRedisSerializer.serialize(value));
+		set(stringRedisSerializer.serialize(key), stringRedisSerializer.serialize(value));
 	}
 
 	/**
@@ -74,13 +72,11 @@ public class RedisTemplate {
 	 * @param collection
 	 */
 	public void set(final String key, final Collection<?> value) {
-		set(stringRedisSerializer.serialize(key),
-				jacksonRedisSerializer.serialize(value));
+		set(stringRedisSerializer.serialize(key), jacksonRedisSerializer.serialize(value));
 	}
 
 	public void set(final String key, final Map<?, ?> value) {
-		set(stringRedisSerializer.serialize(key),
-				jacksonRedisSerializer.serialize(value));
+		set(stringRedisSerializer.serialize(key), jacksonRedisSerializer.serialize(value));
 	}
 
 	/**
@@ -91,8 +87,7 @@ public class RedisTemplate {
 	 */
 	public void set(final String key, final Object value) {
 		// jdkRedisSerializer.serialize(value)
-		set(stringRedisSerializer.serialize(key),
-				jacksonRedisSerializer.serialize(value));
+		set(stringRedisSerializer.serialize(key), jacksonRedisSerializer.serialize(value));
 	}
 
 	/**
@@ -106,33 +101,27 @@ public class RedisTemplate {
 	 *            - map value
 	 */
 	public void hset(final String key, final String field, final String value) {
-		hset(stringRedisSerializer.serialize(key),
-				stringRedisSerializer.serialize(field),
+		hset(stringRedisSerializer.serialize(key), stringRedisSerializer.serialize(field),
 				stringRedisSerializer.serialize(value));
 	}
 
 	public void hset(final String key, final String field, final Number value) {
-		hset(stringRedisSerializer.serialize(key),
-				stringRedisSerializer.serialize(field),
+		hset(stringRedisSerializer.serialize(key), stringRedisSerializer.serialize(field),
 				numberRedisSerializer.serialize(value));
 	}
 
-	public void hset(final String key, final String field,
-			final Collection<?> value) {
-		hset(stringRedisSerializer.serialize(key),
-				stringRedisSerializer.serialize(field),
+	public void hset(final String key, final String field, final Collection<?> value) {
+		hset(stringRedisSerializer.serialize(key), stringRedisSerializer.serialize(field),
 				jacksonRedisSerializer.serialize(value));
 	}
 
 	public void hset(final String key, final String field, final Map<?, ?> value) {
-		hset(stringRedisSerializer.serialize(key),
-				stringRedisSerializer.serialize(field),
+		hset(stringRedisSerializer.serialize(key), stringRedisSerializer.serialize(field),
 				jacksonRedisSerializer.serialize(value));
 	}
 
 	public void hset(final String key, final String field, final Object value) {
-		hset(stringRedisSerializer.serialize(key),
-				stringRedisSerializer.serialize(field),
+		hset(stringRedisSerializer.serialize(key), stringRedisSerializer.serialize(field),
 				jacksonRedisSerializer.serialize(value));
 	}
 
@@ -143,21 +132,21 @@ public class RedisTemplate {
 	 * @param value
 	 */
 	public void set(final byte[] key, final byte[] value) {
-		execute(new ShardedRedisCallback<String>() {
+		execute(new RedisCallback<String>() {
 
 			@Override
-			public String execute(ShardedJedis shardedJedis) {
-				return shardedJedis.set(key, value);
+			public String execute(Jedis jedis) {
+				return jedis.set(key, value);
 			}
 		});
 	}
 
 	public void hset(final byte[] key, final byte[] field, final byte[] value) {
-		execute(new ShardedRedisCallback<Long>() {
+		execute(new RedisCallback<Long>() {
 
 			@Override
-			public Long execute(ShardedJedis shardedJedis) {
-				return shardedJedis.hset(key, field, value);
+			public Long execute(Jedis jedis) {
+				return jedis.hset(key, field, value);
 			}
 		});
 	}
@@ -165,34 +154,28 @@ public class RedisTemplate {
 	// TODO get方法, 需要不断完善
 
 	public String getStringValue(final String key) {
-		return stringRedisSerializer.deserialize(get(stringRedisSerializer
-				.serialize(key)));
+		return stringRedisSerializer.deserialize(get(stringRedisSerializer.serialize(key)));
 	}
 
 	// Number类型的序列化
 	public Long getLongValue(final String key) {
-		return numberRedisSerializer.deserializeLong(get(stringRedisSerializer
-				.serialize(key)));
+		return numberRedisSerializer.deserializeLong(get(stringRedisSerializer.serialize(key)));
 	}
 
 	public Integer getIntegerValue(final String key) {
-		return numberRedisSerializer
-				.deserializeInteger(get(stringRedisSerializer.serialize(key)));
+		return numberRedisSerializer.deserializeInteger(get(stringRedisSerializer.serialize(key)));
 	}
 
 	public Byte getByteValue(final String key) {
-		return numberRedisSerializer.deserializeByte(get(stringRedisSerializer
-				.serialize(key)));
+		return numberRedisSerializer.deserializeByte(get(stringRedisSerializer.serialize(key)));
 	}
 
 	public Float getFloatValue(final String key) {
-		return numberRedisSerializer.deserializeFloat(get(stringRedisSerializer
-				.serialize(key)));
+		return numberRedisSerializer.deserializeFloat(get(stringRedisSerializer.serialize(key)));
 	}
 
 	public Double getDoubleValue(final String key) {
-		return numberRedisSerializer
-				.deserializeDouble(get(stringRedisSerializer.serialize(key)));
+		return numberRedisSerializer.deserializeDouble(get(stringRedisSerializer.serialize(key)));
 	}
 
 	/**
@@ -205,8 +188,7 @@ public class RedisTemplate {
 	 * @return
 	 */
 	public <T> T getObject(final String key, final Class<T> clazz) {
-		return jacksonRedisSerializer.deserialize(
-				get(stringRedisSerializer.serialize(key)), clazz);
+		return jacksonRedisSerializer.deserialize(get(stringRedisSerializer.serialize(key)), clazz);
 	}
 
 	/**
@@ -218,10 +200,9 @@ public class RedisTemplate {
 	 *            - 透传泛型
 	 * @return
 	 */
-	public <T> T getObject(final String key,
-			final TypeReference<T> typeReference) {
-		return jacksonRedisSerializer.deserialize(
-				get(stringRedisSerializer.serialize(key)), typeReference);
+	public <T> T getObject(final String key, final TypeReference<T> typeReference) {
+		return jacksonRedisSerializer.deserialize(get(stringRedisSerializer.serialize(key)),
+				typeReference);
 	}
 
 	/**
@@ -230,8 +211,7 @@ public class RedisTemplate {
 	@SuppressWarnings("unchecked")
 	@Deprecated
 	public <T> T getObject(final String key) {
-		return (T) jdkRedisSerializer.deserialize(get(stringRedisSerializer
-				.serialize(key)));
+		return (T) jdkRedisSerializer.deserialize(get(stringRedisSerializer.serialize(key)));
 	}
 
 	/**
@@ -240,65 +220,59 @@ public class RedisTemplate {
 
 	public <T> T hgetObject(final String key, final String field, final Class<T> clazz) {
 		return jacksonRedisSerializer.deserialize(
-				hget(stringRedisSerializer.serialize(key),
-						stringRedisSerializer.serialize(field)), clazz);
+				hget(stringRedisSerializer.serialize(key), stringRedisSerializer.serialize(field)),
+				clazz);
 	}
 
 	public <T> T hgetObject(final String key, final String field,
 			final TypeReference<T> typeReference) {
 		return jacksonRedisSerializer.deserialize(
-				hget(stringRedisSerializer.serialize(key),
-						stringRedisSerializer.serialize(field)), typeReference);
+				hget(stringRedisSerializer.serialize(key), stringRedisSerializer.serialize(field)),
+				typeReference);
 	}
 
 	/**
 	 * 不要使用这个方法了 <br/>
 	 * 
-	 * 使用 :  <br/> 
-	 * hget(final String key, final String field, final TypeReference<T> typeReference)  <br/>
+	 * 使用 : <br/>
+	 * hget(final String key, final String field, final TypeReference<T>
+	 * typeReference) <br/>
 	 * hget(final String key, final String field, final Class<T> clazz) <br/>
 	 */
 	@Deprecated
 	@SuppressWarnings("unchecked")
 	public <T> T hgetObject(final String key, final String field) {
-		return (T) jdkRedisSerializer.deserialize(hget(
-				stringRedisSerializer.serialize(key),
+		return (T) jdkRedisSerializer.deserialize(hget(stringRedisSerializer.serialize(key),
 				stringRedisSerializer.serialize(field)));
 	}
 
 	public String hgetString(final String key, final String field) {
-		return stringRedisSerializer.deserialize(hget(
-				stringRedisSerializer.serialize(key),
+		return stringRedisSerializer.deserialize(hget(stringRedisSerializer.serialize(key),
 				stringRedisSerializer.serialize(field)));
 	}
 
 	public Long hgetLong(final String key, final String field) {
-		return numberRedisSerializer.deserializeLong(hget(
-				stringRedisSerializer.serialize(key),
+		return numberRedisSerializer.deserializeLong(hget(stringRedisSerializer.serialize(key),
 				stringRedisSerializer.serialize(field)));
 	}
 
 	public Integer hgetInteger(final String key, final String field) {
-		return numberRedisSerializer.deserializeInteger(hget(
-				stringRedisSerializer.serialize(key),
+		return numberRedisSerializer.deserializeInteger(hget(stringRedisSerializer.serialize(key),
 				stringRedisSerializer.serialize(field)));
 	}
 
 	public Float hgetFloat(final String key, final String field) {
-		return numberRedisSerializer.deserializeFloat(hget(
-				stringRedisSerializer.serialize(key),
+		return numberRedisSerializer.deserializeFloat(hget(stringRedisSerializer.serialize(key),
 				stringRedisSerializer.serialize(field)));
 	}
 
 	public Double hgetDouble(final String key, final String field) {
-		return numberRedisSerializer.deserializeDouble(hget(
-				stringRedisSerializer.serialize(key),
+		return numberRedisSerializer.deserializeDouble(hget(stringRedisSerializer.serialize(key),
 				stringRedisSerializer.serialize(field)));
 	}
 
 	public Byte hgetByte(final String key, final String field) {
-		return numberRedisSerializer.deserializeByte(hget(
-				stringRedisSerializer.serialize(key),
+		return numberRedisSerializer.deserializeByte(hget(stringRedisSerializer.serialize(key),
 				stringRedisSerializer.serialize(field)));
 	}
 
@@ -310,21 +284,21 @@ public class RedisTemplate {
 	 * @return bytes - 为转换的字节值
 	 */
 	public byte[] get(final byte[] key) {
-		return execute(new ShardedRedisCallback<byte[]>() {
+		return execute(new RedisCallback<byte[]>() {
 
 			@Override
-			public byte[] execute(ShardedJedis shardedJedis) {
-				return shardedJedis.get(key);
+			public byte[] execute(Jedis jedis) {
+				return jedis.get(key);
 			}
 		});
 	}
 
 	public byte[] hget(final byte[] key, final byte[] field) {
-		return execute(new ShardedRedisCallback<byte[]>() {
+		return execute(new RedisCallback<byte[]>() {
 
 			@Override
-			public byte[] execute(ShardedJedis shardedJedis) {
-				return shardedJedis.hget(key, field);
+			public byte[] execute(Jedis jedis) {
+				return jedis.hget(key, field);
 			}
 		});
 	}
@@ -333,19 +307,43 @@ public class RedisTemplate {
 	 * 删除缓存, 先不处理返回值
 	 */
 	public void delete(final String key) {
-		execute(new ShardedRedisCallback<Long>() {
+		execute(new RedisCallback<Long>() {
 
 			@Override
-			public Long execute(ShardedJedis shardedJedis) {
-				return shardedJedis.del(key);
+			public Long execute(Jedis jedis) {
+				return jedis.del(key);
+			}
+		});
+	}
+
+	/**
+	 * 发布消息
+	 */
+	public void publish(final String channel, final String msg) {
+		execute(new RedisCallback<Long>() {
+			@Override
+			public Long execute(Jedis jedis) {
+				return jedis.publish(channel, msg);
+			}
+		});
+	}
+
+	/**
+	 * 订阅消息
+	 */
+	public void subscribe(final JedisPubSub jedisPubSub, final String... channels) {
+		execute(new RedisCallback<Void>() {
+			@Override
+			public Void execute(Jedis jedis) {
+				jedis.subscribe(jedisPubSub, channels);
+				return null;
 			}
 		});
 	}
 
 	/* set */
-
 	public void setRedisFactory(RedisFactory redisFactory) {
 		this.redisFactory = redisFactory;
 	}
-	
+
 }

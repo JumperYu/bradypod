@@ -25,6 +25,11 @@ public class RedisTemplateTest {
 	}
 
 	@Test
+	public void testPubSub() {
+		
+	}
+
+	@Test
 	public void testNumber() {
 		redisTemplate.set("my-num-int", Integer.valueOf(123));
 		redisTemplate.set("my-num-long", Long.valueOf(123));

@@ -21,8 +21,8 @@ public class TestGenerator {
 		// g.deleteOutRootDir(); // 删除生成器的输出目录
 
 		// 通过数据库表生成文件,template为模板的根目录
-//		generatorFacade.deleteByTable("t_brand_info", "template");
-//		generatorFacade.generateByTable("t_brand_info", "template");
+		generatorFacade.deleteByTable("t_brand_info", "template");
+		generatorFacade.generateByTable("t_brand_info", "template");
 //		generatorFacade.deleteByTable("t_comment", "template");
 //		generatorFacade.generateByTable("t_comment", "template");
 //		generatorFacade.deleteByTable("t_item_info", "template");
@@ -44,12 +44,12 @@ public class TestGenerator {
 		
 //		generatorFacade.deleteByTable("t_comment_item_count", "template");
 //		generatorFacade.generateByTable("t_comment_item_count", "template");
-		generatorFacade.generateByTable("t_trade_flow_unionpay", "template");
-		generatorFacade.generateByTable("t_trade_flow_unionpay", "template");
-		generatorFacade.generateByTable("t_trade_flow_alipay", "template");
-		generatorFacade.generateByTable("t_trade_flow_alipay", "template");
-		generatorFacade.generateByTable("t_trade_flow_weixin", "template");
-		generatorFacade.generateByTable("t_trade_flow_weixin", "template");
+//		generatorFacade.generateByTable("t_trade_flow_unionpay", "template");
+//		generatorFacade.generateByTable("t_trade_flow_unionpay", "template");
+//		generatorFacade.generateByTable("t_trade_flow_alipay", "template");
+//		generatorFacade.generateByTable("t_trade_flow_alipay", "template");
+//		generatorFacade.generateByTable("t_trade_flow_weixin", "template");
+//		generatorFacade.generateByTable("t_trade_flow_weixin", "template");
 		
 		// generatorFacade.generateByAllTable("template");
 		// 自动搜索数据库中的所有表并生成文件,template为模板的根目录

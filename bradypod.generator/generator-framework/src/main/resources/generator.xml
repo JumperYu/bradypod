@@ -19,12 +19,12 @@
 	<!-- 需要移除的表名前缀,使用逗号进行分隔多个前缀,示例值: t_,v_ -->
 	<entry key="tableRemovePrefixes">t_</entry>
 
-<!-- 
+
 	<entry key="jdbc.username">zxm</entry>
 	<entry key="jdbc.password">qwerty</entry>
- -->
-	<entry key="jdbc.username">root</entry>
-	<entry key="jdbc.password">root</entry>
+
+<!-- 	<entry key="jdbc.username">root</entry>
+	<entry key="jdbc.password">root</entry> -->
 
 	<!-- oracle需要指定jdbc.schema,其它数据库忽略此项配置 -->
 	<entry key="jdbc.schema"></entry>
@@ -41,8 +41,8 @@
 	<!-- H2 <entry key="jdbc.url">jdbc:h2:tcp://localhost/test</entry> <entry key="jdbc.driver">org.h2.Driver</entry> -->
 
 	<!-- Mysql -->
-	<!-- <entry key="jdbc.url">jdbc:mysql://mysql.bradypod.com:3306/item_center?useUnicode=true&amp;characterEncoding=UTF-8</entry> -->
-	<entry key="jdbc.url">jdbc:mysql://192.168.1.130:3306/ttwg_trade?useUnicode=true&amp;characterEncoding=UTF-8</entry>
+	<entry key="jdbc.url">jdbc:mysql://mysql.bradypod.com:3306/item_center?useUnicode=true&amp;characterEncoding=UTF-8</entry>
+	<!-- <entry key="jdbc.url">jdbc:mysql://192.168.1.130:3306/ttwg_trade?useUnicode=true&amp;characterEncoding=UTF-8</entry> -->
 	<entry key="jdbc.driver">com.mysql.jdbc.Driver</entry>
 
 	<!-- Oracle jdbc:oracle:oci:@tnsname_devdb <entry key="jdbc.url">jdbc:oracle:thin:@192.168.0.177:1521:[sid]</entry> 

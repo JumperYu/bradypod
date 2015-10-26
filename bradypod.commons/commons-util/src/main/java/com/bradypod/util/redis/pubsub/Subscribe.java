@@ -1,9 +1,6 @@
 package com.bradypod.util.redis.pubsub;
 
-import com.yu.util.redis.RedisUtil;
-
 import redis.clients.jedis.Client;
-import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
 
 /**
@@ -26,13 +23,8 @@ public class Subscribe extends JedisPubSub {
 	public void proceed(Client client, String... channels) {
 		try {
 			super.proceed(client, channels);
-		} catch (Exception e) {	
+		} catch (Exception e) {
 			System.out.println("----------------");
 		}
-	}
-
-	public static void main(String[] args) {
-		Jedis jedis = RedisUtil.createJedis("192.168.1.201", 7004);
-		jedis.subscribe(new Subscribe(), "topic-1", "topic-2");
 	}
 }

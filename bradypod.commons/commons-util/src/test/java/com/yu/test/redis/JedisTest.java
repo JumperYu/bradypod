@@ -2,14 +2,18 @@ package com.yu.test.redis;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.time.StopWatch;
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.util.SerializationUtils;
@@ -17,6 +21,7 @@ import org.springframework.util.SerializationUtils;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster;
+import redis.clients.jedis.JedisSentinelPool;
 import redis.clients.jedis.ShardedJedis;
 
 import com.bradypod.util.date.DateUtils;
@@ -68,6 +73,24 @@ public class JedisTest {
 		stopWatch.stop();
 		System.out.println("time:" + stopWatch.getTime());
 		// }
+	}
+
+	@Test
+	public void testSentinel() throws InterruptedException {
+		Set<String> sentinels = new HashSet<String>();
+		sentinels.add(new HostAndPort("101.200.196.51", 26379).toString());
+		try (JedisSentinelPool sentinelPool = new JedisSentinelPool("mymaster", sentinels,
+				new GenericObjectPoolConfig());) {
+			System.out.println("Current master: " + sentinelPool.getCurrentHostMaster().toString());
+			for (int i = 0, len = 1000000; i < len; i++) {
+				try (Jedis jedis = sentinelPool.getResource()) {
+					TimeUnit.MILLISECONDS.sleep(200);
+					jedis.setex("key-" + i, 60 * 60, "" + i);
+				} catch (Exception e) {
+					System.out.println("stop at: " + i);
+				}
+			}
+		}
 	}
 
 	@Test
