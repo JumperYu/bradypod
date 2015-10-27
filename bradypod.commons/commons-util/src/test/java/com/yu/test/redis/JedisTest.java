@@ -41,7 +41,7 @@ public class JedisTest {
 
 	@Before
 	public void init() {
-		// jedis = RedisUtil.createJedis(HOST, PORT);
+		jedis = RedisUtil.createJedis("192.168.1.201", 7005);
 		// shardedJedis = RedisUtil.createShardJedis();
 		jedisCluster = RedisUtil.createCluster(new HostAndPort[] {
 				new HostAndPort("192.168.1.201", 30001), new HostAndPort("192.168.1.201", 30002),
@@ -50,10 +50,11 @@ public class JedisTest {
 
 	@Test
 	public void testGet() throws JsonParseException, JsonMappingException, IOException {
-		System.out.println(System.currentTimeMillis());
-		byte[] bytes = jedis.get("articles".getBytes());
-		SerializationUtils.deserialize(bytes);
-		System.out.println(System.currentTimeMillis());
+		StopWatch watch = new StopWatch();
+		watch.start();
+		String ret = jedis.setex("key-1", 10000, "hah");
+		watch.stop();
+		System.out.println("time:" + watch.getTime() + "," + ret);
 	}
 
 	@Test
@@ -78,15 +79,17 @@ public class JedisTest {
 	@Test
 	public void testSentinel() throws InterruptedException {
 		Set<String> sentinels = new HashSet<String>();
-		sentinels.add(new HostAndPort("101.200.196.51", 26379).toString());
+		sentinels.add(new HostAndPort("192.168.1.201", 26379).toString());
 		try (JedisSentinelPool sentinelPool = new JedisSentinelPool("mymaster", sentinels,
 				new GenericObjectPoolConfig());) {
 			System.out.println("Current master: " + sentinelPool.getCurrentHostMaster().toString());
-			for (int i = 0, len = 1000000; i < len; i++) {
+			for (int i = 0, len = 10000; i < len; i++) {
 				try (Jedis jedis = sentinelPool.getResource()) {
 					TimeUnit.MILLISECONDS.sleep(200);
-					jedis.setex("key-" + i, 60 * 60, "" + i);
+					String ret = jedis.setex("key-" + i, 60 * 60, "" + i);
+					System.out.println("set " + i + ":" + ret);
 				} catch (Exception e) {
+					System.out.println(e.getMessage());
 					System.out.println("stop at: " + i);
 				}
 			}
