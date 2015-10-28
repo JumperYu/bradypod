@@ -12,6 +12,7 @@ import com.bradypod.util.redis.serializer.JdkRedisSerializer;
 import com.bradypod.util.redis.serializer.NumberRedisSerializer;
 import com.bradypod.util.redis.serializer.StringRedisSerializer;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.yu.util.validate.AssertUtil;
 
 /**
  * Redis操作模板
@@ -35,10 +36,8 @@ public class RedisTemplate {
 
 	/* 处理回调 */
 	protected <T> T execute(final RedisCallback<T> callback) {
-		if (redisFactory.getJedisPool() == null) {
-			redisFactory.createJedisPool();
-		}
-		try (Jedis jedis = redisFactory.getJedisPool().getResource()) {
+		AssertUtil.assertNotNull(redisFactory, "redis factory not set");
+		try (Jedis jedis = redisFactory.getResource()) {
 			return callback.execute(jedis);
 		}
 	}

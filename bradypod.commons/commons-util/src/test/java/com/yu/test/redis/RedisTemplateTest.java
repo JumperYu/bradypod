@@ -6,31 +6,61 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import redis.clients.jedis.HostAndPort;
+
+import com.bradypod.util.redis.RedisClusterTemplate;
 import com.bradypod.util.redis.RedisFactory;
 import com.bradypod.util.redis.RedisTemplate;
+import com.bradypod.util.redis.SentinelRedisFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 public class RedisTemplateTest {
 
 	RedisTemplate redisTemplate;
+	RedisClusterTemplate redisClusterTemplate;
 
 	@Before
 	public void init() {
+		initRedisTemplate();
+		initRedisClusterTemplate();
+	}
+
+	private void initRedisTemplate() {
 		redisTemplate = new RedisTemplate();
-		RedisFactory redisFactory = new RedisFactory();
-		redisFactory.setHosts(new String[] { "192.168.1.201", "192.168.1.201", "192.168.1.201" });
-		redisFactory.setPorts(new int[] { 7001, 7002, 7003, 7004 });
-		redisFactory.setPasswords(new String[] { "", "", "" });
+		RedisFactory redisFactory = new SentinelRedisFactory();
+		redisFactory.setHosts(new String[] { "192.168.1.201" });
+		redisFactory.setPorts(new int[] { 26379 });
+		redisFactory.setMasterName("mymaster");
 		redisTemplate.setRedisFactory(redisFactory);
+	}
+
+	private void initRedisClusterTemplate() {
+		redisClusterTemplate = new RedisClusterTemplate(new HostAndPort[] {
+				new HostAndPort("192.168.1.201", 30001), new HostAndPort("192.168.1.201", 30002),
+				new HostAndPort("192.168.1.201", 30003) });
 	}
 
 	@Test
 	public void testPubSub() {
-		
+
 	}
 
 	@Test
 	public void testNumber() {
+		redisClusterTemplate.set("my-num-int", Integer.valueOf(123));
+		redisClusterTemplate.set("my-num-long", Long.valueOf(123));
+		redisClusterTemplate.set("my-num-float", Float.valueOf(1.1f));
+		redisClusterTemplate.set("my-num-double", Double.valueOf(2.23));
+		redisClusterTemplate.set("my-num-byte", 0xA);
+		System.out.println(redisClusterTemplate.getIntegerValue("my-num-int"));
+		System.out.println(redisClusterTemplate.getLongValue("my-num-long"));
+		System.out.println(redisClusterTemplate.getFloatValue("my-num-float"));
+		System.out.println(redisClusterTemplate.getDoubleValue("my-num-double"));
+		System.out.println(redisClusterTemplate.getByteValue("my-num-byte"));
+	}
+
+	@Test
+	public void testClusterNumber() {
 		redisTemplate.set("my-num-int", Integer.valueOf(123));
 		redisTemplate.set("my-num-long", Long.valueOf(123));
 		redisTemplate.set("my-num-float", Float.valueOf(1.1f));

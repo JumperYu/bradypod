@@ -16,7 +16,6 @@ import org.apache.commons.lang.time.StopWatch;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.util.SerializationUtils;
 
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Jedis;
@@ -83,7 +82,7 @@ public class JedisTest {
 		try (JedisSentinelPool sentinelPool = new JedisSentinelPool("mymaster", sentinels,
 				new GenericObjectPoolConfig());) {
 			System.out.println("Current master: " + sentinelPool.getCurrentHostMaster().toString());
-			for (int i = 0, len = 10000; i < len; i++) {
+			for (int i = 0, len = 1000; i < len; i++) {
 				try (Jedis jedis = sentinelPool.getResource()) {
 					TimeUnit.MILLISECONDS.sleep(200);
 					String ret = jedis.setex("key-" + i, 60 * 60, "" + i);

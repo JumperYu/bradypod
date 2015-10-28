@@ -22,32 +22,27 @@ public class JacksonRedisSerializer {
 	public JacksonRedisSerializer(ObjectMapper objectMapper) {
 		this.objectMapper = objectMapper;
 	}
-	
-	/* 
-	 * 序列化和反序列化 
-	 * 优点: 相对于jdk序列化字节小, 直观(json格式)
-	 * 缺点: 相比二进制序列化字节仍较大, 序列和反序列化占用的时间比较难优化
-	 * 
+
+	/*
+	 * 序列化和反序列化 优点: 相对于jdk序列化字节小, 直观(json格式) 缺点: 相比二进制序列化字节仍较大,
+	 * 序列和反序列化占用的时间比较难优化
 	 */
-	
+
 	public <T> T deserialize(byte[] bytes, Class<T> clazz) {
 		try {
-			return bytes == null ? null : this.objectMapper.readValue(bytes, 0,
-					bytes.length, clazz);
+			return bytes == null ? null : this.objectMapper
+					.readValue(bytes, 0, bytes.length, clazz);
 		} catch (Exception ex) {
-			throw new RuntimeException("Could not read JSON: "
-					+ ex.getMessage(), ex);
+			throw new RuntimeException("Could not read JSON: " + ex.getMessage(), ex);
 		}
 	}
 
 	public <T> T deserialize(byte[] bytes, TypeReference<T> typeReference) {
 		try {
 			if (bytes != null)
-				return this.objectMapper.readValue(bytes, 0, bytes.length,
-						typeReference);
+				return this.objectMapper.readValue(bytes, 0, bytes.length, typeReference);
 		} catch (Exception ex) {
-			throw new RuntimeException("Could not read JSON: "
-					+ ex.getMessage(), ex);
+			throw new RuntimeException("Could not read JSON: " + ex.getMessage(), ex);
 		}
 		return null;
 	}
@@ -57,8 +52,7 @@ public class JacksonRedisSerializer {
 		try {
 			return t == null ? null : this.objectMapper.writeValueAsBytes(t);
 		} catch (Exception ex) {
-			throw new RuntimeException("Could not write JSON: "
-					+ ex.getMessage(), ex);
+			throw new RuntimeException("Could not write JSON: " + ex.getMessage(), ex);
 		}
 	}
 
