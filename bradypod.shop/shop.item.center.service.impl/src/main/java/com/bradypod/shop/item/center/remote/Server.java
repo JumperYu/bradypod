@@ -13,8 +13,8 @@ public class Server {
 
 	public static void main(String[] args) throws Exception {
 
-		String host = "localhost";
-		int port = 1099;
+		String host = "192.168.1.199";
+		int port = 4181;
 
 		ServiceProvider provider = new ServiceProvider();
 
