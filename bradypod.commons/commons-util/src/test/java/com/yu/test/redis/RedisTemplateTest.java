@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import redis.clients.jedis.HostAndPort;
+import redis.clients.jedis.JedisPubSub;
 
 import com.bradypod.util.redis.RedisClusterTemplate;
 import com.bradypod.util.redis.RedisFactory;
@@ -22,15 +23,14 @@ public class RedisTemplateTest {
 	@Before
 	public void init() {
 		initRedisTemplate();
-		initRedisClusterTemplate();
+//		initRedisClusterTemplate();
 	}
 
 	private void initRedisTemplate() {
 		redisTemplate = new RedisTemplate();
-		RedisFactory redisFactory = new SentinelRedisFactory();
-		redisFactory.setHosts(new String[] { "192.168.1.201" });
-		redisFactory.setPorts(new int[] { 26379 });
-		redisFactory.setMasterName("mymaster");
+		RedisFactory redisFactory = new RedisFactory();//new SentinelRedisFactory();
+		redisFactory.setHost("192.168.1.201");
+		redisFactory.setPort(7001);
 		redisTemplate.setRedisFactory(redisFactory);
 	}
 
@@ -42,7 +42,12 @@ public class RedisTemplateTest {
 
 	@Test
 	public void testPubSub() {
-
+		redisTemplate.subscribe(new JedisPubSub() {
+			@Override
+			public void onMessage(String channel, String message) {
+				System.out.println(String.format("%s, %s", channel, message));
+			}
+		}, "xxx");
 	}
 
 	@Test
