@@ -5,8 +5,8 @@ import java.util.Date;
 import org.apache.commons.lang.math.RandomUtils;
 import org.junit.Test;
 
-import com.yu.util.thread.ThreadPool;
-import com.yu.util.thread.ThreadWorker;
+import com.bradypod.util.thread.ThreadPool;
+import com.bradypod.util.thread.ThreadWorker;
 
 public class ForAndSwitchTest {
 

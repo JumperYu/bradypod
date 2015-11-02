@@ -3,9 +3,9 @@ package thread;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import com.bradypod.util.thread.ThreadPool;
+import com.bradypod.util.thread.ThreadWorker;
 import com.yu.util.redis.RedisLock;
-import com.yu.util.thread.ThreadPool;
-import com.yu.util.thread.ThreadWorker;
 
 /**
  * 1, 使用ReentrantLock 2, 使用RedisLock

@@ -1,5 +1,9 @@
 package com.yu.test.redis;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -17,11 +21,13 @@ public class TestCluster {
 	private static Jedis node3;
 	private String localHost = "127.0.0.1";
 
-	private HostAndPort nodeInfo1 = new HostAndPort("192.168.1.201", 30001);
-	private HostAndPort nodeInfo2 = new HostAndPort("192.168.1.201", 30002);
-	private HostAndPort nodeInfo3 = new HostAndPort("192.168.1.201", 30003);
+	private HostAndPort nodeInfo1 = new HostAndPort("101.200.196.51", 30001);
+	private HostAndPort nodeInfo2 = new HostAndPort("101.200.196.51", 30002);
+	private HostAndPort nodeInfo3 = new HostAndPort("101.200.196.51", 30003);
 
-	@Before
+	private JedisCluster jedisCluster;
+
+	// @Before
 	public void init() throws InterruptedException {
 		node1 = new Jedis(nodeInfo1.getHost(), nodeInfo1.getPort());
 		node1.connect();
@@ -63,9 +69,25 @@ public class TestCluster {
 		waitForClusterReady(node1, node2, node3);
 	}
 
+	@Before
+	public void init2() {
+		Set<HostAndPort> clusters = new HashSet<>();
+		clusters.add(nodeInfo1);
+		clusters.add(nodeInfo2);
+		clusters.add(nodeInfo3);
+		jedisCluster = new JedisCluster(clusters);
+	}
+
 	@Test
 	public void testIt() {
-		node1.set("foo", "bar");
+		while (true) {
+			System.out.println(jedisCluster.set("test-2", "haha"));
+			try {
+				TimeUnit.MILLISECONDS.sleep(300L);
+			} catch (InterruptedException e) {
+				
+			}
+		}
 	}
 
 	@AfterClass

@@ -1,5 +1,7 @@
 package com.bradypod.util.redis;
 
+import org.springframework.beans.factory.InitializingBean;
+
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.util.Pool;
@@ -11,7 +13,7 @@ import redis.clients.util.Pool;
  * @date 2015年9月27日
  *
  */
-public class RedisFactory {
+public class RedisFactory implements InitializingBean {
 
 	protected String host;
 	protected int port;
@@ -27,7 +29,7 @@ public class RedisFactory {
 	/**
 	 * 创建连接池
 	 */
-	public Pool<Jedis> createPool() {
+	public synchronized Pool<Jedis> createPool() {
 		if (this.pool == null) {
 			this.pool = new JedisPool(host, port);
 		}
@@ -44,6 +46,11 @@ public class RedisFactory {
 	/* 获取资源 */
 	public Jedis getResource() {
 		return getPool().getResource();
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		createPool();
 	}
 
 	/* get/set */

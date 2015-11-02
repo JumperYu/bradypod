@@ -12,7 +12,6 @@ import redis.clients.jedis.JedisPubSub;
 import com.bradypod.util.redis.RedisClusterTemplate;
 import com.bradypod.util.redis.RedisFactory;
 import com.bradypod.util.redis.RedisTemplate;
-import com.bradypod.util.redis.SentinelRedisFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 public class RedisTemplateTest {
@@ -23,18 +22,19 @@ public class RedisTemplateTest {
 	@Before
 	public void init() {
 		initRedisTemplate();
-//		initRedisClusterTemplate();
+		// initRedisClusterTemplate();
 	}
 
-	private void initRedisTemplate() {
+	protected void initRedisTemplate() {
 		redisTemplate = new RedisTemplate();
-		RedisFactory redisFactory = new RedisFactory();//new SentinelRedisFactory();
+		RedisFactory redisFactory = new RedisFactory();// new
+														// SentinelRedisFactory();
 		redisFactory.setHost("192.168.1.201");
 		redisFactory.setPort(7001);
 		redisTemplate.setRedisFactory(redisFactory);
 	}
 
-	private void initRedisClusterTemplate() {
+	protected void initRedisClusterTemplate() {
 		redisClusterTemplate = new RedisClusterTemplate(new HostAndPort[] {
 				new HostAndPort("192.168.1.201", 30001), new HostAndPort("192.168.1.201", 30002),
 				new HostAndPort("192.168.1.201", 30003) });
@@ -48,8 +48,9 @@ public class RedisTemplateTest {
 				System.out.println(String.format("%s, %s", channel, message));
 			}
 		}, "xxx");
+		System.out.println("hahah");
 	}
-
+	
 	@Test
 	public void testNumber() {
 		redisClusterTemplate.set("my-num-int", Integer.valueOf(123));

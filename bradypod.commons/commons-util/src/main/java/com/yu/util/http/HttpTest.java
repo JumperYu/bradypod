@@ -16,9 +16,9 @@ public class HttpTest {
 
 	@Test
 	public void testPost() {
-		getMsg();
+//		getMsg();
 		// reg();
-//		login();
+		login();
 	}
 
 	private void login() {

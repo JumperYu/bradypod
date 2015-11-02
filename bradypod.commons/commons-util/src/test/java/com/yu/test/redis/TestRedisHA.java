@@ -14,8 +14,8 @@ import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisSentinelPool;
 
-import com.yu.util.thread.ThreadPool;
-import com.yu.util.thread.ThreadWorker;
+import com.bradypod.util.thread.ThreadPool;
+import com.bradypod.util.thread.ThreadWorker;
 
 /**
  * 测试redis高可用性
