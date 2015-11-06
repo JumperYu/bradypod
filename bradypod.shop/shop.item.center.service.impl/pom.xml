@@ -9,7 +9,7 @@
 	<artifactId>shop.item.center.service.impl</artifactId>
 	<packaging>jar</packaging>
 	<name>shop.item.center.service.impl</name>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>com.bradypod</groupId>
@@ -29,6 +29,10 @@
 		<dependency>
 			<groupId>org.apache.zookeeper</groupId>
 			<artifactId>zookeeper</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
 		</dependency>
 		<dependency>
 			<artifactId>junit</artifactId>

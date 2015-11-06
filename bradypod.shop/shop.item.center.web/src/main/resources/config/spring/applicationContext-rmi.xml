@@ -9,11 +9,11 @@
        http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- RMI Client -->
+	<!-- RMI Client
 	<bean id="itemInfoService" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
 		<property name="serviceUrl" value="rmi://${proxy.host}:${proxy.port}/ItemInfoService" />
 		<property name="serviceInterface"
 			value="com.bradypod.shop.item.center.service.ItemInfoService" />
-	</bean>
+	</bean> -->
 	
 </beans>

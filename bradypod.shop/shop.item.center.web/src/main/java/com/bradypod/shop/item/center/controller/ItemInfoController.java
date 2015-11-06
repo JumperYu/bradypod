@@ -3,8 +3,6 @@ package com.bradypod.shop.item.center.controller;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.annotation.Resource;
-
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -36,7 +34,7 @@ public class ItemInfoController {
 
 	private ItemInfoService itemInfoService;
 
-	@Resource
+	//@Resource
 	public void setItemInfoService(ItemInfoService itemInfoService) {
 		this.itemInfoService = itemInfoService;
 	}

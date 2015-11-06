@@ -3,6 +3,7 @@ package com.bradypod.util.thread;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 并发启动线程执行
@@ -14,7 +15,7 @@ import java.util.concurrent.Executors;
 public class ThreadPool {
 
 	private int count;
-	private ExecutorService service;
+	private ExecutorService pool;
 
 	public ThreadPool(int count) {
 		this.count = count;
@@ -29,9 +30,9 @@ public class ThreadPool {
 	public void executeThread(final ThreadWorker threadWorker) {
 		// 手动添加对象
 		final CountDownLatch latch = new CountDownLatch(count);
-		service = Executors.newFixedThreadPool(count);
+		pool = Executors.newFixedThreadPool(count);
 		for (int i = 0; i < count; i++) {
-			service.execute(new Runnable() {
+			pool.execute(new Runnable() {
 				@Override
 				public void run() {
 					try {
@@ -44,9 +45,22 @@ public class ThreadPool {
 		}
 		try {
 			latch.await();
-			service.shutdown();
+			pool.shutdown();
+			// Wait a while for existing tasks to terminate
+			if (!pool.awaitTermination(MAX_AWAIT_TIME, TimeUnit.SECONDS)) {
+				pool.shutdownNow(); // Cancel currently executing tasks
+				// Wait a while for tasks to respond to being cancelled
+				if (!pool.awaitTermination(MAX_AWAIT_TIME, TimeUnit.SECONDS)) {
+					System.err
+							.println("---------------- Pool did not terminate --------------------");
+				}
+			}
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			// ignore message
+			// (Re-)Cancel if current thread also interrupted
+			pool.shutdownNow();
+			// Preserve interrupt status
+			Thread.currentThread().interrupt();
 		}
 	}
 
@@ -55,7 +69,8 @@ public class ThreadPool {
 	 * 
 	 */
 	public void closeInDanger() {
-		service.shutdownNow();
+		pool.shutdownNow();
 	}
 
+	private static final int MAX_AWAIT_TIME = 60;
 }

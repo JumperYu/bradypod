@@ -17,7 +17,7 @@
 
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:config/spring/application*.xml</param-value>
+			<param-value>classpath:config/spring/applicationContext.xml</param-value>
 			<!-- <param-value>classpath:test-rmi.xml</param-value> -->
 		</init-param>
 
@@ -33,7 +33,7 @@
 
 	<servlet-mapping>
 		<servlet-name>spring</servlet-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>*.shtml</url-pattern>
 	</servlet-mapping>
 
 	<!-- 统一字符编码为UTF-8 -->
@@ -59,7 +59,7 @@
 		</filter> <filter-mapping> <filter-name>gzipFilter</filter-name> <url-pattern>/*</url-pattern> 
 		</filter-mapping> -->
 
-	<!-- 定义系统错误代码常量 -->
+	<!-- 定义系统错误代码常量 
 	<error-page>
 		<error-code>404</error-code>
 		<location>/WEB-INF/commons/common-error.jsp</location>
@@ -67,5 +67,5 @@
 	<error-page>
 		<error-code>500</error-code>
 		<location>/WEB-INF/commons/common-error.jsp</location>
-	</error-page>
+	</error-page>-->
 </web-app>

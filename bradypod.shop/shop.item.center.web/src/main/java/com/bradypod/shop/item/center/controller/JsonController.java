@@ -1,9 +1,13 @@
 package com.bradypod.shop.item.center.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,15 +38,57 @@ public class JsonController {
 		return "haha";
 	}
 
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/list.shtml")
 	@ResponseBody
-	public List<String> list() {
+	public List<String> list(HttpServletResponse response) {
 		List<String> list = new ArrayList<>();
 		list.add("1");
 		list.add("1");
 		list.add("1");
 		list.add("1");
+
+		// 写入cookie
+		/*
+		 * response.addHeader("Set-Cookie", "token=" +
+		 * UUID.randomUUID().toString().replaceAll("-", "") +
+		 * ";Max-Age=3000000;domain=.ttwg168.com;path=/;");
+		 */
+		Cookie cookie = new Cookie("token", UUID.randomUUID().toString().replaceAll("-", ""));
+		cookie.setMaxAge(-1);
+		cookie.setDomain("ttwg168.com");
+		cookie.setPath("/");
+		response.addCookie(cookie);
+
 		return list;
+	}
+
+	@RequestMapping(value = "/list1.shtml")
+	public void list1(HttpServletResponse response) throws IOException {
+		List<String> list = new ArrayList<>();
+		list.add("1");
+		list.add("1");
+		list.add("1");
+		list.add("1");
+
+		// 写入cookie
+		/*
+		 * response.addHeader("Set-Cookie", "token=" +
+		 * UUID.randomUUID().toString().replaceAll("-", "") +
+		 * ";Max-Age=3000000;domain=.ttwg168.com;path=/;");
+		 */
+		Cookie cookie = new Cookie("token", UUID.randomUUID().toString().replaceAll("-", ""));
+		cookie.setMaxAge(-1);
+		cookie.setDomain("ttwg168.com");
+		cookie.setPath("/");
+		response.addCookie(cookie);
+		response.getWriter().println("<script>history.go(-1);</script>");
+	}
+	
+	@RequestMapping(value = "haha.json")
+	@ResponseBody
+	public String haha(HttpServletRequest request) {
+		String token = request.getHeader("token");
+		return "your token:" + token;
 	}
 
 	@RequestMapping(value = "/queryItemInfo", method = RequestMethod.GET)
@@ -53,6 +99,6 @@ public class JsonController {
 		return itemInfoService.get(itemInfo);
 	}
 
-	@Resource
+	// @Resource
 	private ItemInfoService itemInfoService;
 }

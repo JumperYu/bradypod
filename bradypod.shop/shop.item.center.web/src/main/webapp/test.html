@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>CDN网络节点通信情况统计示例</title>
+</head>
+<body>
+<script type="text/javascript">
+	/**
+	 *  统计客户端请求CDN静态图片耗时
+	 *  
+	 *  @param IMG_URL 
+	 *		   - 图片资源地址
+	 *  @result 
+	 * 		   - 返回客户端IP，远程IP，请求时间间隔
+	 *	
+	 */
+	(function(){
+		var start_time, end_time;
+		//var IMG_URL = "http://resource.bradypod.com/images/logo.png";
+		//var IMG_URL = "http://user.ttwg168.com/front/user/login.html";
+		//var IMG_URL = "http://192.168.1.150:8080/ttwg.user.war/front/user/login.html";
+		//var IMG_URL = "http://192.168.1.201:801/ttwg.user.war/front/user/login.html";
+		//var IMG_URL = "http://192.168.1.201:801/list.json";
+		var IMG_URL = "http://local.ttwg168.com/list.json";
+		
+		/**
+		 * 创建ActiveX对象
+		 */
+		var createRequest = function() {
+			if (window.ActiveXObject) {
+				req = new ActiveXObject("Microsoft.XMLHTTP");//IE
+			} else if (window.XMLHttpRequest) {
+				req = new XMLHttpRequest(); //其他浏览器
+			}
+			return req;
+		}
+		
+		// 获取CDN节点IP
+		req = createRequest();
+		if(req) {
+			req.onreadystatechange = function() {
+			    // 每次回调都可以打印下
+				// console.log(req.readyState + "," + new Date().getTime());
+				
+				// 开始建立请求
+				if(req.readyState == 1){
+					start_time = new Date().getTime();
+				}
+				// 接收到全部响应
+				if(req.readyState == 4) {
+					end_time = new Date().getTime();
+					
+					// 获取头信息
+					headers = req.getAllResponseHeaders();
+					console.log("打印全部头信息:\n" + headers)
+				}
+			}
+			req.open('POST', IMG_URL, true);
+			req.setRequestHeader("Content-Type","text/plain;charset=utf-8");
+			//req.setRequestHeader("client_type","1");
+			req.send('{"mobileNum":"18680547506","verifyCode":"220449","type":1}');
+			//req.send();
+		}// else 不支持ajax
+		
+		
+	})();
+</script>
+
+</body>
+</html>

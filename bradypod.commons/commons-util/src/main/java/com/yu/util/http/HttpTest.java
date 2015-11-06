@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
@@ -16,18 +17,23 @@ public class HttpTest {
 
 	@Test
 	public void testPost() {
-//		getMsg();
+		getMsg();
 		// reg();
-		login();
+//		 login();
 	}
 
-	private void login() {
-		String messagePath = "http://user.ttwg168.com/front/user/supplierlogin.html";
+	static void login() {
+		// String messagePath =
+		// "http://user.ttwg168.com/front/user/supplierlogin.html";
+		String messagePath = "http://user.ttwg168.com/front/user/login.html";
 		Map<String, String> header = new HashMap<String, String>();
 		header.put("client_type", "1");
 		Map<String, Object> msgContent = new HashMap<String, Object>();
-		msgContent.put("mobileNum", "18675857854");
+		msgContent.put("mobileNum", "18680547506");
 		msgContent.put("loginPwd", "123456");
+		msgContent.put("verifyCode", "178512");
+		msgContent.put("userType", "1");
+		msgContent.put("type", "1");
 		request(messagePath, "POST", header, JSON.toJSONString(msgContent));
 	}
 
@@ -35,9 +41,9 @@ public class HttpTest {
 		// 获取短信
 		String messagePath = "http://user.ttwg168.com/front/user/getvfcode.html";
 		Map<String, Object> msgContent = new HashMap<String, Object>();
-		msgContent.put("mobileNum", "18675857854");
-		msgContent.put("type", Integer.valueOf(2));
-		msgContent.put("userType", Integer.valueOf(2));
+		msgContent.put("mobileNum", "18680547506");
+		msgContent.put("type", Integer.valueOf(1));
+		msgContent.put("userType", Integer.valueOf(1));
 		request(messagePath, "POST", null, JSON.toJSONString(msgContent));
 	}
 
@@ -88,6 +94,10 @@ public class HttpTest {
 					ret += lines;
 				}
 				reader.close();
+				Map<String, List<String>> respHeaders = conn.getHeaderFields();
+				for (String key : respHeaders.keySet()) {
+					System.out.println(key + ":" + respHeaders.get(key));
+				}//--> end for
 			} else {
 				System.out.println("request error");
 			}
