@@ -1,5 +1,6 @@
 package com.bradypod.util.redis;
 
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.beans.factory.InitializingBean;
 
 import redis.clients.jedis.Jedis;
@@ -24,21 +25,35 @@ public class RedisFactory implements InitializingBean {
 
 	protected String masterName;
 
-	protected Pool<Jedis> pool;
+	protected volatile Pool<Jedis> pool;
+
+	static final int DEFAULT_TIMEOUT = 500; // 500毫秒就超时
+
+	public RedisFactory() {
+	}
+
+	public RedisFactory(String host, int port) {
+		this.host = host;
+		this.port = port;
+	}
 
 	/**
-	 * 创建连接池
+	 * 获取或创建连接池
 	 */
-	public synchronized Pool<Jedis> createPool() {
+	public Pool<Jedis> getPool() {
 		if (this.pool == null) {
-			this.pool = new JedisPool(host, port);
-		}
+			synchronized (RedisFactory.class) {
+				if (this.pool == null) {
+					createPool();
+				}
+			}// --> double check lock
+		}// --> end if
 		return this.pool;
 	}
 
-	public Pool<Jedis> getPool() {
+	private Pool<Jedis> createPool() {
 		if (this.pool == null) {
-			createPool();
+			this.pool = new JedisPool(new GenericObjectPoolConfig(), host, port, DEFAULT_TIMEOUT);
 		}
 		return this.pool;
 	}

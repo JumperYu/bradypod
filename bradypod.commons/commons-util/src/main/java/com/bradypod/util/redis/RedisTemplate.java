@@ -90,6 +90,29 @@ public class RedisTemplate {
 	}
 
 	/**
+	 * 当存在或者不存的时候设置
+	 * 
+	 * @param key
+	 * @param value
+	 * @param nxxx
+	 *            - nx:不存在,xx:存在
+	 * @param expx
+	 *            - ex:秒,px:毫秒
+	 * @param time
+	 *            - long
+	 */
+	public String set(final String key, final String value, final String nxxx, final String expx,
+			final long time) {
+		return execute(new RedisCallback<String>() {
+
+			@Override
+			public String execute(Jedis jedis) {
+				return jedis.set(key, value, nxxx, expx, time);
+			}
+		});
+	}
+
+	/**
 	 * 哈希表操作
 	 * 
 	 * @param key

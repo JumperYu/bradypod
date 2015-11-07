@@ -14,7 +14,6 @@ import redis.clients.util.Pool;
 
 public class SentinelRedisFactory extends RedisFactory {
 
-	@Override
 	public Pool<Jedis> createPool() {
 		Set<String> sentinels = new HashSet<String>();
 		if (hosts != null) {
