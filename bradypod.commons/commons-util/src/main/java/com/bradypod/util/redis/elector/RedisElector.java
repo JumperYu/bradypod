@@ -36,7 +36,7 @@ public class RedisElector {
 	private RedisTemplate redisTemplate;
 
 	private String hostId;
-	private AtomicBoolean isMaster;
+	private AtomicBoolean master;
 
 	public RedisElector() {
 		scheduledThreadPool = new ScheduledThreadPool(MAX_ELECTORS); // 创建定时任务
@@ -45,7 +45,7 @@ public class RedisElector {
 		redisTemplate.setRedisFactory(new RedisFactory(HOST, PORT));
 
 		hostId = generateHostId(); // 获取当前host
-		isMaster = new AtomicBoolean(false);
+		master = new AtomicBoolean(false);
 	}
 
 	public void start() {
@@ -62,15 +62,15 @@ public class RedisElector {
 								EXPIRE_TIME);
 						if (ret != null && ret.equalsIgnoreCase("OK")) {
 							logger.debug("redis key {} is set to master {}", MASTER_KEY, masterHost);
-							isMaster.set(true);
+							master.set(true);
 						}
 					}
 
 					if (hostId.equals(masterHost)) {
 						// expire at seconds
-						isMaster.set(true);
+						master.set(true);
 					} else {
-						isMaster.set(false);
+						master.set(false);
 					}
 				} catch (Throwable throwable) {
 					logger.error("schedule error", throwable);
@@ -99,7 +99,7 @@ public class RedisElector {
 	}
 
 	public boolean isMaster() {
-		return isMaster;
+		return master.get();
 	}
 
 	static final Logger logger = LoggerFactory.getLogger(RedisElector.class);
