@@ -2,6 +2,7 @@ package com.yu.test.redis;
 
 import com.bradypod.util.redis.RedisFactory;
 import com.bradypod.util.redis.RedisTemplate;
+import com.bradypod.util.redis.elector.ElectorListener;
 import com.bradypod.util.redis.elector.RedisElector;
 
 /**
@@ -21,6 +22,13 @@ public class TestElector {
 		RedisTemplate redisTemplate = new RedisTemplate(); // 创建连接
 		redisTemplate.setRedisFactory(new RedisFactory(HOST, PORT));
 		redisElector.setRedisTemplate(redisTemplate);
+		redisElector.setElectorListener(new ElectorListener() {
+			
+			@Override
+			public void onMaster(String masterKey) {
+				
+			}
+		});
 		redisElector.start();
 	}
 

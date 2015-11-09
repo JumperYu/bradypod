@@ -1,14 +1,12 @@
 package com.bradypod.util.redis.elector;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.security.SecureRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.bradypod.util.redis.RedisTemplate;
+import com.bradypod.util.sys.JvmUtil;
 import com.bradypod.util.thread.ScheduledThreadPool;
 import com.bradypod.util.thread.ThreadWorker;
 import com.bradypod.util.thread.Threads;
@@ -36,13 +34,16 @@ public class RedisElector {
 	private int expireTime; // 获选任期(秒)
 	private String masterKey; // 选举职位关键词
 
+	private boolean isHolding = true; // 是否持续占据位置
+
 	static final int DEFAULT_ELECTORS = 2; // 默认参数
 	static final int DEFAULT_PERIOD = 2;
 	static final int DEFAULT_EXPIRE_TIME = 10;
-	static final String DEFAULT_MASTER_KEY = "Master";
+	static final String DEFAULT_MASTER_KEY = "master";
 
 	private ScheduledThreadPool scheduledThreadPool; // 选举流程
 	private RedisTemplate redisTemplate;
+	private ElectorListener electorListener;
 
 	private String hostId; // 动态获取当前选举人
 	private AtomicBoolean master; // 是否当选
@@ -95,7 +96,7 @@ public class RedisElector {
 					String masterHost = redisTemplate.getStringValue(masterKey);
 					logger.info("master key:{} is belong to {}", masterKey, masterHost);
 					if (masterHost == null) {
-						hostId = generateHostId(); // 获取当前host
+						hostId = JvmUtil.getJvmInfo(); // 获取当前host
 						// set only not exists key, and expire in times
 						String ret = redisTemplate.set(masterKey, hostId, "NX", "EX", expireTime);
 						// if OK set master true
@@ -106,13 +107,18 @@ public class RedisElector {
 						}// --> end if set master success
 					}// --> end if master is null
 
-					if (hostId.equals(masterHost)) {
+					if (hostId != null && hostId.equals(masterHost)) {
 						// say i am master
 						logger.info("i am master now.");
 						// expire at seconds
 						master.set(true);
-						// reset expire time
-						redisTemplate.expire(masterKey, expireTime);
+						// if is holding reset expire time
+						if (isHolding) {
+							redisTemplate.expire(masterKey, expireTime);
+						}// --> end if holding else ignore
+
+						// on master set success
+						electorListener.onMaster(masterHost);
 					} else {
 						master.set(false);
 						// say i am not master
@@ -122,22 +128,7 @@ public class RedisElector {
 					logger.error("schedule error", throwable);
 				}// --> end try-catch
 			}// --> end execute function
-		}, Threads.buildJobFactory("Master-Elector-" + masterKey + "-%d"), 0, period);
-	}
-
-	/**
-	 * 生成host id的方法，可在子类重载.
-	 */
-	protected String generateHostId() {
-		String host = "localhost";
-		try {
-			host = InetAddress.getLocalHost().getHostName();
-		} catch (UnknownHostException e) {
-			logger.warn("can not get hostName, use localhost as default.", e);
-		}
-		host = host + "-" + new SecureRandom().nextInt(10000);
-
-		return host;
+		}, Threads.buildJobFactory("elector:" + masterKey + "-thread-%d"), 0, period);
 	}
 
 	/**
@@ -153,6 +144,9 @@ public class RedisElector {
 		scheduledThreadPool.shutdown(); // shutdown pool
 	}
 
+	/**
+	 * 是否为主人
+	 */
 	public boolean isMaster() {
 		return master.get();
 	}
@@ -160,6 +154,15 @@ public class RedisElector {
 	/* set redis template is important */
 	public void setRedisTemplate(RedisTemplate redisTemplate) {
 		this.redisTemplate = redisTemplate;
+	}
+
+	public void setElectorListener(ElectorListener electorListener) {
+		this.electorListener = electorListener;
+	}
+
+	// 适用于从选举进程, 只做监督而不永久霸占
+	public void setHolding(boolean isHolding) {
+		this.isHolding = isHolding;
 	}
 
 	static final Logger logger = LoggerFactory.getLogger(RedisElector.class);
