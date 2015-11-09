@@ -26,7 +26,7 @@ public class TestElector {
 			
 			@Override
 			public void onMaster(String masterKey) {
-				
+				System.out.println();
 			}
 		});
 		redisElector.start();
