@@ -1,4 +1,4 @@
-package com.bradypod.util.redis.pubsub;
+package com.bradypod.util.redis.mq;
 
 import redis.clients.jedis.Client;
 import redis.clients.jedis.JedisPubSub;

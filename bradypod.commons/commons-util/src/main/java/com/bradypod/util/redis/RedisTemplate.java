@@ -326,6 +326,66 @@ public class RedisTemplate {
 	}
 
 	/**
+	 * 顺序列表, 从左侧头部插入
+	 */
+	public Long lpush(final String key, final String value) {
+		return execute(new RedisCallback<Long>() {
+			@Override
+			public Long execute(Jedis jedis) {
+				return jedis.lpush(key, value);
+			}
+		});
+	}
+
+	/**
+	 * 顺序列表, 从右侧侧尾部插入
+	 */
+	public Long rpush(final String key, final String value) {
+		return execute(new RedisCallback<Long>() {
+			@Override
+			public Long execute(Jedis jedis) {
+				return jedis.rpush(key, value);
+			}
+		});
+	}
+
+	/**
+	 * 顺序列表, 从左侧头部弹出
+	 */
+	public String lpop(final String key) {
+		return execute(new RedisCallback<String>() {
+			@Override
+			public String execute(Jedis jedis) {
+				return jedis.lpop(key);
+			}
+		});
+	}
+
+	/**
+	 * 顺序列表, 从右侧尾部弹出
+	 */
+	public String rpop(final String key) {
+		return execute(new RedisCallback<String>() {
+			@Override
+			public String execute(Jedis jedis) {
+				return jedis.rpop(key);
+			}
+		});
+	}
+
+	/**
+	 * 设置缓存失效时间
+	 */
+	public Long expire(final String key, final int seconds) {
+		return execute(new RedisCallback<Long>() {
+			@Override
+			public Long execute(Jedis jedis) {
+				return jedis.expire(key, seconds);
+			}
+		});
+	}
+
+	/**
 	 * 删除缓存, 先不处理返回值
 	 */
 	public void delete(final String key) {
