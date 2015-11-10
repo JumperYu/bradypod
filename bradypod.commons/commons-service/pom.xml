@@ -15,7 +15,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.bradypod</groupId>
-			<artifactId>commons-util</artifactId>
+			<artifactId>commons-service</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>

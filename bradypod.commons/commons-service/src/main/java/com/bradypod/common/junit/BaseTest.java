@@ -23,6 +23,6 @@ public class BaseTest {
 	public void initApplicationContext() {
 		System.setProperty("ENV", "release");
 		applicationContext = new ClassPathXmlApplicationContext(
-				"/config/spring/applicationContext**.xml");
+				"/config/spring/applicationContext-test.xml");
 	}
 }

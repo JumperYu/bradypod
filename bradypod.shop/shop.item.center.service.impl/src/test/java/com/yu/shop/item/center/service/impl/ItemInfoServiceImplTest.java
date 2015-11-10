@@ -4,20 +4,29 @@ import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.bradypod.common.junit.BaseTest;
 import com.bradypod.common.po.GenericQueryParam;
 import com.bradypod.shop.item.center.mapper.ItemInfoMapper;
 import com.bradypod.shop.item.center.po.ItemInfo;
 import com.bradypod.shop.item.center.service.ItemInfoService;
 
-public class ItemInfoServiceImplTest extends BaseTest {
+public class ItemInfoServiceImplTest {
 
 	ItemInfoMapper mapper;
 	ItemInfoService itemInfoService;
+	
+	protected ApplicationContext applicationContext;
 
+	// 1.启动spring工程需要找到对应的xml， 下面是示例
 	@Before
-	public void getBean() {
+	public void initApplicationContext() {
+		System.setProperty("ENV", "release");
+		applicationContext = new ClassPathXmlApplicationContext(
+				"/config/spring/applicationContext-test.xml");
 		mapper = applicationContext.getBean(ItemInfoMapper.class);
 		itemInfoService = applicationContext.getBean(ItemInfoService.class);
 	}
@@ -86,4 +95,6 @@ public class ItemInfoServiceImplTest extends BaseTest {
 		// genericQueryParam.put("id", "2");
 		System.out.println(mapper.countData(genericQueryParam));
 	}
+	
+	protected Logger log = LoggerFactory.getLogger(getClass());
 }
