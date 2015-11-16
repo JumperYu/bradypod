@@ -16,4 +16,12 @@
 			value="com.bradypod.shop.item.center.service.ItemInfoService" />
 	</bean> -->
 	
+ 	<bean id="hessianService" class="com.yu.nio.HessianServiceImpl" />
+
+	<bean name="/hessianExporter"
+		class="org.springframework.remoting.caucho.HessianServiceExporter">
+		<property name="service" ref="hessianService" />
+		<property name="serviceInterface" value="com.yu.nio.HessianService" />
+	</bean>
+	
 </beans>

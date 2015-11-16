@@ -8,7 +8,7 @@ public class TestHessian {
 
 	public static void main(String[] args) throws MalformedURLException, ClassNotFoundException {
 		HessianProxyFactory factory = new HessianProxyFactory();
-		String url = ("http://localhost/hessianService");
+		String url = ("http://localhost/hessianService.shtml");
 		HessianService service = (HessianService) factory.create(
 				HessianService.class, url);
 		MyEntity entity = new MyEntity();
