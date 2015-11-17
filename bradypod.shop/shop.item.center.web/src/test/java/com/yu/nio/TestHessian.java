@@ -2,21 +2,17 @@ package com.yu.nio;
 
 import java.net.MalformedURLException;
 
+import com.bradypod.shop.item.center.service.CtgInfoService;
 import com.caucho.hessian.client.HessianProxyFactory;
 
 public class TestHessian {
 
 	public static void main(String[] args) throws MalformedURLException, ClassNotFoundException {
 		HessianProxyFactory factory = new HessianProxyFactory();
-		String url = ("http://localhost/hessianService.shtml");
-		HessianService service = (HessianService) factory.create(
-				HessianService.class, url);
-		MyEntity entity = new MyEntity();
-		entity.setId(2);
-		entity.setName("wyl");
-		service.insert(entity);
+		String url = ("http://localhost/CtgInfoServiceImpl.shtml");
+		CtgInfoService service = (CtgInfoService) factory.create(CtgInfoService.class, url);
 
-		System.out.println(service.get(2).getName());
+		System.out.println(service.getCtgInfoTree());
 	}
 
 }

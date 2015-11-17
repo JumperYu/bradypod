@@ -15,6 +15,7 @@
 		<module>shop.item.center.service</module>
 		<module>shop.item.center.service.impl</module>
 		<module>shop.search</module>
+		<module>shop.item.center.war</module>
 	</modules>
 
 	<properties>

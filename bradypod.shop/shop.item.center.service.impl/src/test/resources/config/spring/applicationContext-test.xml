@@ -27,8 +27,7 @@
 
 	<!-- 使用annotation 自动注册bean,并检查@Required,@Autowired的属性已被注入 -->
 	<context:annotation-config />
-	<context:component-scan base-package="com.bradypod">
-	</context:component-scan>
+	<context:component-scan base-package="com.bradypod.shop.item.center" />
 
 	<!-- 全注解方式集成事物 -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
@@ -36,36 +35,9 @@
 	<!-- 重写properties文件的加载 -->
 	<bean class="com.yu.util.spring.MyPropertyPlaceholderConfigurer">
 		<property name="ignoreResourceNotFound" value="false" />
-		<!-- <property name="locations" value="classpath*:config/props/${ENV}/global.properties" 
-			/> -->
 		<property name="locations"
-			value="classpath*:config/props/release/global.properties" />
+			value="classpath*:config/props/${ENV}/global.properties" />
 	</bean>
-
-	<!-- 缓存框架 -->
-	<cache:annotation-driven />
-
-	<!-- jdk coucurrent hashmap -->
-	<bean id="simpleCache" class="org.springframework.cache.support.SimpleCacheManager">
-		<property name="caches">
-			<set>
-				<bean
-					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean"
-					p:name="default" />
-			</set>
-		</property>
-	</bean>
-
-	<bean id="cacheManager" class="org.springframework.cache.support.CompositeCacheManager">
-		<property name="cacheManagers">
-			<list>
-				<ref bean="simpleCache" />
-				<!-- TO DO 添加GemFire的支持 -->
-			</list>
-		</property>
-		<property name="fallbackToNoOpCache" value="true" />
-	</bean>
-	<!-- 缓存配置结束 -->
 
 	<!-- 数据源 -->
 	<bean id="dataSource"
@@ -75,6 +47,7 @@
 		<property name="username" value="${db.user}" />
 		<property name="password" value="${db.identity}" />
 	</bean>
+
 	<!-- Mybatis -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
@@ -85,27 +58,10 @@
 		<property name="basePackage" value="com.bradypod.shop.item.center.mapper" />
 	</bean>
 
-	<!-- JNDI数据源 -->
-	<!-- <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean"> 
-		<property name="jndiName"> <value>java:comp/env/jdbc/cphoto</value> </property> 
-		</bean> -->
-
-	<!-- ORM 框架 <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"> 
-		<property name="dataSource"> <ref bean="dataSource" /> </property> </bean> -->
-
-	<!-- <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"> 
-		<property name="entityManagerFactory" ref="entityManagerFactory" /> </bean> -->
-
 	<!-- 事物 -->
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<!-- 定义事务通知 <tx:advice id="txAdvice" transaction-manager="transactionManager"> 
-		<tx:attributes> <tx:method name="*" propagation="REQUIRED"/> <tx:method name="login" 
-		read-only="true" /> </tx:attributes> </tx:advice> -->
-	<!-- 定义AOP配置 <aop:config> <aop:pointcut expression="execution (* com.cp.user.service.*.*(..))" 
-		id="service" /> <aop:advisor advice-ref="txAdvice" pointcut-ref="service" 
-		/> </aop:config> -->
 </beans>
