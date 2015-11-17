@@ -9,7 +9,7 @@ public class TestHessian {
 
 	public static void main(String[] args) throws MalformedURLException, ClassNotFoundException {
 		HessianProxyFactory factory = new HessianProxyFactory();
-		String url = ("http://localhost/CtgInfoServiceImpl.shtml");
+		String url = ("http://192.168.1.2/CtgInfoServiceImpl");
 		CtgInfoService service = (CtgInfoService) factory.create(CtgInfoService.class, url);
 
 		System.out.println(service.getCtgInfoTree());
