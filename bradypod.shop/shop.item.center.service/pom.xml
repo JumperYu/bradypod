@@ -10,10 +10,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>com.bradypod</groupId>
 			<artifactId>commons-service</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
@@ -22,10 +18,6 @@
 			<groupId>com.bradypod</groupId>
 			<artifactId>commons-util</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<artifactId>junit</artifactId>
-			<groupId>junit</groupId>
 		</dependency>
 	</dependencies>
 </project>

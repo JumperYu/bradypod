@@ -15,6 +15,16 @@
 		<property name="service" ref="ctgInfoServiceImpl" />
 		<property name="serviceInterface" value="com.bradypod.shop.item.center.service.CtgInfoService" />
 	</bean>
-
+	
+	<bean name="/ItemInfoServiceImpl" class="org.springframework.remoting.caucho.HessianServiceExporter">
+		<property name="service" ref="itemInfoServiceImpl" />
+		<property name="serviceInterface" value="com.bradypod.shop.item.center.service.ItemInfoService" />
+	</bean>
+	
+	<bean name="/CtgInfoServiceImpl" class="org.springframework.remoting.caucho.HessianServiceExporter">
+		<property name="service" ref="ctgInfoServiceImpl" />
+		<property name="serviceInterface" value="com.bradypod.shop.item.center.service.CtgInfoService" />
+	</bean>
+	
 	<!-- Hessian end -->
 </beans>
