@@ -11,8 +11,6 @@ import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
-import org.apache.lucene.queryparser.surround.parser.QueryParser;
-import org.apache.lucene.search.Query;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.store.RAMDirectory;
@@ -69,7 +67,6 @@ public class IndexManager {
 	 */
 	@Test
 	public void search() throws Exception {
-		String querystr = "lucene";
 	}
 
 	/**

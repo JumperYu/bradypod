@@ -61,9 +61,9 @@ public class LuceneManager {
 			writerLock.lock();
 			if (null == writer) {
 				// 如果索引目录被锁，则直接抛异常
-				if (IndexWriter.isLocked(dir)) {
+			/*	if (IndexWriter.isLocked(dir)) {
 					throw new LockObtainFailedException("Directory of index had been locked.");
-				}
+				}*/
 				writer = new IndexWriter(dir, config);
 			}
 		} catch (LockObtainFailedException e) {

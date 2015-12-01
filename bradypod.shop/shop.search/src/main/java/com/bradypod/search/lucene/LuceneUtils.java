@@ -9,7 +9,6 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
@@ -25,7 +24,7 @@ import org.apache.lucene.store.FSDirectory;
 
 public class LuceneUtils {
 	private static final LuceneManager luceneManager = LuceneManager.getInstance();
-	private static Analyzer analyzer = new StandardAnalyzer();
+	//private static Analyzer analyzer = new StandardAnalyzer();
 
 	/**
 	 * 打开索引目录
@@ -42,7 +41,7 @@ public class LuceneUtils {
 			 * 注意：isLocked方法内部会试图去获取Lock,如果获取到Lock，会关闭它，否则return
 			 * false表示索引目录没有被锁， 这也就是为什么unlock方法被从IndexWriter类中移除的原因
 			 */
-			IndexWriter.isLocked(directory);
+			//IndexWriter.isLocked(directory);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
