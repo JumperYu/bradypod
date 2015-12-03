@@ -3,6 +3,9 @@ package com.bradypod.util.redis;
 import java.util.Collection;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
 
@@ -39,7 +42,11 @@ public class RedisTemplate {
 		AssertUtil.assertNotNull(redisFactory, "redis factory not set");
 		try (Jedis jedis = redisFactory.getResource()) {
 			return callback.execute(jedis);
+		} catch (Exception e) {
+			logger.error("redis error", e);
 		}
+		// ignore error
+		return null;
 	}
 
 	// TODO set方法统一先不处理返回值, 并假设都能成功
@@ -428,4 +435,5 @@ public class RedisTemplate {
 		this.redisFactory = redisFactory;
 	}
 
+	private static final Logger logger = LoggerFactory.getLogger(RedisTemplate.class);
 }
