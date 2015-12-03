@@ -10,6 +10,7 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
@@ -19,11 +20,11 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
-public class Searching {
+public class Searcher {
 
 	public static void main(String[] args) {
-		Searching.deleteTest();
-//		Searching.search("E://index", "1.txt");
+		Searcher.deleteTest();
+//		Searcher.search("E://index", "1.txt");
 	}
 
 	/**
@@ -62,8 +63,8 @@ public class Searching {
 		IndexWriter writer = getWriter("E://index");
 		try {
 			System.out.println("writer has docs : " + writer.numDocs());
-//			writer.deleteDocuments(new Term("id", "1"));
-			writer.deleteAll();
+			writer.deleteDocuments(new Term("id", "0"));
+//			writer.deleteAll();
 			writer.commit();
 			System.out.println("writer has dele:" + writer.hasDeletions());
 			System.out.println("writer has docs : " + writer.maxDoc());

@@ -71,17 +71,6 @@ public class Indexer {
 		}
 	}
 
-	protected Document getDocument(File file) {
-		Document doc = new Document();
-		try {
-			doc.add(new TextField("contents", new FileReader(file)));
-			doc.add(new TextField("filename", file.getName(), Store.YES));	
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		return doc;
-	}
-
 	private void indexFile(File file) {
 		try {
 			System.out.println("Indexing " + file.getCanonicalPath());
@@ -90,5 +79,22 @@ public class Indexer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * 为这个文件添加索引
+	 * 
+	 * @param file
+	 */
+	protected Document getDocument(File file) {
+		Document doc = new Document();
+		try {
+			
+			doc.add(new TextField("contents", new FileReader(file)));
+			doc.add(new TextField("filename", file.getName(), Store.YES));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return doc;
 	}
 }
