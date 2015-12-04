@@ -65,9 +65,9 @@ public class HttpTest {
 		headers.put("aaa", "aaa");
 		headers.put("bbb", URLEncoder.encode("我是中文我是中文我是中文我是中文我是中文我是中文我是中文", "UTF-8"));
 //		headers.put("bbb", "我是中文我是中文我是中文我是中文我是中文我是中文我是中文");
-//		request("http://192.168.1.111/json.html?param=中文", "GET", headers, null);
+		request("http://192.168.1.111/json.html?param=中文", "GET", headers, null);
 //		request("http://192.168.2.212:3004/front/homeitem/list.html?pageNO=1&pageSize=10", "GET", headers, null);
-		request("http://192.168.1.201:3604/front/homeitem/list.html?pageNO=1&pageSize=10", "GET", headers, null);
+//		request("http://192.168.1.201:3604/front/homeitem/list.html?pageNO=1&pageSize=10", "GET", headers, null);
 	}
 	
 	@Test
