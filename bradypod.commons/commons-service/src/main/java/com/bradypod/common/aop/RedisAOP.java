@@ -17,9 +17,6 @@ import org.springframework.util.SerializationUtils;
 
 import redis.clients.jedis.Jedis;
 
-import com.yu.util.redis.RedisPool;
-import com.yu.util.validate.AssertUtil;
-
 /**
  * Redis缓存AOP拦截解决方案结合注解@RedisCache
  *
@@ -55,9 +52,9 @@ public class RedisAOP {
 		String key = getCacheKey(jp, cache);
 		log.error(String.format("从redis中的%s获取缓存出现异常,[%s], 必须删除它", key,
 				e.getMessage()));
-		try (Jedis jedis = RedisPool.getJedis()) {
+		try (Jedis jedis = null) {
 			// TODO 判断
-			jedis.del(key.getBytes());
+			//jedis.del(key.getBytes());
 		} catch (Exception ex) {
 			// TODO: handle exception
 		}
@@ -69,12 +66,10 @@ public class RedisAOP {
 
 		String key = getCacheKey(pjp, cache);
 
-		AssertUtil.hasText(key, "使用redis注解缓存错误, 因为无法生成对应的key");
-
 		Object value = null;
 		// 先查看缓存
-		try (Jedis jedis = RedisPool.getJedis()) {
-			byte[] bytes = jedis.get(key.getBytes());
+		try (Jedis jedis = null) {
+			byte[] bytes = null; //jedis.get(key.getBytes());
 			if (ArrayUtils.isNotEmpty(bytes)) {
 				value = SerializationUtils.deserialize(bytes);
 				if (value != null) {
@@ -94,9 +89,9 @@ public class RedisAOP {
 
 		// 设置缓存
 		if (value != null) {
-			try (Jedis jedis = RedisPool.getJedis()) {
-				jedis.set(key.getBytes(), SerializationUtils.serialize(value));
-				jedis.expire(key.getBytes(), cache.expire());
+			try (Jedis jedis = null) {
+			//	jedis.set(key.getBytes(), SerializationUtils.serialize(value));
+			//	jedis.expire(key.getBytes(), cache.expire());
 			} catch (Exception e) {
 				// TODO: handle exception
 			}

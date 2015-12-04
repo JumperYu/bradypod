@@ -15,7 +15,6 @@ import com.bradypod.common.po.PageData;
 import com.bradypod.common.service.BaseMybatisServiceImpl;
 import com.yu.article.mapper.ArticleMapper;
 import com.yu.article.po.Article;
-import com.yu.util.validate.AssertUtil;
 
 /**
  * 
@@ -59,7 +58,6 @@ public class ArticleService extends
 	 */
 	@RedisCache(expire = 3600)
 	public Article getArticle(@RedisCacheKey long path) {
-		AssertUtil.assertGreaterThanZero(path, "需要传入大于0的正整数");
 		Article article = new Article();
 		article.setArticleId(path);
 		article = getMapper().get(article);

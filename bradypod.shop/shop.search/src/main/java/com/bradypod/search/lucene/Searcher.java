@@ -23,8 +23,8 @@ import org.apache.lucene.store.FSDirectory;
 public class Searcher {
 
 	public static void main(String[] args) {
-		Searcher.deleteTest();
-//		Searcher.search("E://index", "1.txt");
+//		Searcher.deleteTest();
+		Searcher.search("E://index", "1.txt");
 	}
 
 	/**

@@ -125,7 +125,7 @@ public class RedisTemplateTest {
 				new TypeReference<List<TestUser>>() {
 				}));
 	}
-
+	
 	public void testSpringRedis() {
 		/*
 		 * JedisConnectionFactory connectionFactory = new

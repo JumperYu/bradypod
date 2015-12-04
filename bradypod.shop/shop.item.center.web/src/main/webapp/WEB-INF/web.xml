@@ -17,8 +17,8 @@
 
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<!-- <param-value>classpath:config/spring/applicationContext-rmi.xml</param-value> -->
-			<param-value>classpath:test-rmi.xml</param-value>
+			<param-value>classpath:config/spring/applicationContext.xml</param-value>
+			<!-- <param-value>classpath:test-rmi.xml</param-value> -->
 		</init-param>
 
 		<!-- 默认情况下，spring会初始化很多异常解析器，如果想让spring使用我们自定义的异常解析器，就需要加上这个参数。取消spring的默认设置 -->
@@ -33,7 +33,7 @@
 
 	<servlet-mapping>
 		<servlet-name>spring</servlet-name>
-		<url-pattern>*.shtml</url-pattern>
+		<url-pattern>*.html</url-pattern>
 	</servlet-mapping>
 
 	<!-- hessian

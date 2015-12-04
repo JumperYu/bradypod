@@ -15,7 +15,6 @@ import com.bradypod.common.mapper.BaseMapper;
 import com.bradypod.common.po.GenericQueryParam;
 import com.bradypod.common.po.Page;
 import com.bradypod.common.po.PageData;
-import com.yu.util.validate.AssertUtil;
 
 /**
  * 基础业务接口
@@ -103,10 +102,6 @@ public abstract class BaseMybatisServiceImpl<M extends BaseMapper<E>, E extends 
 	 */
 	@Override
 	public PageData<List<E>> findPageData(Page page, Map<String, Object> params) {
-
-		AssertUtil.assertNotNull(page, "page对象为比传参数");
-		AssertUtil.assertGreaterThanZero(page.getPageSize(), "pageSize需要大于0");
-		AssertUtil.assertGreaterThanZero(page.getPageNO(), "pageNO需要大于0");
 
 		int pageSize = page.getPageSize();
 		int pageNO = page.getPageNO() - 1; // 使用mysql limit实现需要减去1

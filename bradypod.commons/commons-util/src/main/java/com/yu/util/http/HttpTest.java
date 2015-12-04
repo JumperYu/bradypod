@@ -3,8 +3,10 @@ package com.yu.util.http;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,11 +56,29 @@ public class HttpTest {
 		regContent.put("verifyCode", "315960");
 		request(regPath, "POST", null, JSON.toJSONString(regContent));
 	}
-
+	
+	@Test
+	public void testHeader() throws UnsupportedEncodingException{
+		Map<String, String> headers = new HashMap<>();
+		headers.put("xxx", "xxx1");
+		headers.put("yyy", "yyy");
+		headers.put("aaa", "aaa");
+		headers.put("bbb", URLEncoder.encode("我是中文我是中文我是中文我是中文我是中文我是中文我是中文", "UTF-8"));
+//		headers.put("bbb", "我是中文我是中文我是中文我是中文我是中文我是中文我是中文");
+//		request("http://192.168.1.111/json.html?param=中文", "GET", headers, null);
+//		request("http://192.168.2.212:3004/front/homeitem/list.html?pageNO=1&pageSize=10", "GET", headers, null);
+		request("http://192.168.1.201:3604/front/homeitem/list.html?pageNO=1&pageSize=10", "GET", headers, null);
+	}
+	
+	@Test
+	public void testHttpHeader(){
+		
+	}
+	
 	static void request(String path, String method, Map<String, String> headers, String content) {
 		String ret = "";
 		HttpURLConnection conn = null;
-		try {
+		try {	
 			URL url = new URL(path);
 			if (path.startsWith("https")) {// -->> Begin https init
 				// ignoreSSL();
