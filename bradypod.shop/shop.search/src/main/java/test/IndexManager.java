@@ -13,10 +13,12 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
@@ -27,11 +29,11 @@ import org.junit.Test;
 
 public class IndexManager {
 
-	protected String[] ids = { "1", "2" };
+	protected String[] ids = { "1", "2", "3", "4", "5"};
 
-	protected String[] content = { "Amsterdam has lost of add cancals", "i love add this girl" };
+	protected String[] content = { "Amsterdam love candlers", "i love add this girl", "i love add this child", "i love add this woman", "i love add my wife"};
 
-	protected String[] city = { "Amsterdam", "Venice" };
+	protected String[] city = { "GuangZhou", "MeiZhou", "ZhanJiang", "MaoMin", "ZhaoQing"};
 
 	private IndexWriter writer;
 
@@ -39,7 +41,7 @@ public class IndexManager {
 
 	private Directory dir;
 
-	private static final String INDEX_DIR = "D://index";
+	private static final String INDEX_DIR = "D://test_index";
 
 	@Before
 	public void init() throws Exception {
@@ -83,11 +85,19 @@ public class IndexManager {
 		IndexWriterConfig config = new IndexWriterConfig(analyzer);
 		IndexWriter writer = new IndexWriter(dir, config);
 		// 写入数据
-		addDoc(writer, "Lucene in Action", "193398817");
-		addDoc(writer, "Lucene for Dummies", "55320055Z");
-		addDoc(writer, "Managing Gigabytes", "55063554A");
-		addDoc(writer, "The Art of Computer Science", "9900333X");
+		for (int i = 0; i < city.length; i++) {
+			Document document = new Document();
+			document.add(new StringField("id", ids[i], Store.YES));
+			document.add(new StringField("city", city[i], Store.YES));
+			writer.addDocument(document);
+		}
+		IndexReader reader = DirectoryReader.open(writer.getDirectory());
+		IndexSearcher searcher = new IndexSearcher(reader);
+		Query query = new TermQuery(new Term("city", "guangzhou"));
+		TopDocs docs = searcher.search(query, 1);
+		System.out.println("hits:" + docs.totalHits);
 		writer.close();
+		reader.close();
 	}
 
 	/**
@@ -97,14 +107,14 @@ public class IndexManager {
 	 */
 	@Test
 	public void search() throws Exception {
-		String text = "add";
+		String text = "love";
 		String field = "content";
 		IndexSearcher searcher = new IndexSearcher(reader);
 		// 查询语句
 		QueryParser parser = new QueryParser(field, new StandardAnalyzer());
 		Query query = parser.parse(text);
 		// 得到查询结果
-		TopDocs topDocs = searcher.search(query, 1000);
+		TopDocs topDocs = searcher.search(query, 1);
 		ScoreDoc[] hits = topDocs.scoreDocs;
 		System.out.println("总共匹配多少个：" + topDocs.totalHits + "多少条数据：" + hits.length);
 		// 应该与topDocs.totalHits相同
@@ -114,11 +124,12 @@ public class IndexManager {
 			Document document = searcher.doc(scoreDoc.doc);
 			System.out.println(document.get(field));
 		}// --> end
+//		writer.deleteDocuments(query);
 	}
 
 	@Test
 	public void update() throws Exception {
-		
+
 	}
 
 	/**
@@ -133,10 +144,4 @@ public class IndexManager {
 		return new IndexWriter(dir, iwc);
 	}
 
-	private static void addDoc(IndexWriter w, String title, String isbn) throws IOException {
-		Document doc = new Document();
-		doc.add(new TextField("title", title, Store.YES));
-		doc.add(new StringField("isbn", isbn, Store.YES));
-		w.addDocument(doc);
-	}
 }

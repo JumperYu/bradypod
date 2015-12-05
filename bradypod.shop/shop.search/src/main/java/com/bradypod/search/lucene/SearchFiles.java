@@ -26,8 +26,8 @@ public class SearchFiles {
 	public static void main(String[] argxs) throws Exception {
 		String index = "D://index";
 		String field = "filename";
-		String queryString = "ClusterRedisFactory.java";
-		int hitsPerPage = 5;
+		String queryString = "aaaa.txt";
+		int hitsPerPage = 1;
 
 		IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(index)));
 		IndexSearcher searcher = new IndexSearcher(reader);
@@ -35,6 +35,9 @@ public class SearchFiles {
 		QueryParser parser = new QueryParser(field, new StandardAnalyzer());
 
 		Query query = parser.parse(queryString);
+		
+//		Query query = new TermQuery(new Term(field, queryString));
+		
 		System.out.println("Searching for: " + query.toString(field));
 
 		doPagingSearch(searcher, query, hitsPerPage, false, true);

@@ -31,7 +31,7 @@ public class IndexFiles {
 
 	public static void main(String[] args) throws IOException {
 		String indexPath = "D://index";
-		String filesDir = "E://work/after89/bradypod/bradypod.commons/commons-util/src/main/java/com/bradypod/util/redis";
+		String filesDir = "E://txt/";
 		boolean created = true;
 		Directory dir = FSDirectory.open(Paths.get(indexPath));
 		IndexWriterConfig iwc = new IndexWriterConfig(new StandardAnalyzer());
