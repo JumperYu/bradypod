@@ -24,7 +24,7 @@ public class Searcher {
 
 	public static void main(String[] args) {
 //		Searcher.deleteTest();
-		Searcher.search("E://index", "1.txt");
+		Searcher.search("E://index", "ClusterRedisFactory.java");
 	}
 
 	/**

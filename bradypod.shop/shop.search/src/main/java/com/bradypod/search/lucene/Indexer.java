@@ -23,7 +23,7 @@ public class Indexer {
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
 		String indexDir = "E://index";
-		String dataDir = "E://";
+		String dataDir = "E://work/after89/bradypod/bradypod.commons/commons-util/src/main/java/com/bradypod/util/redis";
 		Indexer indexer = new Indexer(indexDir);
 		int numIndexed;
 		numIndexed = indexer.index(dataDir, new TextFileFilter());
@@ -67,13 +67,13 @@ public class Indexer {
 	private static class TextFileFilter implements FileFilter {
 		@Override
 		public boolean accept(File path) {
-			return path.getName().toLowerCase().endsWith(".txt");
+			return path.getName().toLowerCase().endsWith(".java");
 		}
 	}
 
 	private void indexFile(File file) {
 		try {
-			System.out.println("Indexing " + file.getCanonicalPath());
+			System.out.println("Indexing " + file.getName());
 			Document doc = getDocument(file);
 			writer.addDocument(doc);
 		} catch (IOException e) {
