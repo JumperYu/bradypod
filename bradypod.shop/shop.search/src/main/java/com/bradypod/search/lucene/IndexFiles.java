@@ -31,7 +31,7 @@ public class IndexFiles {
 
 	public static void main(String[] args) throws IOException {
 		String indexPath = "D://index";
-		String filesDir = "E://txt/";
+		String filesDir = "C://Users/Administrator/Desktop/书籍";
 		boolean created = true;
 		Directory dir = FSDirectory.open(Paths.get(indexPath));
 		IndexWriterConfig iwc = new IndexWriterConfig(new StandardAnalyzer());

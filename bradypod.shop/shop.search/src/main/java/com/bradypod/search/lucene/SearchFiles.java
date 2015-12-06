@@ -26,8 +26,8 @@ public class SearchFiles {
 	public static void main(String[] argxs) throws Exception {
 		String index = "D://index";
 		String field = "filename";
-		String queryString = "aaaa.txt";
-		int hitsPerPage = 1;
+		String queryString = ".java";
+		int hitsPerPage = 10;
 
 		IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(index)));
 		IndexSearcher searcher = new IndexSearcher(reader);
