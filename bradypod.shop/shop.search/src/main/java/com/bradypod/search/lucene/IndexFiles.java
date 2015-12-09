@@ -24,29 +24,43 @@ import org.apache.lucene.index.Term;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
+/**
+ * Lucene索引文件
+ *
+ * @author zengxm<github.com/JumperYu>
+ *
+ * @date 2015年12月9日 下午5:17:43
+ */
 public class IndexFiles {
 
-	public IndexFiles() {
-	}
-
 	public static void main(String[] args) throws IOException {
+		// 指定启动参数
 		String indexPath = "D://index";
-		String filesDir = "C://Users/Administrator/Desktop/书籍";
+		String filesDir = "C://Users/Administrator/Desktop/微逛3.0商家侧原型";
 		boolean created = true;
+
+		// 创建索引
 		Directory dir = FSDirectory.open(Paths.get(indexPath));
 		IndexWriterConfig iwc = new IndexWriterConfig(new StandardAnalyzer());
-
-		if (created) {
-			iwc.setOpenMode(OpenMode.CREATE);
-		} else {
-			iwc.setOpenMode(OpenMode.APPEND);
-		}
-
+		iwc.setOpenMode(created ? OpenMode.CREATE : OpenMode.APPEND);
 		IndexWriter writer = new IndexWriter(dir, iwc);
+
 		indexDocs(writer, Paths.get(filesDir));
+
 		writer.close();
+		// 结束
 	}
 
+	/**
+	 * 索引一个路径下的所有文件
+	 * 
+	 * @param writer
+	 *            - IndexWriter
+	 * @param path
+	 *            - 文件/目录
+	 * 
+	 * @throws IOException
+	 */
 	static void indexDocs(final IndexWriter writer, Path path) throws IOException {
 		if (Files.isDirectory(path)) {
 			Files.walkFileTree(path, new SimpleFileVisitor<Path>() {
@@ -71,13 +85,16 @@ public class IndexFiles {
 	 * 添加索引
 	 * 
 	 * @param writer
+	 *            - 写入器
 	 * @param file
+	 *            - 文件
 	 * @param lastModified
+	 *            - long mills
 	 * @throws IOException
 	 */
 	static void indexDoc(IndexWriter writer, Path file, long lastModified) throws IOException {
 		try (InputStream stream = Files.newInputStream(file)) {
-			// 创建一个表
+			// 创建一行数据
 			Document doc = new Document();
 			// 添加列
 			Field pathField = new TextField("filename", file.getFileName().toString(),
@@ -86,14 +103,16 @@ public class IndexFiles {
 			doc.add(new LongField("modified", lastModified, Field.Store.NO));
 			doc.add(new TextField("contents", new BufferedReader(new InputStreamReader(stream,
 					StandardCharsets.UTF_8))));
-			// 加入索引
-			writer.addDocument(doc);
+			// 由外部指定更新还是创建
 			if (writer.getConfig().getOpenMode() == OpenMode.CREATE) {
 				System.out.println("adding index:" + file.getFileName());
+				// 加入索引
+				writer.addDocument(doc);
 			} else {
-				System.out.println("updating index:" + file);
+				System.out.println("updating index:" + file.getFileName());
+				// 更新索引
 				writer.updateDocument(new Term("path", file.toString()), doc);
 			}
-		}
+		}// --> end try-resource
 	}
 }

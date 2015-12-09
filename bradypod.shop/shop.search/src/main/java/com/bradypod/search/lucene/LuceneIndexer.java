@@ -17,17 +17,20 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
-public class Indexer {
+public class LuceneIndexer {
 
 	public static void main(String[] args) {
+		// 开始时间
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
+		// 指定索引目录和读取目录
 		String indexDir = "E://index";
 		String dataDir = "E://work/after89/bradypod/bradypod.commons/commons-util/src/main/java/com/bradypod/util/redis";
-		Indexer indexer = new Indexer(indexDir);
-		int numIndexed;
-		numIndexed = indexer.index(dataDir, new TextFileFilter());
+		// 创建索引
+		LuceneIndexer indexer = new LuceneIndexer(indexDir);
+		int numIndexed = indexer.index(dataDir, new TextFileFilter());
 		indexer.close();
+		// 结束时间
 		stopWatch.stop();
 		System.out.println("Indexing " + numIndexed + " files took " + stopWatch.getTime()
 				+ " millseconds");
@@ -35,22 +38,17 @@ public class Indexer {
 
 	private IndexWriter writer;
 
-	public Indexer(String dir) {
+	/**
+	 * Constructer
+	 * 
+	 * @param dir
+	 */
+	public LuceneIndexer(String dir) {
 		try {
 			Directory directory = FSDirectory.open(Paths.get(dir));
 			writer = new IndexWriter(directory, new IndexWriterConfig(new StandardAnalyzer()));
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-	}
-
-	public void close() {
-		if (writer != null) {
-			try {
-				writer.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
 	}
 
@@ -89,12 +87,25 @@ public class Indexer {
 	protected Document getDocument(File file) {
 		Document doc = new Document();
 		try {
-			
+
 			doc.add(new TextField("contents", new FileReader(file)));
 			doc.add(new TextField("filename", file.getName(), Store.YES));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		return doc;
+	}
+
+	/**
+	 * 关闭writer
+	 */
+	public void close() {
+		if (writer != null) {
+			try {
+				writer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
