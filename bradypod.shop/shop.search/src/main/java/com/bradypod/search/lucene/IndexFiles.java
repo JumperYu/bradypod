@@ -36,7 +36,7 @@ public class IndexFiles {
 	public static void main(String[] args) throws IOException {
 		// 指定启动参数
 		String indexPath = "D://index";
-		String filesDir = "C://Users/Administrator/Desktop/微逛3.0商家侧原型";
+		String filesDir = "C://Users/Administrator/Desktop/sockets";
 		boolean created = true;
 
 		// 创建索引

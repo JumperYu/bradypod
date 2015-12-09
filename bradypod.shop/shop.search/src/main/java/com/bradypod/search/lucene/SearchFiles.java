@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 
-import org.apache.lucene.analysis.Analyzer.ReuseStrategy;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
@@ -30,14 +29,18 @@ public class SearchFiles {
 		// 指定索引目录和需要搜索的域
 		String index = "D://index";
 		String field = "filename";
-		String queryString = "1.png";
+		String queryString = "xor*";
 		int hitsPerPage = 10; // 页大小
 
 		// 创建索引读取器
 		IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(index)));
 
 		IndexSearcher searcher = new IndexSearcher(reader);
-		QueryParser parser = new QueryParser(field, new StandardAnalyzer());
+		// 分词器
+		StandardAnalyzer analyzer = new StandardAnalyzer();
+//		SimpleAnalyzer analyzer = new SimpleAnalyzer();
+		// 查询语句
+		QueryParser parser = new QueryParser(field, analyzer);
 		Query query = parser.parse(queryString);
 
 		System.out.println(String.format("looking for field %s is *%s", query.toString(field), queryString));
@@ -45,6 +48,7 @@ public class SearchFiles {
 		doPagingSearch(searcher, query, hitsPerPage, false, true);
 
 		reader.close();
+		
 	}
 
 	/**
