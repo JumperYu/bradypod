@@ -4,16 +4,18 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexableField;
-import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.search.FuzzyQuery;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.MatchAllDocsQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.WildcardQuery;
 import org.apache.lucene.store.FSDirectory;
 
 /**
@@ -29,26 +31,36 @@ public class SearchFiles {
 		// 指定索引目录和需要搜索的域
 		String index = "D://index";
 		String field = "filename";
-		String queryString = "xor*";
-		int hitsPerPage = 10; // 页大小
+		String queryString = "htl";
+		int hitsPerPage = 10000; // 页大小
 
 		// 创建索引读取器
 		IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(index)));
 
 		IndexSearcher searcher = new IndexSearcher(reader);
 		// 分词器
-		StandardAnalyzer analyzer = new StandardAnalyzer();
-//		SimpleAnalyzer analyzer = new SimpleAnalyzer();
+		// StandardAnalyzer analyzer = new StandardAnalyzer();
+		// SimpleAnalyzer analyzer = new SimpleAnalyzer();
 		// 查询语句
-		QueryParser parser = new QueryParser(field, analyzer);
-		Query query = parser.parse(queryString);
-
-		System.out.println(String.format("looking for field %s is *%s", query.toString(field), queryString));
+		// QueryParser parser = new QueryParser(field, analyzer);
+		// Query query = parser.parse(queryString);
+		// 范围查询
+		// TermRangeQuery query = new TermRangeQuery(field, new
+		// BytesRef("a".getBytes()),
+		// new BytesRef("c".getBytes()), true, true);
+		// 正则查询
+		//WildcardQuery query = new WildcardQuery(new Term(field, queryString));
+		// 模糊查询
+		//FuzzyQuery query = new FuzzyQuery(new Term(field, queryString));
+		Query query = new MatchAllDocsQuery();
+		
+		System.out.println(String.format("looking for field %s is %s", query.toString(field),
+				queryString));
 
 		doPagingSearch(searcher, query, hitsPerPage, false, true);
 
 		reader.close();
-		
+
 	}
 
 	/**
@@ -65,19 +77,25 @@ public class SearchFiles {
 			boolean raw, boolean interactive) throws IOException {
 		// 查询指定页数
 		TopDocs results = searcher.search(query, hitsPerPage);
-		ScoreDoc[] hits = results.scoreDocs;
-		for (int i = 0; i < hits.length; i++) {
+		ScoreDoc[] scores = results.scoreDocs;
+		for (int i = 0; i < scores.length; i++) {
+
 			if (raw) { // output raw format
-				System.out.println("doc=" + hits[i].doc + " score=" + hits[i].score);
+				System.out.println("doc=" + scores[i].doc + " score=" + scores[i].score);
 				continue;
 			}// -->end if
 
 			// output
-			Document doc = searcher.doc(hits[i].doc);
+			Document doc = searcher.doc(scores[i].doc);
 			List<IndexableField> fields = doc.getFields();
 			for (IndexableField field : fields) {
+				// Explanation explanation = searcher.explain(query,
+				// scores[i].doc);
 				System.out.println((i + 1) + "." + field.name() + ": " + field.stringValue());
+				// 打印解释器
+				// System.out.println("explain:" + explanation.toString());
 			}// --> end for
+
 		}// --> end for
 		System.out.println("find out docs:" + results.totalHits);
 	}
