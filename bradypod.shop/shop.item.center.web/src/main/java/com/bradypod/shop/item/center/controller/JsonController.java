@@ -33,7 +33,7 @@ public class JsonController {
 		return body;
 	}
 
-	@RequestMapping(value = "/json", method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String json(String param, HttpEntity<byte[]> requestEntity) throws UnsupportedEncodingException {
 		System.out.println(String.format("收到中文:%s", param));
@@ -47,7 +47,7 @@ public class JsonController {
 		return "haha";
 	}
 
-	@RequestMapping(value = "/list.shtml")
+	@RequestMapping(value = "/list")
 	@ResponseBody
 	public List<String> list(HttpServletResponse response) {
 		List<String> list = new ArrayList<>();
@@ -91,6 +91,7 @@ public class JsonController {
 		cookie.setPath("/");
 		response.addCookie(cookie);
 		response.getWriter().println("<script>history.go(-1);</script>");
+		
 	}
 	
 	@RequestMapping(value = "haha.json")

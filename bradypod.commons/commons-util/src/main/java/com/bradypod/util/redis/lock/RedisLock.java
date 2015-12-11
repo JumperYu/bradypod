@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 
 import redis.clients.jedis.Jedis;
 
+import com.bradypod.util.redis.RedisTemplate;
+
 /**
  * 分布式锁
  *
@@ -18,18 +20,16 @@ public class RedisLock {
 
 	private Logger logger = LoggerFactory.getLogger(RedisLock.class);
 
-	private Jedis redis;
+	private RedisTemplate redisTemplate;
 
-	/**
-	 * 锁的key
-	 */
+	/** 锁的键 */
 	private String key;
 
-	/** 锁的超时时间（秒），过期删除 */
+	/** 锁的超时时间（秒），过期自动清除键 */
 	private int expire = 0;
 
 	// 锁状态标志
-	private boolean locked = false;
+	private volatile boolean locked = false;
 
 	/**
 	 * 其他人锁的 timestamp，仅用于debug
@@ -44,8 +44,8 @@ public class RedisLock {
 	 * @param key
 	 *            - 要锁的key
 	 */
-	public RedisLock(Jedis redis, String key) {
-		this(redis, key, 8 * 60);
+	public RedisLock(RedisTemplate redisTemplate, String key) {
+		this(redisTemplate, key, 8 * 60);
 	}
 
 	/**
@@ -58,14 +58,14 @@ public class RedisLock {
 	 * @param expire
 	 *            - 过期时间，单位秒，必须大于0
 	 */
-	public RedisLock(Jedis redis, String key, int expire) {
-		if (redis == null || key == null) {
+	public RedisLock(RedisTemplate redisTemplate, String key, int expire) {
+		if (redisTemplate == null || key == null) {
 			throw new IllegalArgumentException("redis和key不能为null");
 		}
 		if (expire <= 0) {
 			throw new IllegalArgumentException("expire必须大于0");
 		}
-		this.redis = redis;
+		this.redisTemplate = redisTemplate;
 		this.key = getLockKey(key);
 		this.expire = expire;
 	}
@@ -84,10 +84,10 @@ public class RedisLock {
 			lockTimestamp = time;
 		} else {
 			// 锁失败，看看 timestamp 是否超时
-			String value = redis.get(key);
+			String value = redisTemplate.getStringValue(key);
 			if (now > transformValue(value)) {
 				// 锁已经超时，尝试 GETSET 操作
-				value = redis.getSet(key, time);
+				value = redisTemplate.getSet(key, time);
 				// 返回的时间戳如果仍然是超时的，那就说明，如愿以偿拿到锁，否则是其他进程/线程设置了锁
 				if (now > transformValue(value)) {
 					this.locked = true;
@@ -109,7 +109,7 @@ public class RedisLock {
 	public void unlock() {
 		if (this.locked) {
 			try {
-				redis.del(key);
+				redisTemplate.delete(key);
 				this.locked = false;
 			} catch (Exception e) {
 				logger.error("EXCEPTION when delete key: ", e);
@@ -132,7 +132,7 @@ public class RedisLock {
 	 * @return true=成功
 	 */
 	private boolean tryLock(String time) {
-		if (this.locked == false && redis.setnx(key, time) == 1) {
+		if (this.locked == false && redisTemplate.setnx(key, time) == 1) {
 			// redis.expire(key, EXPIRE);
 			this.locked = true;
 		}
@@ -165,5 +165,10 @@ public class RedisLock {
 	public static void clearLock(Jedis redis, final String key) {
 		String tmp = getLockKey(key);
 		redis.del(tmp);
+	}
+
+	/* set */
+	public void setRedisTemplate(RedisTemplate redisTemplate) {
+		this.redisTemplate = redisTemplate;
 	}
 }

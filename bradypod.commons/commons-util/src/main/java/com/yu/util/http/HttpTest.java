@@ -19,23 +19,20 @@ public class HttpTest {
 
 	@Test
 	public void testPost() {
-		getMsg();
+//		getMsg();
 		// reg();
-//		 login();
+		 login();
 	}
 
 	static void login() {
-		// String messagePath =
-		// "http://user.ttwg168.com/front/user/supplierlogin.html";
-		String messagePath = "http://user.ttwg168.com/front/user/login.html";
+		String messagePath = "http://user.ttwg168.com/front/user/supplierlogin.html";
+//		String messagePath = "http://user.ttwg168.com/front/user/login.html";
 		Map<String, String> header = new HashMap<String, String>();
-		header.put("client_type", "1");
+		header.put("client_type", "3");
 		Map<String, Object> msgContent = new HashMap<String, Object>();
-		msgContent.put("mobileNum", "18680547506");
-		msgContent.put("loginPwd", "123456");
-		msgContent.put("verifyCode", "178512");
-		msgContent.put("userType", "1");
-		msgContent.put("type", "1");
+		msgContent.put("mobileNum", "18666085086");
+		msgContent.put("loginPwd", "123123");
+		msgContent.put("picVfCode", "2247");
 		request(messagePath, "POST", header, JSON.toJSONString(msgContent));
 	}
 
@@ -89,9 +86,9 @@ public class HttpTest {
 			conn.setRequestMethod(method); // set GET/POST has problem
 			conn.setUseCaches(false);
 			conn.setInstanceFollowRedirects(true);
-			conn.setRequestProperty("Content-Type", "text/plain;charset=utf-8"); // -->
-																					// default
-																					// header
+			conn.setRequestProperty("Content-Type", "text/plain;charset=utf-8");
+			conn.setReadTimeout(2000);
+			
 			if (headers != null) {
 				for (String key : headers.keySet()) {
 					conn.setRequestProperty(key, headers.get(key));

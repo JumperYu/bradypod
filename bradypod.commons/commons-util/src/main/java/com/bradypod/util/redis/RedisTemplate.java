@@ -120,6 +120,44 @@ public class RedisTemplate {
 	}
 
 	/**
+	 * 获取原始值并且设置一个新的值
+	 * 
+	 * @param key
+	 *            - 键
+	 * @param value
+	 *            - 值
+	 * @return - String
+	 */
+	public String getSet(final String key, final String value) {
+		return execute(new RedisCallback<String>() {
+
+			@Override
+			public String execute(Jedis jedis) {
+				return jedis.getSet(key, value);
+			}
+		});
+	}
+
+	/**
+	 * 当键值不存在的时候才设置
+	 * 
+	 * @param key
+	 *            - 键
+	 * @param value
+	 *            - 值
+	 * @return - String
+	 */
+	public Long setnx(final String key, final String value) {
+		return execute(new RedisCallback<Long>() {
+
+			@Override
+			public Long execute(Jedis jedis) {
+				return jedis.setnx(key, value);
+			}
+		});
+	}
+
+	/**
 	 * 哈希表操作
 	 * 
 	 * @param key
