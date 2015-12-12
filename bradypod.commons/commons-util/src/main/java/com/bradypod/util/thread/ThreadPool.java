@@ -29,22 +29,26 @@ public class ThreadPool {
 	 */
 	public void executeThread(final ThreadWorker threadWorker) {
 		// 手动添加对象
-		final CountDownLatch latch = new CountDownLatch(count);
+		final CountDownLatch allDone = new CountDownLatch(count);
+		final CountDownLatch afterAll = new CountDownLatch(1);
 		pool = Executors.newFixedThreadPool(count);
 		for (int i = 0; i < count; i++) {
-			pool.execute(new Runnable() {
+			pool.submit(new Runnable() {
 				@Override
 				public void run() {
 					try {
+						afterAll.await();
 						threadWorker.execute();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
 					} finally {
-						latch.countDown();
+						allDone.countDown();
 					}
 				}
 			});
 		}
 		try {
-			latch.await();
+			afterAll.countDown();
 			pool.shutdown();
 			// Wait a while for existing tasks to terminate
 			if (!pool.awaitTermination(MAX_AWAIT_TIME, TimeUnit.SECONDS)) {
