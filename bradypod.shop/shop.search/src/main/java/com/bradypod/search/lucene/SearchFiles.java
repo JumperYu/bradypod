@@ -8,8 +8,9 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexableField;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.search.FuzzyQuery;
 import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.MatchAllDocsQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
@@ -28,19 +29,21 @@ public class SearchFiles {
 		// 指定索引目录和需要搜索的域
 		String index = "D://index";
 		String field = "filename";
-		String queryString = "htl";
-		int hitsPerPage = 10000; // 页大小
+		String queryString = "预览*";
+		int hitsPerPage = 10; // 页大小
 
 		// 创建索引读取器
 		IndexReader reader = DirectoryReader.open(FSDirectory.open(Paths.get(index)));
 
 		IndexSearcher searcher = new IndexSearcher(reader);
 		// 分词器
-		// StandardAnalyzer analyzer = new StandardAnalyzer();
-		// SimpleAnalyzer analyzer = new SimpleAnalyzer();
+		//StandardAnalyzer analyzer = new StandardAnalyzer();
+		//SimpleAnalyzer analyzer = new SimpleAnalyzer();
+		// 中国日本韩国
+		//CJKAnalyzer analyzer = new CJKAnalyzer();
 		// 查询语句
-		// QueryParser parser = new QueryParser(field, analyzer);
-		// Query query = parser.parse(queryString);
+//		QueryParser parser = new QueryParser(field, analyzer);
+//		Query query = parser.parse(queryString);
 		// 范围查询
 		// TermRangeQuery query = new TermRangeQuery(field, new
 		// BytesRef("a".getBytes()),
@@ -48,8 +51,8 @@ public class SearchFiles {
 		// 正则查询
 		//WildcardQuery query = new WildcardQuery(new Term(field, queryString));
 		// 模糊查询
-		//FuzzyQuery query = new FuzzyQuery(new Term(field, queryString));
-		Query query = new MatchAllDocsQuery();
+		FuzzyQuery query = new FuzzyQuery(new Term(field, queryString));
+//		Query query = new MatchAllDocsQuery();
 		
 		System.out.println(String.format("looking for field %s is %s", query.toString(field),
 				queryString));
