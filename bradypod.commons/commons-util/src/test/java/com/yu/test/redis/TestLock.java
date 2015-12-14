@@ -2,6 +2,7 @@ package com.yu.test.redis;
 
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.lang.time.StopWatch;
 
 import com.bradypod.util.redis.RedisFactory;
@@ -48,8 +49,10 @@ public class TestLock {
 			try {
 				if (redisLock.lock()) {
 
-					// TimeUnit.MILLISECONDS.sleep(1); // 等待一会
-
+					TimeUnit.MILLISECONDS.sleep(1); // 等待一会
+					
+					System.out.println("do it");
+					
 					// 每次取当前线程的副本变量值
 					int currentCount = getCount();
 					// +1
@@ -59,11 +62,10 @@ public class TestLock {
 					// break
 					break;
 				}
-				TimeUnit.MILLISECONDS.sleep(waitTime);
+				TimeUnit.MILLISECONDS.sleep(RandomUtils.nextInt(waitTime));
 			} catch (Exception e) {
 				// ignore
 				e.printStackTrace();
-			} finally {
 			}
 		}
 	}
@@ -86,7 +88,7 @@ public class TestLock {
 
 		int times = 2;
 		while (times > 0) {
-			int threads = 10;
+			int threads = 5;
 			ThreadPool pool = new ThreadPool(threads);
 			pool.executeThread(new ThreadWorker() {
 

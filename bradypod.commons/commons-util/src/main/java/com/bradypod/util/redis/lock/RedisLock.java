@@ -3,6 +3,7 @@ package com.bradypod.util.redis.lock;
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
@@ -19,6 +20,8 @@ import com.bradypod.util.redis.RedisTemplate;
  * @date 2015年9月21日 上午11:20:34
  */
 public class RedisLock implements Closeable {
+
+	private AtomicInteger atom = new AtomicInteger(0);
 
 	/**
 	 * 实例
@@ -40,13 +43,13 @@ public class RedisLock implements Closeable {
 	 */
 	private volatile boolean locked = false;
 
-	// 默认失效秒数
-	private static final int DEFAULT_EXPIRE_SECONDS = 60;
-
 	/**
 	 * 其他人锁的 timestamp，仅用于debug
 	 */
 	private String lockTimestamp = "";
+
+	// 默认失效秒数
+	private static final int DEFAULT_EXPIRE_SECONDS = 60;
 
 	/**
 	 * 
@@ -96,7 +99,7 @@ public class RedisLock implements Closeable {
 		String time = (now + expire + 1) + "";
 
 		if (tryLock(time)) {
-			logger.info("You locked {}:{}", key, time);
+			logger.info("You {} locked {}:{}", atom.incrementAndGet(), key, time);
 		} else {
 			// 第一次尝试失败, 则进行二次验证
 			String value = redisTemplate.getStringValue(key);
@@ -111,20 +114,19 @@ public class RedisLock implements Closeable {
 					redisTemplate.expire(key, expire);
 					// 获取锁
 					this.lockTimestamp = time;
-					
-					logger.info("You locked2 {}:{}", key, time);
+
+					logger.info("You locked2 {} {}:{}", atom.incrementAndGet(), key, time);
 				} else {
 					// 未能获取锁
 					this.lockTimestamp = oldValue;
-//					logger.info("GETSET锁失败，旧值是：{}:{}", key, value);
+					logger.info("You lock3 fail {}:{}", key, value);
 				}
 			} else {
 				// 未能获取锁
 				this.lockTimestamp = value;
-//				logger.info("SETNX锁失败, 旧值是：{}:{}", key, value);
+				logger.info("You lock4 fail {}:{}", key, value);
 			}
 		}// --> end if-else
-		logger.info("You locked {}", locked);
 		return this.locked;
 	}
 
@@ -136,7 +138,7 @@ public class RedisLock implements Closeable {
 			try {
 				redisTemplate.delete(key);
 				this.locked = false;
-//				logger.info("delete key {}:{}", key, lockTimestamp);
+				// logger.info("delete key {}:{}", key, lockTimestamp);
 			} catch (Exception e) {
 				logger.error("EXCEPTION when delete key: ", e);
 			}
