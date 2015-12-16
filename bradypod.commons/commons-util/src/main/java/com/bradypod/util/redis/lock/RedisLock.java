@@ -34,7 +34,13 @@ public class RedisLock implements Closeable {
 	}
 
 	/**
-	 * 上锁
+	 * 
+	 * try(RedisLock redisLock = new RedisLock();){
+	 *  // 上锁
+	 *  redisLock.lock();
+	 *  // 执行业务
+	 * 	doSomething();
+	 * }
 	 */
 	public void lock() {
 		tryLockAndWait();
@@ -53,9 +59,10 @@ public class RedisLock implements Closeable {
 	 * @param key
 	 * @return - true/false
 	 */
-	private boolean tryLock() {
+	public boolean tryLock() {
 		// 记录当前时间点（秒）
-		long nowtime = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+		long nowtime = TimeUnit.MILLISECONDS.toSeconds(System
+				.currentTimeMillis());
 		String value = stringify(nowtime + expireTime + 1);
 		// --> 第一步setnx, 如果成功证明上锁
 		if (redisTemplate.setnx(key, value) == SET_NX_IS_OK) {
@@ -68,7 +75,8 @@ public class RedisLock implements Closeable {
 			// 再次记录旧锁的值（秒）
 			String oldValue = redisTemplate.getSet(key, value);
 			// --> 第三步getSet, 如果获取的值和记录的旧值相吻合则上锁, 否则结束尝试
-			if (currentLockValue == oldValue || currentLockValue.equals(oldValue)) {
+			if (currentLockValue == oldValue
+					|| currentLockValue.equals(oldValue)) {
 				return true;
 			}
 		}
@@ -85,7 +93,8 @@ public class RedisLock implements Closeable {
 		// 记录当前时间点（秒）
 		boolean isLocked = false;
 		while (!isLocked) {
-			long nowtime = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+			long nowtime = TimeUnit.MILLISECONDS.toSeconds(System
+					.currentTimeMillis());
 			String value = stringify(nowtime + expireTime + 1);
 			// --> 第一步setnx, 如果成功证明上锁
 			if (redisTemplate.setnx(key, value) == SET_NX_IS_OK) {
@@ -99,7 +108,8 @@ public class RedisLock implements Closeable {
 				// 再次记录旧锁的值（秒）
 				String oldValue = redisTemplate.getSet(key, value);
 				// --> 第三步getSet, 如果获取的值和记录的旧值相吻合则上锁, 否则结束尝试
-				if (currentLockValue == oldValue || currentLockValue.equals(oldValue)) {
+				if (currentLockValue == oldValue
+						|| currentLockValue.equals(oldValue)) {
 					isLocked = true;
 					break;
 				}
