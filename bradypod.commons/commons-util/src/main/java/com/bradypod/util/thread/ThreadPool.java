@@ -49,6 +49,7 @@ public class ThreadPool {
 		}
 		try {
 			afterAll.countDown();
+			allDone.await();
 			pool.shutdown();
 			// Wait a while for existing tasks to terminate
 			if (!pool.awaitTermination(MAX_AWAIT_TIME, TimeUnit.SECONDS)) {

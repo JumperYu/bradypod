@@ -1,112 +1,55 @@
 package com.yu.test.redis;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.lang.math.RandomUtils;
 import org.apache.commons.lang.time.StopWatch;
 
 import com.bradypod.util.redis.RedisFactory;
 import com.bradypod.util.redis.RedisTemplate;
 import com.bradypod.util.redis.lock.RedisLock;
-import com.bradypod.util.thread.ThreadPool;
-import com.bradypod.util.thread.ThreadWorker;
 
-/**
- * 测试锁的程序
- *
- * @author zengxm<http://github.com/JumperYu>
- *
- * @date 2015年12月12日 上午10:53:59
- */
 public class TestLock {
 
-	private int count = 0;
-
-	private String key = "test:lock";
-
-	private RedisFactory redisFactory;
-
-	private RedisTemplate redisTemplate;
-
-	private RedisLock redisLock;
-
-	public TestLock() {
-		redisFactory = new RedisFactory("192.168.1.201", 7005);
-		redisTemplate = new RedisTemplate();
+	public static void execute() {
+		String key = "test:lock";
+		long expireTime = 10;
+		RedisFactory redisFactory = new RedisFactory("192.168.1.201", 7005);
+		RedisTemplate redisTemplate = new RedisTemplate();
 		redisTemplate.setRedisFactory(redisFactory);
-		redisLock = new RedisLock(redisTemplate, key, 5);
-	}
-
-	/**
-	 * 测试多线程并发修改
-	 * 
-	 * @throws InterruptedException
-	 */
-	public void increament() {
-
-		int waitTime = 100; // 等待100毫秒
-		while (true) {
-			try {
-				if (redisLock.lock()) {
-
-					TimeUnit.MILLISECONDS.sleep(1); // 等待一会
-					
-					System.out.println("do it");
-					
-					// 每次取当前线程的副本变量值
-					int currentCount = getCount();
-					// +1
-					setCount(currentCount + 1);
-					// unlock
-					redisLock.unlock();
-					// break
-					break;
-				}
-				TimeUnit.MILLISECONDS.sleep(RandomUtils.nextInt(waitTime));
-			} catch (Exception e) {
-				// ignore
-				e.printStackTrace();
-			}
+		try (RedisLock redisLock = new RedisLock(key, expireTime, redisTemplate)) {
+			// redisLock.lock();
+			System.out.println(Thread.currentThread().getName() + " do my job");
 		}
-	}
-
-	public int getCount() {
-		return count;
-	}
-
-	public void setCount(int count) {
-		this.count = count;
 	}
 
 	public static void main(String[] args) {
-
-		// 记时
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
-
-		final TestLock testLock = new TestLock();
-
-		int times = 2;
-		while (times > 0) {
-			int threads = 5;
-			ThreadPool pool = new ThreadPool(threads);
-			pool.executeThread(new ThreadWorker() {
+		int threads = 10;
+		final int counts = 200;
+		ExecutorService pool = Executors.newFixedThreadPool(threads);
+		while (threads > 0) {
+			pool.execute(new Runnable() {
 
 				@Override
-				public void execute() {
+				public void run() {
 					try {
-						testLock.increament();
-					} catch (Exception e) {
+						TimeUnit.MILLISECONDS.sleep(5);
+					} catch (InterruptedException e) {
 						e.printStackTrace();
+					}
+					for (int i = 0; i < counts; i++) {
+						TestLock.execute();
 					}
 				}
 			});
-			// System.out.println("count:" + testLock.getCount());
-			times--;
+			threads--;
 		}
-
+		pool.shutdown();
 		stopWatch.stop();
-
-		System.out.println("finish time:" + stopWatch.getTime() + ", count:" + testLock.getCount());
+		System.out.println("finished cost: " + stopWatch.getTime());
 	}
+
 }

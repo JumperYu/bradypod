@@ -1,197 +1,135 @@
 package com.bradypod.util.redis.lock;
 
 import java.io.Closeable;
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.lang.math.RandomUtils;
 
 import com.bradypod.util.redis.RedisTemplate;
 
 /**
- * 分布式锁
+ * 分布式锁 - redis实现
  *
- * @author zengxm<github.com/JumperYu>
+ * @author zengxm<http://github.com/JumperYu>
  *
- * @date 2015年9月21日 上午11:20:34
+ * @date 2015年12月17日 下午5:20:13
  */
 public class RedisLock implements Closeable {
 
-	private AtomicInteger atom = new AtomicInteger(0);
+	private String key;
 
-	/**
-	 * 实例
-	 */
+	private long expireTime;
+
 	private RedisTemplate redisTemplate;
 
 	/**
-	 * 锁
-	 */
-	private String key;
-
-	/**
-	 * 锁的超时时间（秒），过期自动清除键
-	 */
-	private int expire = 0;
-
-	/**
-	 * 锁状态标志
-	 */
-	private volatile boolean locked = false;
-
-	/**
-	 * 其他人锁的 timestamp，仅用于debug
-	 */
-	private String lockTimestamp = "";
-
-	// 默认失效秒数
-	private static final int DEFAULT_EXPIRE_SECONDS = 60;
-
-	/**
 	 * 
+	 * @param expireTime
 	 * @param redisTemplate
-	 *            - redis实例
-	 * @param key
-	 *            - 锁的键
 	 */
-	public RedisLock(RedisTemplate redisTemplate, String key) {
-		this(redisTemplate, key, DEFAULT_EXPIRE_SECONDS);
-	}
-
-	/**
-	 * RedisLock构造函数
-	 * 
-	 * @param redis
-	 *            - Redis 实例
-	 * @param key
-	 *            - 要锁的key
-	 * @param expire
-	 *            - 过期时间，单位秒，必须大于0
-	 */
-	public RedisLock(RedisTemplate redisTemplate, String key, int expire) {
-		// 避免参数缺少
-		if (redisTemplate == null || key == null) {
-			throw new IllegalArgumentException("redis和key不能为null");
-		}
-		if (expire <= 0) {
-			throw new IllegalArgumentException("expire必须大于0");
-		}
-		// set
-		this.redisTemplate = redisTemplate;
+	public RedisLock(String key, long expireTime, RedisTemplate redisTemplate) {
 		this.key = key;
-		this.expire = expire;
+		this.expireTime = expireTime;
+		this.redisTemplate = redisTemplate;
 	}
 
 	/**
-	 * 尝试获得锁, 只尝试一次 <br>
-	 * 如果成功获得锁返回:true, 否则返回:false <br>
-	 * 如果锁已经被其他线程持有, 返回:false。<br>
+	 * 上锁
 	 */
-	public boolean lock() {
-
-		long now = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
-
-		// 保存超时的时间
-		String time = (now + expire + 1) + "";
-
-		if (tryLock(time)) {
-			logger.info("You {} locked {}:{}", atom.incrementAndGet(), key, time);
-		} else {
-			// 第一次尝试失败, 则进行二次验证
-			String value = redisTemplate.getStringValue(key);
-			if (value == null || now > transformValue(value)) {
-				// 锁已经超时或者已经释放, 尝试 GETSET 竞争锁
-				String oldValue = redisTemplate.getSet(key, time);
-				// 返回的时间戳如果仍然是超时的，那就说明，如愿以偿拿到锁，否则是其他进程/线程设置了锁
-				if (oldValue == value && now > transformValue(oldValue)) {
-					// 设置状态
-					this.locked = true;
-					// 设置失效时间
-					redisTemplate.expire(key, expire);
-					// 获取锁
-					this.lockTimestamp = time;
-
-					logger.info("You locked2 {} {}:{}", atom.incrementAndGet(), key, time);
-				} else {
-					// 未能获取锁
-					this.lockTimestamp = oldValue;
-					logger.info("You lock3 fail {}:{}", key, value);
-				}
-			} else {
-				// 未能获取锁
-				this.lockTimestamp = value;
-				logger.info("You lock4 fail {}:{}", key, value);
-			}
-		}// --> end if-else
-		return this.locked;
+	public void lock() {
+		tryLockAndWait();
 	}
 
 	/**
-	 * 释放已经获得的锁， 只有在获得锁的情况下才会释放锁。 本方法不会抛出异常。
+	 * 解锁
 	 */
 	public void unlock() {
-		if (this.locked) {
-			try {
-				redisTemplate.delete(key);
-				this.locked = false;
-				// logger.info("delete key {}:{}", key, lockTimestamp);
-			} catch (Exception e) {
-				logger.error("EXCEPTION when delete key: ", e);
+		redisTemplate.delete(key);
+	}
+
+	/**
+	 * 尝试上锁
+	 * 
+	 * @param key
+	 * @return - true/false
+	 */
+	private boolean tryLock() {
+		// 记录当前时间点（秒）
+		long nowtime = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+		String value = stringify(nowtime + expireTime + 1);
+		// --> 第一步setnx, 如果成功证明上锁
+		if (redisTemplate.setnx(key, value) == SET_NX_IS_OK) {
+			return true;
+		}
+		// 记录旧锁的时间（秒）
+		String currentLockValue = redisTemplate.getStringValue(key);
+		// --> 第二步get, 如果时间已经超时则继续尝试上锁, 否则等待
+		if (currentLockValue == null || nowtime > longify(currentLockValue)) {
+			// 再次记录旧锁的值（秒）
+			String oldValue = redisTemplate.getSet(key, value);
+			// --> 第三步getSet, 如果获取的值和记录的旧值相吻合则上锁, 否则结束尝试
+			if (currentLockValue == oldValue || currentLockValue.equals(oldValue)) {
+				return true;
 			}
 		}
+		return false;
 	}
 
 	/**
-	 * 尝试获得锁
+	 * 尝试上锁, 重入版
 	 * 
-	 * @param time
-	 *            - 锁超时的时间（秒）
-	 * @return true=成功
+	 * @param key
+	 * @return - true/false
 	 */
-	private boolean tryLock(String time) {
-		// 当锁状态为false, 且当前的key不存在redis
-		if (this.locked == false && redisTemplate.setnx(key, time) == SET_NX_IS_OK) {
-			// 设置失效时间
-			redisTemplate.expire(key, expire);
-			// 设置锁的状态
-			this.locked = true;
-		}
-		return this.locked;
-	}
-
-	/**
-	 * 将字符串转换为数字
-	 * 
-	 * @param value
-	 * @return
-	 */
-	private static long transformValue(String value) {
-		if (StringUtils.isNotEmpty(value)) {
-			return NumberUtils.toLong(value, 0L);
-		}
-		return 0L;
+	private boolean tryLockAndWait() {
+		// 记录当前时间点（秒）
+		boolean isLocked = false;
+		while (!isLocked) {
+			long nowtime = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+			String value = stringify(nowtime + expireTime + 1);
+			// --> 第一步setnx, 如果成功证明上锁
+			if (redisTemplate.setnx(key, value) == SET_NX_IS_OK) {
+				isLocked = true;
+				break;
+			}
+			// 记录旧锁的时间（秒）
+			String currentLockValue = redisTemplate.getStringValue(key);
+			// --> 第二步get, 如果时间已经超时则继续尝试上锁, 否则等待
+			if (currentLockValue == null || nowtime > longify(currentLockValue)) {
+				// 再次记录旧锁的值（秒）
+				String oldValue = redisTemplate.getSet(key, value);
+				// --> 第三步getSet, 如果获取的值和记录的旧值相吻合则上锁, 否则结束尝试
+				if (currentLockValue == oldValue || currentLockValue.equals(oldValue)) {
+					isLocked = true;
+					break;
+				}
+			}
+			// --> 如果没有获取到锁, 则随机休息后重入锁
+			try {
+				TimeUnit.MILLISECONDS.sleep(RandomUtils.nextInt(WAIT_TIME));
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}// --> end while
+		return isLocked;
 	}
 
 	@Override
-	public void close() throws IOException {
+	public void close() {
 		unlock();
 	}
 
-	/* get/set */
-	public String getLockTimestamp() {
-		return lockTimestamp;
+	// --> 数字和字符串的互相转换
+	private static String stringify(long time) {
+		return String.valueOf(time);
 	}
 
-	public void setRedisTemplate(RedisTemplate redisTemplate) {
-		this.redisTemplate = redisTemplate;
+	private static long longify(String time) {
+		return Long.parseLong(time);
 	}
 
-	// static
-	private static final int SET_NX_IS_OK = 1;
+	// redis操作返回正确的响应码
+	private static final long SET_NX_IS_OK = 1;
 
-	private static final Logger logger = LoggerFactory.getLogger(RedisLock.class);
+	private static final int WAIT_TIME = 100;
 }
