@@ -35,8 +35,8 @@ public class TestLock {
 
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
-		int threads = 2;
-		int counts = 50;
+		int threads = 10;
+		int counts = 10;
 		while (counts > 0) {
 			ThreadPool pool = new ThreadPool(threads);
 			pool.executeThread(new ThreadWorker() {
