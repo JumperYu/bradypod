@@ -26,13 +26,15 @@ public class ScheduledThreadPool {
 	// ScheduleAtFixedRate 是基于固定时间间隔进行任务调度
 	public void executeAtFixedRate(final ThreadWorker threadWorker, int delay, int period) {
 		pool = Executors.newScheduledThreadPool(threads);
-		scheduledFuture = pool.scheduleAtFixedRate(new Runnable() {
+		for (int i = 0; i < threads; i++) {
+			scheduledFuture = pool.scheduleAtFixedRate(new Runnable() {
 
-			@Override
-			public void run() {
-				threadWorker.execute();
-			}
-		}, delay, period, TimeUnit.SECONDS);
+				@Override
+				public void run() {
+					threadWorker.execute();
+				}
+			}, delay, period, TimeUnit.SECONDS);
+		}
 	}
 
 	// ScheduleAtFixedRate 是基于固定时间间隔进行任务调度
