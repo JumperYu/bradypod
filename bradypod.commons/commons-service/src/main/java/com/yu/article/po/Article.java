@@ -3,8 +3,6 @@ package com.yu.article.po;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.validation.constraints.NotNull;
-
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -22,8 +20,6 @@ public class Article implements Serializable {
 	private long articleId;
 
 	private String path;
-
-	@NotNull
 	private String title;
 
 	private String summary;

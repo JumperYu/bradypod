@@ -92,7 +92,6 @@ public class RedisLock implements Closeable {
 			// --> 第一步setnx, 如果成功证明上锁
 			if (redisTemplate.setnx(key, value) == SET_NX_IS_OK) {
 				isLocked = true;
-				redisTemplate.expire(value, expireTime);
 				break;
 			}
 			// 记录旧锁的时间（秒）
@@ -102,11 +101,11 @@ public class RedisLock implements Closeable {
 				// 再次记录旧锁的值（秒）
 				String oldValue = redisTemplate.getSet(key, value);
 				// --> 第三步getSet, 如果获取的值和记录的旧值相吻合则上锁, 否则结束尝试
-				if (currentLockValue == oldValue || currentLockValue.equals(oldValue)) {
+				if (currentLockValue == oldValue
+						|| (currentLockValue != null && currentLockValue.equals(oldValue))) {
 					isLocked = true;
-					redisTemplate.expire(value, expireTime);
 					break;
-				}
+				}// --> end-if
 			}
 			// --> 如果没有获取到锁, 则随机休息后重入锁
 			try {
