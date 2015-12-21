@@ -21,7 +21,7 @@
 
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:config/spring/applicationContext-hessian.xml</param-value>
+			<param-value>classpath:config/spring/applicationContext-servlet.xml</param-value>
 		</init-param>
 
 		<!-- 默认情况下，spring会初始化很多异常解析器，如果想让spring使用我们自定义的异常解析器，就需要加上这个参数。取消spring的默认设置 -->

@@ -26,16 +26,6 @@ public interface BaseMapper<E> {
 	public int save(E e);
 
 	/**
-	 * 获取全部
-	 * 
-	 * @param E
-	 *            - 实体
-	 * 
-	 * @return List - 返回实体数组
-	 */
-	public List<E> getAll(E e);
-
-	/**
 	 * 删除实体
 	 * 
 	 * @param E
@@ -61,15 +51,17 @@ public interface BaseMapper<E> {
 	 */
 	public int update(E e);
 
+	// TODO 以下方法为不通用方法
+
 	/**
-	 * 批量更新
+	 * 获取全部
 	 * 
-	 * @param list
-	 *            - List
+	 * @param E
+	 *            - 实体
 	 * 
-	 * @return int - 影响行数
+	 * @return List - 返回实体数组
 	 */
-	public int batchUpdate(List<E> list);
+	public List<E> getAll(E e);
 
 	/**
 	 * 分页查询

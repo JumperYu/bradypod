@@ -27,8 +27,8 @@ import com.bradypod.shop.item.center.service.CtgInfoService;
 import com.bradypod.shop.item.center.service.CtgItemService;
 import com.bradypod.shop.item.center.service.ItemInfoService;
 
+@Service("ctgInfoService")
 @Transactional(propagation = Propagation.SUPPORTS)
-@Service
 public class CtgInfoServiceImpl extends
 		BaseMybatisServiceImpl<CtgInfoMapper, CtgInfo> implements
 		CtgInfoService {

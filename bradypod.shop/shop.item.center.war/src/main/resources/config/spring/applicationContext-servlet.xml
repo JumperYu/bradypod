@@ -8,17 +8,9 @@
 	xsi:schemaLocation="
        http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
-
-	<!-- Hessian begin -->
-
-	<bean name="/CtgInfoService" class="org.springframework.remoting.caucho.HessianServiceExporter">
-		<property name="service" ref="ctgInfoService" />
-		<property name="serviceInterface" value="com.bradypod.shop.item.center.service.CtgInfoService" />
-	</bean>
 	
-	<bean name="/ItemInfoService" class="org.springframework.remoting.caucho.HessianServiceExporter">
-		<property name="service" ref="itemInfoService" />
-		<property name="serviceInterface" value="com.bradypod.shop.item.center.service.ItemInfoService" />
-	</bean>
-	<!-- Hessian end -->
+	<!-- web servlet -->
+	
+	<import resource="classpath:config/spring/applicationContext-hessian.xml"/>
+	
 </beans>

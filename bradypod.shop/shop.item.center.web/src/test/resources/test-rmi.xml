@@ -42,13 +42,18 @@
 	</bean> -->
 
 	<!-- Hessian -->
- 	<bean id="hessianService" class="com.yu.nio.HessianServiceImpl" />
+	<bean id="itemInfoService" class="org.springframework.remoting.caucho.HessianProxyFactoryBean">
+		<property name="serviceUrl" value="http://192.168.1.155/ItemInfoService"/>
+		<property name="serviceInterface" value="com.bradypod.shop.item.center.service.ItemInfoService"/>
+	</bean>
+	
+<!--  	<bean id="hessianService" class="com.yu.nio.HessianServiceImpl" />
 
 	<bean name="/hessianService.shtml"
 		class="org.springframework.remoting.caucho.HessianServiceExporter">
 		<property name="service" ref="hessianService" />
 		<property name="serviceInterface" value="com.yu.nio.HessianService" />
-	</bean>
+	</bean> -->
 	<!--
 	<bean id="remoteHessianService"
 		class="org.springframework.remoting.caucho.HessianProxyFactoryBean">

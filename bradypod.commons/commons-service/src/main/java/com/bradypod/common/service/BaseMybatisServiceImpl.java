@@ -31,7 +31,7 @@ public abstract class BaseMybatisServiceImpl<M extends BaseMapper<E>, E extends 
 	public int save(E e) {
 		int rows = getMapper().save(e);
 		if (rows != 1) {
-			log.debug("插入数据失败, 期望插入1行, 结果为" + rows + "," + e.toString());
+			log.debug("插入数据失败, 期望插入1行, 结果为 {}", rows);
 		}
 		return rows;
 	}
@@ -78,17 +78,6 @@ public abstract class BaseMybatisServiceImpl<M extends BaseMapper<E>, E extends 
 	@Override
 	public E get(E e) {
 		return getMapper().get(e);
-	}
-
-	/**
-	 * 批量更新
-	 * 
-	 * @return int - 行数
-	 */
-	@Transactional(propagation = Propagation.REQUIRED)
-	@Override
-	public int batchUpdate(List<E> list) {
-		return getMapper().batchUpdate(list);
 	}
 
 	/**
@@ -152,8 +141,7 @@ public abstract class BaseMybatisServiceImpl<M extends BaseMapper<E>, E extends 
 		return getMapper().countData(params);
 	}
 
-	protected static final Logger log = LoggerFactory
-			.getLogger(BaseMybatisServiceImpl.class);
+	protected static final Logger log = LoggerFactory.getLogger(BaseMybatisServiceImpl.class);
 
 	private M mapper;
 

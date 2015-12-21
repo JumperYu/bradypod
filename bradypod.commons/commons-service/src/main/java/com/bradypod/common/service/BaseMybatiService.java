@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.bradypod.common.po.GenericQueryParam;
 import com.bradypod.common.po.Page;
 import com.bradypod.common.po.PageData;
@@ -71,16 +68,6 @@ public interface BaseMybatiService<E extends Serializable> {
 	 * @return E - 返回实体
 	 */
 	public E get(E e);
-
-	/**
-	 * 批量更新
-	 * 
-	 * @param
-	 * 
-	 * @return int - 行数
-	 */
-	@Transactional(propagation = Propagation.REQUIRED)
-	public int batchUpdate(List<E> list);
 
 	/**
 	 * 获取分页数据
