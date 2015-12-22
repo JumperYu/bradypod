@@ -19,9 +19,9 @@ import org.apache.zookeeper.ZooKeeper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ServiceConsumer {
+public class RmiServiceConsumer {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ServiceConsumer.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(RmiServiceConsumer.class);
 
 	// 用于等待 SyncConnected 事件触发后继续执行当前线程
 	private CountDownLatch latch = new CountDownLatch(1);
@@ -30,7 +30,7 @@ public class ServiceConsumer {
 	private volatile List<String> urlList = new ArrayList<>();
 
 	// 构造器
-	public ServiceConsumer() {
+	public RmiServiceConsumer() {
 		ZooKeeper zk = connectServer(); // 连接 ZooKeeper 服务器并获取 ZooKeeper 对象
 		if (zk != null) {
 			watchNode(zk); // 观察 /registry 节点的所有子节点并更新 urlList 成员变量

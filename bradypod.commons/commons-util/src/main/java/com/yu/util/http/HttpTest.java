@@ -21,7 +21,7 @@ public class HttpTest {
 	public void testPost() {
 //		getMsg();
 		// reg();
-		 login();
+//		 login();
 	}
 
 	static void login() {
@@ -72,6 +72,11 @@ public class HttpTest {
 		
 	}
 	
+	@Test
+	public void testAdminLogin(){
+		request("http://admin.ttwg168.com", "POST", null, "userName=admin&loginPwd=jonson@ttwg");
+	}
+	
 	static void request(String path, String method, Map<String, String> headers, String content) {
 		String ret = "";
 		HttpURLConnection conn = null;
@@ -103,6 +108,7 @@ public class HttpTest {
 				dos.close();
 			}
 			int code = conn.getResponseCode();
+			System.out.format("response code:%d%n", code);
 			if (code == HttpURLConnection.HTTP_OK) {
 				BufferedReader reader = new BufferedReader(new InputStreamReader(
 						conn.getInputStream(), "UTF-8"));

@@ -17,7 +17,7 @@ import org.apache.zookeeper.ZooKeeper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ServiceProvider {
+public class RmiServiceProvider {
 
 	// 用于等待 SyncConnected 事件触发后继续执行当前线程
 	private CountDownLatch latch = new CountDownLatch(1);
@@ -81,5 +81,5 @@ public class ServiceProvider {
 		}
 	}
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ServiceProvider.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(RmiServiceProvider.class);
 }

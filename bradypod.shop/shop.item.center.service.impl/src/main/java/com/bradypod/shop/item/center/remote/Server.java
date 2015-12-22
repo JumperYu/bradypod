@@ -13,10 +13,10 @@ public class Server {
 
 	public static void main(String[] args) throws Exception {
 
-		String host = "192.168.1.199";
-		int port = 4181;
+		String host = "localhost";
+		int port = 7000;
 
-		ServiceProvider provider = new ServiceProvider();
+		RmiServiceProvider provider = new RmiServiceProvider();
 
 		HomeServiceImpl homeServiceImpl = new HomeServiceImpl();
 		provider.publish(homeServiceImpl, host, port);

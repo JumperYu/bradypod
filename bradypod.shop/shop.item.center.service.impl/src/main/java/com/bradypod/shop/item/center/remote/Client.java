@@ -5,7 +5,7 @@ import com.bradypod.shop.item.center.service.HomeService;
 public class Client {
 
 	public static void main(String[] args) throws Exception {
-		ServiceConsumer consumer = new ServiceConsumer();
+		RmiServiceConsumer consumer = new RmiServiceConsumer();
 
 		while (true) {
 			HomeService homeService = consumer.lookup();
