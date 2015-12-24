@@ -40,5 +40,6 @@
 		<module>bradypod.framework.server</module>
 		<module>bradypod.framework.vm</module>
 		<module>bradypod.framework.redis</module>
+		<module>bradypod.framework.lucene</module>
 	</modules>
 </project>

@@ -54,6 +54,7 @@
 		<lucene.version>5.3.1</lucene.version>
 		<netty.version>4.0.24.Final</netty.version>
 		<cglib.version>3.2.0</cglib.version>
+		<stanford-corenlp.version>3.5.2</stanford-corenlp.version>
 	</properties>
 
 	<dependencyManagement>
@@ -328,9 +329,9 @@
 				<version>${elasticsearch.version}</version>
 			</dependency>
 			<dependency>
-				<groupId> org.apache.lucene</groupId>
-				<artifactId> lucene-core</artifactId>
-				<version> ${lucene.version}</version>
+				<groupId>org.apache.lucene</groupId>
+				<artifactId>lucene-core</artifactId>
+				<version>${lucene.version}</version>
 			</dependency>
 			<dependency>
 				<groupId> org.apache.lucene</groupId>
@@ -412,6 +413,12 @@
 				<groupId>cglib</groupId>
 				<artifactId>cglib</artifactId>
 				<version>${cglib.version}</version>
+			</dependency>
+			<!-- chiness -->
+			<dependency>
+				<groupId>edu.stanford.nlp</groupId>
+				<artifactId>stanford-corenlp</artifactId>
+				<version>${stanford-corenlp.version}</version>
 			</dependency>
 
 

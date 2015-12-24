@@ -3,22 +3,15 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.bradypod</groupId>
-		<artifactId>bradypod.shop</artifactId>
+		<artifactId>bradypod.framework</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>shop.search</artifactId>
-
+	<artifactId>bradypod.framework.lucene</artifactId>
 	<dependencies>
 		<dependency>
-			<groupId>com.bradypod</groupId>
-			<artifactId>commons-util</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-core</artifactId>
 		</dependency>
-		<dependency>
-			<groupId> org.apache.lucene</groupId>
-			<artifactId> lucene-core</artifactId>
-		</dependency>
-
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
 			<artifactId>lucene-analyzers-common</artifactId>
@@ -28,10 +21,13 @@
 			<artifactId>lucene-queryparser</artifactId>
 		</dependency>
 		<dependency>
-			<artifactId>junit</artifactId>
-			<groupId>junit</groupId>
-			<scope>test</scope>
+			<groupId>edu.stanford.nlp</groupId>
+			<artifactId>stanford-corenlp</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
-
 </project>

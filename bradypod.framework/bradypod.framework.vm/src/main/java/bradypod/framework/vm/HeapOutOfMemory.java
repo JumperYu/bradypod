@@ -16,9 +16,9 @@ public class HeapOutOfMemory {
 		HeapOutOfMemory heap = new HeapOutOfMemory();
 		List<TestCase> cases = new ArrayList<TestCase>();
 		while (true) {
-			// cases.add(new TestCase()); 如果直接这样创建TestCase实例将无法进行自动回收
-			cases.add(heap.new TestCase());
-			//TestCase test = new TestCase();
+			cases.add(heap.new TestCase()); // 如果直接这样创建TestCase实例将无法进行自动回收
+//			cases.add(heap.new TestCase());
+//			TestCase test = new TestCase();
 		}
 	}
 
