@@ -15,7 +15,7 @@
 	<#if !column.htmlHidden>	
 	<tr>	
 		<td class="tdLabel">
-			<#if !column.nullable><span class="required">*</span></#if><%=${className}.ALIAS_${column.constantName}%>:
+			<#if !column.nullable><span class="required">*</span></#if><%={className}.ALIAS_${column.constantName}%>:
 		</td>		
 		<td>
 	<#if column.isDateTimeColumn>

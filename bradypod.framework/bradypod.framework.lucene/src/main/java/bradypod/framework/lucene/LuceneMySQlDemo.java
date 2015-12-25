@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.core.SimpleAnalyzer;
+import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.TextField;
@@ -24,6 +24,13 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 
+/**
+ * Lucene + SmartChineseAnalyzer + MySQL
+ *
+ * @author zengxm<http://github.com/JumperYu>
+ *
+ * @date 2015年12月25日 上午11:19:12
+ */
 public class LuceneMySQlDemo {
 
 	private static final String driverClassName = "com.mysql.jdbc.Driver";
@@ -40,11 +47,47 @@ public class LuceneMySQlDemo {
 	public static void main(String[] args) {
 		LuceneMySQlDemo luceneDemo = new LuceneMySQlDemo();
 		luceneDemo.createIndex();
-		luceneDemo.searchByTerm("title", "cloth", 100);
+		luceneDemo.searchByTerm("title", "女包", 100);
 	}
 
 	public LuceneMySQlDemo() {
+		// 初始化内存索引
 		directory = new RAMDirectory();
+	}
+
+	/**
+	 * 搜索
+	 * 
+	 * @param field
+	 * @param keyword
+	 * @param num
+	 */
+	public void searchByTerm(String field, String keyword, int num) {
+		IndexSearcher isearcher = getSearcher();
+		Analyzer analyzer = getAnalyzer();
+		// 使用QueryParser查询分析器构造Query对象
+		QueryParser qp = new QueryParser(field, analyzer);
+		// 这句所起效果？
+		qp.setDefaultOperator(QueryParser.OR_OPERATOR);
+		try {
+			Query query = qp.parse(keyword);
+			ScoreDoc[] hits;
+
+			// 注意searcher的几个方法
+			hits = isearcher.search(query, num).scoreDocs;
+			
+			System.out.println();
+			
+			for (int i = 0; i < hits.length; i++) {
+				Document doc = isearcher.doc(hits[i].doc);
+				System.out.format("searched data id:%s,title:%s,price:%s\n", doc.getField("id")
+						.stringValue(), doc.getField("title").stringValue(), doc.getField("price")
+						.stringValue());
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -70,6 +113,9 @@ public class LuceneMySQlDemo {
 		return null;
 	}
 
+	/**
+	 * 获取mysql连接
+	 */
 	public Connection getConnection() {
 		if (this.conn == null) {
 			try {
@@ -86,23 +132,23 @@ public class LuceneMySQlDemo {
 		return conn;
 	}
 
+	/**
+	 * 获取分析器
+	 */
 	private Analyzer getAnalyzer() {
-		return new SimpleAnalyzer();
+		return new SmartChineseAnalyzer();
 	}
 
 	/**
-	 * 
+	 * 从mysql获取数据并创建索引
 	 */
 	public void createIndex() {
-		Connection conn = getConnection();
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
-		if (conn == null) {
-			System.out.println("get the connection error...");
-			return;
-		}
-		String sql = "select id,title,price from t_item_info";
-		try {
+
+		try (Connection conn = getConnection();) {
+			// sql
+			String sql = "select id, title, price from t_item_info";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 
@@ -114,7 +160,7 @@ public class LuceneMySQlDemo {
 				int id = rs.getInt(1);
 				String title = rs.getString(2);
 				String price = rs.getString(3);
-				System.out.format("id:%d,title:%s,price:%s\n", id, title, price);
+				System.out.format("selected data id:%d,title:%s,price:%s\n", id, title, price);
 				Document doc = new Document();
 				doc.add(new TextField("id", id + "", Field.Store.YES));
 				doc.add(new TextField("title", title, Field.Store.YES));
@@ -122,10 +168,8 @@ public class LuceneMySQlDemo {
 				iwriter.addDocument(doc);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
@@ -139,33 +183,8 @@ public class LuceneMySQlDemo {
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-	}
-
-	public void searchByTerm(String field, String keyword, int num) {
-		IndexSearcher isearcher = getSearcher();
-		Analyzer analyzer = getAnalyzer();
-		// 使用QueryParser查询分析器构造Query对象
-		QueryParser qp = new QueryParser(field, analyzer);
-		// 这句所起效果？
-		qp.setDefaultOperator(QueryParser.OR_OPERATOR);
-		try {
-			Query query = qp.parse(keyword);
-			ScoreDoc[] hits;
-
-			// 注意searcher的几个方法
-			hits = isearcher.search(query, num).scoreDocs;
-
-			for (int i = 0; i < hits.length; i++) {
-				Document doc = isearcher.doc(hits[i].doc);
-				System.out.println("the ids is = " + doc.get("id") + " ");
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 

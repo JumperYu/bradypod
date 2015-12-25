@@ -5,10 +5,10 @@ import java.io.StringReader;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.Tokenizer;
-import org.apache.lucene.analysis.core.WhitespaceTokenizer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.tokenattributes.OffsetAttribute;
+import org.apache.lucene.analysis.tokenattributes.TypeAttribute;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.TextField;
@@ -22,18 +22,13 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
+import org.junit.Test;
 
 public class AnalyzerDemo {
 
-	public static void standardAnalyzer() throws IOException, ParseException {
-		Analyzer analyzer = new Analyzer() {
-			@Override
-			protected TokenStreamComponents createComponents(String fieldName) {
-				Tokenizer source = new WhitespaceTokenizer();
-				TokenStream result = new LengthFilter(source, 4, Integer.MAX_VALUE);
-				return new TokenStreamComponents(source);
-			}
-		};// new StandardAnalyzer();
+	@Test
+	public void initIndex() throws IOException, ParseException {
+		Analyzer analyzer = new SmartChineseAnalyzer();
 
 		// Store the index in memory:
 		Directory directory = new RAMDirectory();
@@ -67,43 +62,31 @@ public class AnalyzerDemo {
 		directory.close();
 	}
 
-	public static void test() throws IOException {
-		Analyzer analyzer = new Analyzer() {
-			@Override
-			protected TokenStreamComponents createComponents(String fieldName) {
-				Tokenizer source = new WhitespaceTokenizer();
-				TokenStream result = new LengthFilter(source, 4, Integer.MAX_VALUE);
-				return new TokenStreamComponents(source);
-			}
-		}; // or any other
+	@Test
+	public void testTokenNizer() throws IOException {
+
 		// analyzer
-		TokenStream ts = analyzer.tokenStream("myfield", new StringReader("some text goes here"));
-		// The Analyzer class will construct the Tokenizer, TokenFilter(s), and
-		// CharFilter(s),
-		// and pass the resulting Reader to the Tokenizer.
-		OffsetAttribute offsetAtt = ts.addAttribute(OffsetAttribute.class);
+		try (Analyzer analyzer = new SmartChineseAnalyzer();
+				TokenStream ts = analyzer.tokenStream("myfield", new StringReader(
+						"今天是周五，明天不上班。"))) {
+			// 获取词元位置属性
+			OffsetAttribute offset = ts.addAttribute(OffsetAttribute.class);
+			// 获取词元文本属性
+			CharTermAttribute term = ts.addAttribute(CharTermAttribute.class);
+			// 获取词元文本属性
+			TypeAttribute type = ts.addAttribute(TypeAttribute.class);
 
-		try {
-			ts.reset(); // Resets this stream to the beginning. (Required)
+			// 重置TokenStream（重置StringReader）
+			ts.reset();
+			// 迭代获取分词结果
 			while (ts.incrementToken()) {
-				// Use AttributeSource.reflectAsString(boolean)
-				// for token stream debugging.
-				System.out.println("token: " + ts.reflectAsString(true));
-
-				System.out.println("token start offset: " + offsetAtt.startOffset());
-				System.out.println("  token end offset: " + offsetAtt.endOffset());
+				System.out.println(offset.startOffset() + " - " + offset.endOffset() + " : "
+						+ term.toString() + " | " + type.type());
 			}
+			// 关闭TokenStream（关闭StringReader）
 			ts.end(); // Perform end-of-stream operations, e.g. set the final
-			// offset.
-		} finally {
-			ts.close(); // Release resources associated with this stream.
-			analyzer.close();
+						// offset.
 		}
-	}
-
-	public static void main(String[] args) throws IOException, ParseException {
-//		standardAnalyzer();
-		test();
 	}
 
 }

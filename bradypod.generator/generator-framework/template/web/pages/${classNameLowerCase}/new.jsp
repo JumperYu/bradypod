@@ -7,7 +7,7 @@
 <%@ include file="/commons/taglibs.jsp" %>
 
 <rapid:override name="head">
-	<title><%=${className}.TABLE_ALIAS%>新增</title>
+	<title><%={className}.TABLE_ALIAS%>新增</title>
 </rapid:override>
 
 <rapid:override name="content">

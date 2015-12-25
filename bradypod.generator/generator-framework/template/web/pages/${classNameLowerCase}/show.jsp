@@ -8,7 +8,7 @@
 <%@ include file="/commons/taglibs.jsp" %>
 
 <rapid:override name="head">
-	<title><%=${className}.TABLE_ALIAS%>信息</title>
+	<title><%={className}.TABLE_ALIAS%>信息</title>
 </rapid:override>
 
 <rapid:override name="content">
