@@ -136,6 +136,7 @@ public class LuceneMySQlDemo {
 	 * 获取分析器
 	 */
 	private Analyzer getAnalyzer() {
+//		return new CJKAnalyzer();
 		return new SmartChineseAnalyzer();
 	}
 

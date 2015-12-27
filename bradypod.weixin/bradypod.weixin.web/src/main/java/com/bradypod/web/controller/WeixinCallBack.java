@@ -23,61 +23,74 @@ import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 
-@WebServlet("/customservice/transmit")
+/**
+ * 微信回调接口
+ *
+ * @author zengxm
+ * @date 2015年12月27日
+ * 
+ */
+@WebServlet("/customservice/transmit.html")
 public class WeixinCallBack extends HttpServlet {
 
 	public WeixinCallBack() {
 		logger.setLevel(Level.INFO);
 	}
-
+	
+	/**
+	 * 微信第一次配置回调地址的时候， 需要提供的接口请求
+	 */
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
-			IOException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
 
-		req.setCharacterEncoding("utf-8");
-
-		HashMap<String, String[]> params = new HashMap<String, String[]>(req.getParameterMap());
+		HashMap<String, String[]> params = new HashMap<String, String[]>(
+				req.getParameterMap());
 
 		String[] paramStr = params.get("echostr");
 		String echo = "";
 		if (paramStr != null && paramStr.length > 0) {
+			// --> 验证消息有效性
 			if (validate(params)) {
-				logger.info("validate success " + echo);
 				echo = paramStr[0];
+				logger.info("validate success " + echo);
 			} else {
-				logger.info("validate error");
 				echo = "validate error";
-			}
+				logger.info("validate error");
+			}// --> end if-else
 		} else {
-			logger.info("echo string is null");
 			echo = "echo string is null";
-		}
+			logger.info("echo string is null");
+		}// --> end if-else
 
 		resp.setContentType("text/plain");
 		resp.setCharacterEncoding("utf-8");
 
 		PrintWriter out = resp.getWriter();
 		out.write(echo);
+		out.flush();
 		out.close();
 	}
 
+	/**
+	 * 微信配置完回调地址后, 均采用POST请求
+	 */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		// printMap(req.getParameterMap());
 
-		String xmlData = readFromBody(req.getInputStream(), req.getContentLength());
+		String xmlData = readFromBody(req.getInputStream(),
+				req.getContentLength());
 
 		logger.info(xmlData);
-
-		resp.setCharacterEncoding("utf-8");
-		PrintWriter out = resp.getWriter();
+		
 		String echo = "";
 
 		try {
 			if (xmlData != null && !xmlData.equals("")) {
 
-				Document document = DocumentHelper.parseText(xmlData).getDocument();
+				Document document = DocumentHelper.parseText(xmlData)
+						.getDocument();
 
 				Document retDoc = DocumentHelper.createDocument();
 				Element root = document.getRootElement();
@@ -88,15 +101,22 @@ public class WeixinCallBack extends HttpServlet {
 
 				retRoot.addElement("ToUserName").setText(FromUserName);
 				retRoot.addElement("FromUserName").setText(ToUserName);
-				retRoot.addElement("CreateTime").setText(System.currentTimeMillis() / 1000 + "");
-				retRoot.addElement("MsgType").setText("transfer_customer_service");
-				
+				retRoot.addElement("CreateTime").setText(
+						System.currentTimeMillis() / 1000 + "");
+				retRoot.addElement("MsgType").setText(
+						"transfer_customer_service");
+
 				echo = retDoc.asXML();
 			}
 		} catch (DocumentException e) {
 			// TODO
 			logger.info(e.getMessage());
 		}
+		
+		resp.setCharacterEncoding("utf-8");
+		resp.setContentType("application/xml");
+		
+		PrintWriter out = resp.getWriter();
 		out.write(echo);
 		out.flush();
 		out.close();
@@ -127,7 +147,7 @@ public class WeixinCallBack extends HttpServlet {
 
 		logger.info("before validate " + sb.toString());
 
-		String shahex = DigestUtils.shaHex(sb.toString());
+		String shahex = DigestUtils.sha1Hex(sb.toString());
 		if (shahex.equals(signature)) {
 			return true;
 		} else {
@@ -177,14 +197,21 @@ public class WeixinCallBack extends HttpServlet {
 		if (params == null || params.size() == 0) {
 			logger.info("params is empty");
 		}
-		Iterator<Entry<String, String[]>> iterator = params.entrySet().iterator();
+		Iterator<Entry<String, String[]>> iterator = params.entrySet()
+				.iterator();
 		while (iterator.hasNext()) {
 			Entry<String, String[]> entry = iterator.next();
 			logger.info(String.format("key:%s values:%s", entry.getKey(),
 					printArray(entry.getValue())));
 		}
 	}
-
+	
+	/**
+	 * 打印数组
+	 * 
+	 * @param vals
+	 * @return
+	 */
 	private static String printArray(String[] vals) {
 		StringBuffer sb = new StringBuffer("[");
 		for (String val : vals) {
@@ -198,7 +225,7 @@ public class WeixinCallBack extends HttpServlet {
 	static final Logger logger = Logger.getGlobal();
 
 	private static final String TOKEN = "ttwg168";
-	
+
 	private static final long serialVersionUID = 1L;
 
 }
