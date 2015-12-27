@@ -30,7 +30,7 @@ import org.dom4j.Element;
  * @date 2015年12月27日
  * 
  */
-@WebServlet("/customservice/transmit.html")
+@WebServlet("/customservice/transmit")
 public class WeixinCallBack extends HttpServlet {
 
 	public WeixinCallBack() {
