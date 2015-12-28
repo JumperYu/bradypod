@@ -2,13 +2,13 @@ package com.bradypod.util.zk;
 
 public class ZooKeeperLock {
 
-	private String root = "/lock";
+	// private String root = "/lock";
 	private String connStr = "localhost:2181";
 	private int timeout = 30000;
 
 	private ZKClient zkClient; // 动物管理员
 
-	private String nodeName; // 节点名称
+	// private String nodeName; // 节点名称
 
 	/**
 	 * 创建锁的根目录位置
@@ -17,6 +17,7 @@ public class ZooKeeperLock {
 		try {
 			// 创建客户端
 			zkClient = new ZKClient(connStr, timeout);
+			zkClient.exists("");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

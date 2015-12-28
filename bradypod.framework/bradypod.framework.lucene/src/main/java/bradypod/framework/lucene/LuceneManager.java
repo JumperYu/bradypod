@@ -1,7 +1,6 @@
 package bradypod.framework.lucene;
 
 import java.io.IOException;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -14,7 +13,7 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.LockObtainFailedException;
 
 public class LuceneManager {
-	
+
 	private volatile static LuceneManager singleton;
 
 	private volatile static IndexWriter writer;
@@ -24,10 +23,6 @@ public class LuceneManager {
 	private volatile static IndexSearcher searcher;
 
 	private final Lock writerLock = new ReentrantLock();
-
-	// private final Lock readerLock = new ReentrantLock();
-
-	// private final Lock searcherLock = new ReentrantLock();
 
 	private LuceneManager() {
 	}
@@ -61,9 +56,11 @@ public class LuceneManager {
 			writerLock.lock();
 			if (null == writer) {
 				// 如果索引目录被锁，则直接抛异常
-			/*	if (IndexWriter.isLocked(dir)) {
-					throw new LockObtainFailedException("Directory of index had been locked.");
-				}*/
+				/*
+				 * if (IndexWriter.isLocked(dir)) { throw new
+				 * LockObtainFailedException
+				 * ("Directory of index had been locked."); }
+				 */
 				writer = new IndexWriter(dir, config);
 			}
 		} catch (LockObtainFailedException e) {
@@ -122,7 +119,7 @@ public class LuceneManager {
 	 *            如果你需要开启多线程查询，请提供ExecutorService对象参数
 	 * @return
 	 */
-	public IndexSearcher getIndexSearcher(IndexReader reader, ExecutorService executor) {
+	public IndexSearcher getIndexSearcher(IndexReader reader) {
 		if (null == reader) {
 			throw new IllegalArgumentException("The indexReader can not be null.");
 		}
@@ -132,14 +129,4 @@ public class LuceneManager {
 		return searcher;
 	}
 
-	/**
-	 * 获取IndexSearcher对象(不支持多线程查询)
-	 * 
-	 * @param reader
-	 *            IndexReader对象实例
-	 * @return
-	 */
-	public IndexSearcher getIndexSearcher(IndexReader reader) {
-		return getIndexSearcher(reader, null);
-	}
 }

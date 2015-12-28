@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
@@ -24,7 +23,6 @@ import org.apache.lucene.store.FSDirectory;
 
 public class LuceneUtils {
 	private static final LuceneManager luceneManager = LuceneManager.getInstance();
-	//private static Analyzer analyzer = new StandardAnalyzer();
 
 	/**
 	 * 打开索引目录
@@ -113,17 +111,6 @@ public class LuceneUtils {
 	 *            IndexReader对象
 	 * @param executor
 	 *            如果你需要开启多线程查询，请提供ExecutorService对象参数
-	 * @return
-	 */
-	public static IndexSearcher getIndexSearcher(IndexReader reader, ExecutorService executor) {
-		return luceneManager.getIndexSearcher(reader, executor);
-	}
-
-	/**
-	 * 获取IndexSearcher(不支持多线程查询)
-	 * 
-	 * @param reader
-	 *            IndexReader对象
 	 * @return
 	 */
 	public static IndexSearcher getIndexSearcher(IndexReader reader) {
