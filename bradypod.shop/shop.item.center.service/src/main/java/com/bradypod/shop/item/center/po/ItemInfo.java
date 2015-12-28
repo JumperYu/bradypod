@@ -7,21 +7,17 @@
 
 package com.bradypod.shop.item.center.po;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
+import org.hibernate.validator.constraints.*;
+import org.apache.commons.lang.builder.*;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
+import com.bradypod.util.date.DateUtils;
 
 /**
  *
  * @author zengxm<github.com/JumperYu>
  *
- * @date 2015-09-18
+ * @date 2015-12-28
  */
 
 public class ItemInfo implements java.io.Serializable {
@@ -33,17 +29,13 @@ public class ItemInfo implements java.io.Serializable {
 	public static final String ALIAS_ITEM_TYPE = "商品类型：1 自营商品";
 	public static final String ALIAS_CTG_ID = "商品分类id";
 	public static final String ALIAS_TITLE = "商品标题";
-	public static final String ALIAS_PIC_URL_LIST = "商品多图片地址";
 	public static final String ALIAS_DESCRIPTION = "商品描述";
-	public static final String ALIAS_ATTRI_JSON = "商品普通属性组合串 例如 {1:10001,2:10002,3:[10003,10004,10005]}";
 	public static final String ALIAS_PRICE = "金额单位（分）";
 	public static final String ALIAS_STATUS = "商品状态  1 正常";
-	public static final String ALIAS_APPROVAL_TIME = "最后一次审核通过时间";
 	public static final String ALIAS_CREATE_TIME = "创建时间";
 	public static final String ALIAS_UPDATE_TIME = "最后更新时间";
 
 	// date formats
-	public static final String FORMAT_APPROVAL_TIME = "yyyy-MM-dd HH:mm:ss";// DATE_FORMAT
 	public static final String FORMAT_CREATE_TIME = "yyyy-MM-dd HH:mm:ss";// DATE_FORMAT
 	public static final String FORMAT_UPDATE_TIME = "yyyy-MM-dd HH:mm:ss";// DATE_FORMAT
 
@@ -53,6 +45,7 @@ public class ItemInfo implements java.io.Serializable {
 	private java.lang.Long id;
 	@NotNull
 	private java.lang.Long userId;
+	@NotNull
 	@Max(127)
 	private Integer itemType;
 	@NotNull
@@ -62,20 +55,11 @@ public class ItemInfo implements java.io.Serializable {
 	private java.lang.String title;
 	@NotBlank
 	@Length(max = 500)
-	private java.lang.String picUrlList;
-	@NotBlank
-	@Length(max = 500)
 	private java.lang.String description;
-	@NotBlank
-	@Length(max = 1000)
-	private java.lang.String attriJson;
 	@NotNull
-	private java.lang.Long price;
+	private java.lang.Integer price;
 	@NotNull
-	@Max(127)
-	private Integer status;
-	@NotNull
-	private java.util.Date approvalTime;
+	private java.lang.Integer status;
 	@NotNull
 	private java.util.Date createTime;
 
@@ -130,14 +114,6 @@ public class ItemInfo implements java.io.Serializable {
 		return this.title;
 	}
 
-	public void setPicUrlList(java.lang.String value) {
-		this.picUrlList = value;
-	}
-
-	public java.lang.String getPicUrlList() {
-		return this.picUrlList;
-	}
-
 	public void setDescription(java.lang.String value) {
 		this.description = value;
 	}
@@ -146,36 +122,28 @@ public class ItemInfo implements java.io.Serializable {
 		return this.description;
 	}
 
-	public void setAttriJson(java.lang.String value) {
-		this.attriJson = value;
-	}
-
-	public java.lang.String getAttriJson() {
-		return this.attriJson;
-	}
-
-	public void setPrice(java.lang.Long value) {
+	public void setPrice(java.lang.Integer value) {
 		this.price = value;
 	}
 
-	public java.lang.Long getPrice() {
+	public java.lang.Integer getPrice() {
 		return this.price;
 	}
 
-	public void setStatus(Integer value) {
+	public void setStatus(java.lang.Integer value) {
 		this.status = value;
 	}
 
-	public Integer getStatus() {
+	public java.lang.Integer getStatus() {
 		return this.status;
 	}
 
-	public void setApprovalTime(java.util.Date value) {
-		this.approvalTime = value;
+	public String getCreateTimeString() {
+		return DateUtils.timeToString(getCreateTime(), FORMAT_CREATE_TIME);
 	}
 
-	public java.util.Date getApprovalTime() {
-		return this.approvalTime;
+	public void setCreateTimeString(String value) {
+		setCreateTime(DateUtils.strToDate(value, FORMAT_CREATE_TIME));
 	}
 
 	public void setCreateTime(java.util.Date value) {
@@ -184,6 +152,14 @@ public class ItemInfo implements java.io.Serializable {
 
 	public java.util.Date getCreateTime() {
 		return this.createTime;
+	}
+
+	public String getUpdateTimeString() {
+		return DateUtils.timeToString(getUpdateTime(), FORMAT_UPDATE_TIME);
+	}
+
+	public void setUpdateTimeString(String value) {
+		setUpdateTime(DateUtils.strToDate(value, FORMAT_UPDATE_TIME));
 	}
 
 	public void setUpdateTime(java.util.Date value) {
@@ -198,11 +174,9 @@ public class ItemInfo implements java.io.Serializable {
 		return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE).append("Id", getId())
 				.append("UserId", getUserId()).append("ItemType", getItemType())
 				.append("CtgId", getCtgId()).append("Title", getTitle())
-				.append("PicUrlList", getPicUrlList()).append("Description", getDescription())
-				.append("AttriJson", getAttriJson()).append("Price", getPrice())
-				.append("Status", getStatus()).append("ApprovalTime", getApprovalTime())
-				.append("CreateTime", getCreateTime()).append("UpdateTime", getUpdateTime())
-				.toString();
+				.append("Description", getDescription()).append("Price", getPrice())
+				.append("Status", getStatus()).append("CreateTime", getCreateTime())
+				.append("UpdateTime", getUpdateTime()).toString();
 	}
 
 	public int hashCode() {

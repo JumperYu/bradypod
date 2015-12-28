@@ -16,7 +16,7 @@ public class ItemInfoServiceTest {
 		ApplicationContext context = startSpring();
 		ItemInfoService itemInfoService = context.getBean("itemInfoService", ItemInfoService.class);
 		ItemInfo itemInfo = new ItemInfo();
-		itemInfo.setId(2L);
+		itemInfo.setId(1L);
 		itemInfo = itemInfoService.get(itemInfo);
 		ObjectMapper objectMapper = new ObjectMapper();
 		System.out.println(objectMapper.writeValueAsString(itemInfo));

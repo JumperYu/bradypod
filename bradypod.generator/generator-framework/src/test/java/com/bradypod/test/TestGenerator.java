@@ -21,12 +21,12 @@ public class TestGenerator {
 		// g.deleteOutRootDir(); // 删除生成器的输出目录
 
 		// 通过数据库表生成文件,template为模板的根目录
-		generatorFacade.deleteByTable("t_brand_info", "template");
-		generatorFacade.generateByTable("t_brand_info", "template");
+//		generatorFacade.deleteByTable("t_brand_info", "template");
+//		generatorFacade.generateByTable("t_brand_info", "template");
 //		generatorFacade.deleteByTable("t_comment", "template");
 //		generatorFacade.generateByTable("t_comment", "template");
-//		generatorFacade.deleteByTable("t_item_info", "template");
-//		generatorFacade.generateByTable("t_item_info", "template");
+		generatorFacade.deleteByTable("t_item_info", "template");
+		generatorFacade.generateByTable("t_item_info", "template");
 //		generatorFacade.deleteByTable("t_brand_info", "template");
 //		generatorFacade.generateByTable("t_brand_info", "template");
 //		generatorFacade.deleteByTable("t_ctg_info", "template");

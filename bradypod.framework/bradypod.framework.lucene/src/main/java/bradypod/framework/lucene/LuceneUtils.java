@@ -1,4 +1,4 @@
-package com.bradypod.search.lucene;
+package bradypod.framework.lucene;
 
 import java.io.IOException;
 import java.nio.file.Paths;

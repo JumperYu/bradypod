@@ -18,7 +18,7 @@ public class ItemInfoServiceImplTest {
 
 	ItemInfoMapper mapper;
 	ItemInfoService itemInfoService;
-	
+
 	protected ApplicationContext applicationContext;
 
 	// 1.启动spring工程需要找到对应的xml， 下面是示例
@@ -34,8 +34,8 @@ public class ItemInfoServiceImplTest {
 	@Test
 	public void testGet() {
 		ItemInfo item = new ItemInfo();
-		item.setId(2L);
-//		mapper.get(item);
+		item.setId(1L);
+		// mapper.get(item);
 		log.info(itemInfoService.get(item).toString());
 	}
 
@@ -47,12 +47,9 @@ public class ItemInfoServiceImplTest {
 		item.setItemType(1);
 		item.setCtgId(1L);
 		item.setTitle("衣服");
-		item.setPicUrlList("1.jpg;2.jpg");
 		item.setDescription("商品");
-		item.setAttriJson("{1:3,3:4}");
-		item.setPrice(1000L);
+		item.setPrice(1000);
 		item.setStatus(1);
-		item.setApprovalTime(new Date());
 		item.setCreateTime(new Date());
 		mapper.update(item);
 	}
@@ -67,17 +64,14 @@ public class ItemInfoServiceImplTest {
 	@Test
 	public void testSave() {
 		ItemInfo item = new ItemInfo();
-		item.setId(4L);
+		item.setId(1L);
 		item.setUserId(1L);
 		item.setItemType(1);
 		item.setCtgId(1L);
 		item.setTitle("衣服");
-		item.setPicUrlList("1.jpg;2.jpg");
 		item.setDescription("商品");
-		item.setAttriJson("{1:2,3:4}");
-		item.setPrice(1000L);
+		item.setPrice(1000);
 		item.setStatus(1);
-		item.setApprovalTime(new Date());
 		item.setCreateTime(new Date());
 		mapper.save(item);
 	}
@@ -95,6 +89,6 @@ public class ItemInfoServiceImplTest {
 		// genericQueryParam.put("id", "2");
 		System.out.println(mapper.countData(genericQueryParam));
 	}
-	
+
 	protected Logger log = LoggerFactory.getLogger(getClass());
 }

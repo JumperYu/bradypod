@@ -6,31 +6,13 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 
 <!-- 不使用namespace的话sql搜索定位会比较方便 -->
 <mapper namespace="com.bradypod.shop.item.center.mapper.ItemInfoMapper">
-	
+
 	<!-- <cache type="org.mybatis.caches.redis.RedisCache"/> -->
-	
-	<!-- 
-	<resultMap id="ItemInfo" type="com.bradypod.shop.item.center.po.ItemInfo">
-        <result property="id" column="id"/>
-        <result property="userId" column="user_id"/>
-        <result property="itemType" column="item_type"/>
-        <result property="ctgId" column="ctg_id"/>
-        <result property="title" column="title"/>
-        <result property="picUrlList" column="pic_url_list"/>
-        <result property="description" column="description"/>
-        <result property="attriJson" column="attri_json"/>
-        <result property="price" column="price"/>
-        <result property="status" column="status"/>
-        <result property="approvalTime" column="approval_time"/>
-        <result property="createTime" column="create_time"/>
-        <result property="updateTime" column="update_time"/>
-	</resultMap>
-	 -->
-	
+
 	<!-- 用于select查询公用抽取的列 -->
 	<sql id="select_columns">
 	    <![CDATA[
-		id,user_id,item_type,ctg_id,title,pic_url_list,description,attri_json,price,status,approval_time,create_time,update_time
+		id,user_id,item_type,ctg_id,title,description,price,status,create_time,update_time
 	    ]]>
 	</sql>
 
@@ -43,12 +25,9 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
         	item_type ,
         	ctg_id ,
         	title ,
-        	pic_url_list ,
         	description ,
-        	attri_json ,
         	price ,
         	status ,
-        	approval_time ,
         	create_time ,
         	update_time 
         ) VALUES (
@@ -57,31 +36,25 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
         	#{itemType} ,
         	#{ctgId} ,
         	#{title} ,
-        	#{picUrlList} ,
         	#{description} ,
-        	#{attriJson} ,
         	#{price} ,
         	#{status} ,
-        	#{approvalTime} ,
         	#{createTime} ,
         	#{updateTime} 
         )
     ]]>
 	</insert>
-    
-	<update id="update" >
+
+	<update id="update">
     <![CDATA[
         UPDATE t_item_info SET
 	        user_id = #{userId} ,
 	        item_type = #{itemType} ,
 	        ctg_id = #{ctgId} ,
 	        title = #{title} ,
-	        pic_url_list = #{picUrlList} ,
 	        description = #{description} ,
-	        attri_json = #{attriJson} ,
 	        price = #{price} ,
 	        status = #{status} ,
-	        approval_time = #{approvalTime} ,
 	        create_time = #{createTime} ,
 	        update_time = #{updateTime} 
         WHERE 
@@ -89,93 +62,84 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     ]]>
 	</update>
 
-    <delete id="delete">
+	<delete id="delete">
     <![CDATA[
         DELETE FROM t_item_info WHERE
         id = #{id} 
     ]]>
-    </delete>
-    
-    <select id="get" resultType="ItemInfo">
-		SELECT <include refid="select_columns" />
+	</delete>
+
+	<select id="get" resultType="ItemInfo">
+		SELECT
+		<include refid="select_columns" />
 	    <![CDATA[
 		    FROM t_item_info 
 	        WHERE 
 		        id = #{id} 
 	    ]]>
 	</select>
-	
+
 	<sql id="find_where">
 		<!-- ognl访问静态方法的表达式 为@class@method(args) -->
-		<where>	      				
-	       <if test="@Ognl@isNotEmpty(id)">
+		<where>
+			<if test="@Ognl@isNotEmpty(id)">
 				AND id = #{id}
 			</if>
-	       <if test="@Ognl@isNotEmpty(userId)">
+			<if test="@Ognl@isNotEmpty(userId)">
 				AND user_id = #{userId}
 			</if>
-	       <if test="@Ognl@isNotEmpty(itemType)">
+			<if test="@Ognl@isNotEmpty(itemType)">
 				AND item_type = #{itemType}
 			</if>
-	       <if test="@Ognl@isNotEmpty(ctgId)">
+			<if test="@Ognl@isNotEmpty(ctgId)">
 				AND ctg_id = #{ctgId}
 			</if>
-	       <if test="@Ognl@isNotEmpty(title)">
+			<if test="@Ognl@isNotEmpty(title)">
 				AND title = #{title}
 			</if>
-	       <if test="@Ognl@isNotEmpty(picUrlList)">
-				AND pic_url_list = #{picUrlList}
-			</if>
-	       <if test="@Ognl@isNotEmpty(description)">
+			<if test="@Ognl@isNotEmpty(description)">
 				AND description = #{description}
 			</if>
-	       <if test="@Ognl@isNotEmpty(attriJson)">
-				AND attri_json = #{attriJson}
-			</if>
-	       <if test="@Ognl@isNotEmpty(price)">
+			<if test="@Ognl@isNotEmpty(price)">
 				AND price = #{price}
 			</if>
-	       <if test="@Ognl@isNotEmpty(status)">
+			<if test="@Ognl@isNotEmpty(status)">
 				AND status = #{status}
 			</if>
-	       <if test="@Ognl@isNotEmpty(approvalTimeBegin)">
-				AND approval_time >= #{approvalTimeBegin}
-		   </if>
-		   <if test="@Ognl@isNotEmpty(approvalTimeEnd)">
-				AND approval_time &lt;= #{approvalTimeEnd}
-		   </if>
-	       <if test="@Ognl@isNotEmpty(createTimeBegin)">
+			<if test="@Ognl@isNotEmpty(createTimeBegin)">
 				AND create_time >= #{createTimeBegin}
-		   </if>
-		   <if test="@Ognl@isNotEmpty(createTimeEnd)">
+			</if>
+			<if test="@Ognl@isNotEmpty(createTimeEnd)">
 				AND create_time &lt;= #{createTimeEnd}
-		   </if>
-	       <if test="@Ognl@isNotEmpty(updateTimeBegin)">
+			</if>
+			<if test="@Ognl@isNotEmpty(updateTimeBegin)">
 				AND update_time >= #{updateTimeBegin}
-		   </if>
-		   <if test="@Ognl@isNotEmpty(updateTimeEnd)">
+			</if>
+			<if test="@Ognl@isNotEmpty(updateTimeEnd)">
 				AND update_time &lt;= #{updateTimeEnd}
-		   </if>
+			</if>
 		</where>
 	</sql>
-	
+
 	<sql id="pageLimit">
-		limit #{pageNO}, #{pageSize} 
+		limit #{pageNO}, #{pageSize}
 	</sql>
-	
-    <select id="countData" resultType="long">
-        SELECT count(1) FROM t_item_info 
-		<include refid="find_where"/>    
-    </select>
-    
-    <select id="listData" resultType="ItemInfo">
-    	SELECT <include refid="select_columns" />
-	    FROM t_item_info 
-		<!-- <include refid="find_where"/> -->
-		<if test="@Ognl@isNotEmpty(sort) == true">
-		ORDER BY ${sort}
+
+	<select id="countData" resultType="long">
+		SELECT count(1) FROM t_item_info
+		<include refid="find_where" />
+		<include refid="pageLimit" />
+	</select>
+
+	<select id="listData" resultType="ItemInfo">
+		SELECT
+		<include refid="select_columns" />
+		FROM t_item_info
+		<include refid="find_where" />
+
+		<if test="@Ognl@isNotEmpty(sort)">
+			ORDER BY ${sort}
 		</if>
-		<include refid="pageLimit"/>
-    </select>
-	
+	</select>
+
 </mapper>

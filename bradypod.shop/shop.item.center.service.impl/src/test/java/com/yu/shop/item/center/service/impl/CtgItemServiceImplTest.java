@@ -1,7 +1,5 @@
 package com.yu.shop.item.center.service.impl;
 
-import java.util.Date;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,7 +7,6 @@ import com.bradypod.common.junit.BaseTest;
 import com.bradypod.common.po.GenericQueryParam;
 import com.bradypod.shop.item.center.mapper.CtgItemMapper;
 import com.bradypod.shop.item.center.po.CtgItem;
-import com.bradypod.shop.item.center.po.ItemInfo;
 import com.bradypod.shop.item.center.service.CtgItemService;
 
 public class CtgItemServiceImplTest extends BaseTest {
@@ -30,19 +27,6 @@ public class CtgItemServiceImplTest extends BaseTest {
 
 	@Test
 	public void testUpdate() {
-		ItemInfo item = new ItemInfo();
-		item.setId(2L);
-		item.setUserId(1L);
-		item.setItemType(1);
-		item.setCtgId(1L);
-		item.setTitle("衣服");
-		item.setPicUrlList("1.jpg;2.jpg");
-		item.setDescription("商品");
-		item.setAttriJson("{1:3,3:4}");
-		item.setPrice(1000L);
-		item.setStatus(1);
-		item.setApprovalTime(new Date());
-		item.setCreateTime(new Date());
 		// mapper.update(item);
 	}
 

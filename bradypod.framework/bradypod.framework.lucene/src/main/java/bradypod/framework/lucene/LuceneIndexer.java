@@ -1,4 +1,4 @@
-package com.bradypod.search.lucene;
+package bradypod.framework.lucene;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
 
-import org.apache.commons.lang.time.StopWatch;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field.Store;
@@ -21,8 +20,6 @@ public class LuceneIndexer {
 
 	public static void main(String[] args) {
 		// 开始时间
-		StopWatch stopWatch = new StopWatch();
-		stopWatch.start();
 		// 指定索引目录和读取目录
 		String indexDir = "E://index";
 		String dataDir = "E://work/after89/bradypod/bradypod.commons/commons-util/src/main/java/com/bradypod/util/redis";
@@ -31,9 +28,7 @@ public class LuceneIndexer {
 		int numIndexed = indexer.index(dataDir, new TextFileFilter());
 		indexer.close();
 		// 结束时间
-		stopWatch.stop();
-		System.out.println("Indexing " + numIndexed + " files took " + stopWatch.getTime()
-				+ " millseconds");
+		System.out.println("Indexing " + numIndexed + " files took " + " millseconds");
 	}
 
 	private IndexWriter writer;

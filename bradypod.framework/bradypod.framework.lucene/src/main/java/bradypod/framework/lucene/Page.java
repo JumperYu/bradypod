@@ -1,4 +1,4 @@
-package com.bradypod.search.lucene;
+package bradypod.framework.lucene;
 
 import java.util.ArrayList;
 import java.util.Collection;
