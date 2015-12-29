@@ -13,6 +13,6 @@
 	
 	<modules>
 		<module>authority.core</module>
-		<module>blog.web</module>
+		<module>blog.admin.web</module>
 	</modules>
 </project>
