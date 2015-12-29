@@ -7,8 +7,8 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>bradypod.weixin.web</artifactId>
-	<name>bradypod.weixin.web</name>
+	<artifactId>weixin.web</artifactId>
+	<name>weixin.web</name>
 	<packaging>war</packaging>
 
 	<dependencies>

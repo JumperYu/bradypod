@@ -274,7 +274,11 @@ public class LuceneUtils {
 	 * @param doc
 	 */
 	public static void addIndex(IndexWriter writer, Document document) {
-		updateIndex(writer, null, document);
+		try {
+			writer.addDocument(document);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**

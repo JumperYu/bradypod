@@ -11,6 +11,6 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>bradypod.weixin.web</module>
+		<module>weixin.web</module>
 	</modules>
 </project>
