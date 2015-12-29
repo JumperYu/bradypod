@@ -41,5 +41,6 @@
 		<module>bradypod.framework.vm</module>
 		<module>bradypod.framework.redis</module>
 		<module>bradypod.framework.lucene</module>
+		<module>framework.poi</module>
 	</modules>
 </project>
