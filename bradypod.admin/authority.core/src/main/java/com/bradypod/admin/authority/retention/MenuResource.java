@@ -19,7 +19,6 @@ public @interface MenuResource {
 	/**
 	 * 资源名称
 	 * 
-	 * @return
 	 */
 	String value();
 }

@@ -10,6 +10,13 @@
 	<packaging>war</packaging>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>com.bradypod</groupId>
+			<artifactId>authority.core</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
 		<dependency>
 			<groupId>com.bradypod</groupId>
 			<artifactId>commons-web</artifactId>
@@ -24,6 +31,11 @@
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

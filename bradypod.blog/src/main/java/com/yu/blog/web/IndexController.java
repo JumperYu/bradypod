@@ -33,7 +33,6 @@ public class IndexController extends BaseController {
 	// 首页
 	@RequestMapping("/index.html")
 	public String index(Map<String, Object> context) {
-		context.putAll(INIT_PARAMS);
 		List<Article> articles = getArticleService().getAllArticles();
 		if (CollectionUtils.isEmpty(articles)) {
 			throw new ServiceException(ResultCode.FAILURE, "articles not found");
@@ -46,7 +45,6 @@ public class IndexController extends BaseController {
 	// 阅览具体路径下的文章
 	@RequestMapping(value = "/article/{articleId}")
 	public String view(@PathVariable long articleId, Map<String, Object> context) {
-		context.putAll(INIT_PARAMS);
 		Article article = getArticleService().getArticle(articleId);
 		if (article != null)
 			context.put("article", article);

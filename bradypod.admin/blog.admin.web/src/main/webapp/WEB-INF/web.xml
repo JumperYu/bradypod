@@ -35,6 +35,16 @@
 		<url-pattern>*.html</url-pattern>
 	</servlet-mapping>
 
+	<!-- 登陆拦截 -->
+	<filter>
+		<filter-name>loginFilter</filter-name>
+		<filter-class>com.bradypod.blog.admin.filter.LoginFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>loginFilter</filter-name>
+		<url-pattern>*.html</url-pattern>
+	</filter-mapping>
+
 	<!-- 统一字符编码为UTF-8 -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
@@ -50,12 +60,6 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>*.html</url-pattern>
 	</filter-mapping>
-
-	<!-- 定义系统错误代码常量 -->
-	<error-page>
-		<error-code>404</error-code>
-		<location>/WEB-INF/commons/common-error.jsp</location>
-	</error-page>
 </web-app>
