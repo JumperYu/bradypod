@@ -18,6 +18,11 @@
 			<artifactId>commons-csv</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.bradypod</groupId>		
+			<artifactId>commons-util</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<artifactId>junit</artifactId>
 			<groupId>junit</groupId>
 			<scope>test</scope>

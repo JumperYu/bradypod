@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.bradypod.util.array.ArrayUtil;
+
 /**
  * 测试读取
  *
@@ -21,7 +23,7 @@ public class TestCSVReader {
 	public void testReadForList() throws FileNotFoundException, IOException {
 		List<String[]> list = SimpleCSVReader.parse(new FileInputStream(new File("E://test.csv")));
 		for (String[] fields : list) {
-			
+			System.out.println(ArrayUtil.join(fields, ","));
 		}
 	}
 

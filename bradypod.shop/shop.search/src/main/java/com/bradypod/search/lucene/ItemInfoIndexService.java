@@ -45,15 +45,15 @@ public class ItemInfoIndexService {
 		IndexWriterConfig config = new IndexWriterConfig(analyzer);
 
 		writer = LuceneUtils.getIndexWrtier(directory, config);
-
 	}
 
 	/**
 	 * 创建索引
 	 * 
 	 * @param itemIndex
+	 * @throws IOException 
 	 */
-	public void createIndex(ItemInfoIndex itemIndex) {
+	public void createIndex(ItemInfoIndex itemIndex) throws IOException {
 		Document document = new Document();
 		document.add(new LongField("id", itemIndex.getId(), Field.Store.YES));
 		document.add(new LongField("userId", itemIndex.getUserId(), Field.Store.YES));
@@ -63,6 +63,7 @@ public class ItemInfoIndexService {
 		document.add(new LongField("createTime", itemIndex.getCreateTime().getTime(),
 				Field.Store.YES));
 		LuceneUtils.addIndex(writer, document);
+		writer.close();
 	}
 
 	/**
@@ -90,7 +91,7 @@ public class ItemInfoIndexService {
 				for (IndexableField field : fields) {
 					// Explanation explanation = searcher.explain(query,
 					// scores[i].doc);
-					System.out.println((i + 1) + "." + field.name() + ": " + field.stringValue());
+					System.out.println((i + 1) + ".\t" + field.name() + ":\t" + field.stringValue());
 					// 打印解释器
 					// System.out.println("explain:" + explanation.toString());
 				}// --> end for
@@ -104,5 +105,5 @@ public class ItemInfoIndexService {
 		}
 	}
 
-	static final String INDEX_PATH = "E://work/index";
+	static final String INDEX_PATH = "E://index";
 }

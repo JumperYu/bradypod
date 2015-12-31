@@ -1,4 +1,4 @@
-package bradypod.framework.lucene;
+package bradypod.framework.lucene.demo;
 
 import java.io.BufferedReader;
 import java.io.IOException;

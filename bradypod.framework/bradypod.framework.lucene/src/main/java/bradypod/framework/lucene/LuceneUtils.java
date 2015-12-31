@@ -22,6 +22,7 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 
 public class LuceneUtils {
+	
 	private static final LuceneManager luceneManager = LuceneManager.getInstance();
 
 	/**
