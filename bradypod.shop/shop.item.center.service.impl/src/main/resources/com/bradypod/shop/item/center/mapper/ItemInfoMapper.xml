@@ -127,19 +127,17 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 
 	<select id="countData" resultType="long">
 		SELECT count(1) FROM t_item_info
-		<include refid="find_where" />
-		<include refid="pageLimit" />
 	</select>
 
 	<select id="listData" resultType="ItemInfo">
 		SELECT
-		<include refid="select_columns" />
-		FROM t_item_info
-		<include refid="find_where" />
-
-		<if test="@Ognl@isNotEmpty(sort)">
-			ORDER BY ${sort}
-		</if>
+			<include refid="select_columns" />
+		FROM 
+			t_item_info
+		WHERE
+			id > #{id}
+		ORDER BY ID
+		<include refid="pageLimit" />
 	</select>
 
 </mapper>

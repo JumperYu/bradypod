@@ -1,9 +1,7 @@
 package com.bradypod.common.service;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,9 +10,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bradypod.common.mapper.BaseMapper;
-import com.bradypod.common.po.GenericQueryParam;
-import com.bradypod.common.po.Page;
-import com.bradypod.common.po.PageData;
 
 /**
  * 基础业务接口
@@ -78,67 +73,6 @@ public abstract class BaseMybatisServiceImpl<M extends BaseMapper<E>, E extends 
 	@Override
 	public E get(E e) {
 		return getMapper().get(e);
-	}
-
-	/**
-	 * 获取分页数据
-	 * 
-	 * @param page
-	 *            - 页大小&页码
-	 * @param params
-	 *            - Map<String, Object> 参数
-	 * @return
-	 */
-	@Override
-	public PageData<List<E>> findPageData(Page page, Map<String, Object> params) {
-
-		int pageSize = page.getPageSize();
-		int pageNO = page.getPageNO() - 1; // 使用mysql limit实现需要减去1
-
-		if (params == null) {
-			params = new HashMap<String, Object>();
-		}
-		params.put("pageSize", pageSize);
-		params.put("pageNO", pageNO);
-
-		// 1.找到mapper的list位置 和 count位置
-		long count = 0;// countData(params);
-		List<E> result = listData(params);
-
-		// 2.指定Page对象
-		PageData<List<E>> pageResult = new PageData<List<E>>();
-		pageResult.setCurrentPage(page.getPageNO());
-		pageResult.setPageSize(pageSize);
-		pageResult.setCount(count);
-		pageResult.setTotalPage((count % pageSize > 0) ? (count / pageSize + 1)
-				: (count / pageSize));
-		pageResult.setData(result);
-		// 3.返回List<T>
-		return pageResult;
-	}
-
-	/**
-	 * 分页查找数据
-	 * 
-	 * @param params
-	 *            - 参数
-	 * @return - List<E>
-	 */
-	public List<E> listData(Map<String, Object> params) {
-		// return getMapper().listData(params);
-		return null;
-	}
-
-	/**
-	 * 分页依赖计数查询
-	 * 
-	 * @param params
-	 *            - 参数
-	 * @return - int
-	 */
-	@Override
-	public long countData(GenericQueryParam params) {
-		return getMapper().countData(params);
 	}
 
 	protected static final Logger log = LoggerFactory.getLogger(BaseMybatisServiceImpl.class);

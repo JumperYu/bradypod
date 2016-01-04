@@ -2,11 +2,6 @@ package com.bradypod.common.service;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
-
-import com.bradypod.common.po.GenericQueryParam;
-import com.bradypod.common.po.Page;
-import com.bradypod.common.po.PageData;
 
 /**
  * 基础业务组成
@@ -19,7 +14,7 @@ public interface BaseMybatiService<E extends Serializable> {
 
 	/**
 	 * 保存
-	 * 	
+	 * 
 	 * @param <E>
 	 * 
 	 * @param e
@@ -68,38 +63,5 @@ public interface BaseMybatiService<E extends Serializable> {
 	 * @return E - 返回实体
 	 */
 	public E get(E e);
-
-	/**
-	 * 获取分页数据
-	 * 
-	 * @param <E>
-	 * 
-	 * @param page
-	 *            - 页大小&页码
-	 * @param params
-	 *            - Map<String, Object> 参数
-	 * @return
-	 */
-	public PageData<List<E>> findPageData(Page page, Map<String, Object> params);
-
-	/**
-	 * 分页查找数据
-	 * 
-	 * @param <E>
-	 * 
-	 * @param params
-	 *            - 参数
-	 * @return - List<E>
-	 */
-	public List<E> listData(Map<String, Object> params);
-
-	/**
-	 * 分页依赖计数查询
-	 * 
-	 * @param params
-	 *            - 参数
-	 * @return - long
-	 */
-	public long countData(GenericQueryParam params);
 
 }

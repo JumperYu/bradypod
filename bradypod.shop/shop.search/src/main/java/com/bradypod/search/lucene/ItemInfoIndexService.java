@@ -7,6 +7,7 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+import org.apache.lucene.document.IntField;
 import org.apache.lucene.document.LongField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexReader;
@@ -51,19 +52,22 @@ public class ItemInfoIndexService {
 	 * 创建索引
 	 * 
 	 * @param itemIndex
-	 * @throws IOException 
+	 * @throws IOException
 	 */
-	public void createIndex(ItemInfoIndex itemIndex) throws IOException {
+	public void createIndex(ItemInfoIndex itemIndex) {
 		Document document = new Document();
 		document.add(new LongField("id", itemIndex.getId(), Field.Store.YES));
-		document.add(new LongField("userId", itemIndex.getUserId(), Field.Store.YES));
-		document.add(new LongField("itemType", itemIndex.getItemType(), Field.Store.YES));
-		document.add(new LongField("ctgId", itemIndex.getCtgId(), Field.Store.YES));
-		document.add(new TextField("title", itemIndex.getTitle(), Field.Store.YES));
-		document.add(new LongField("createTime", itemIndex.getCreateTime().getTime(),
+		document.add(new LongField("userId", itemIndex.getUserId(),
 				Field.Store.YES));
+		document.add(new IntField("itemType", itemIndex.getItemType(),
+				Field.Store.YES));
+		document.add(new LongField("ctgId", itemIndex.getCtgId(),
+				Field.Store.YES));
+		document.add(new TextField("title", itemIndex.getTitle(),
+				Field.Store.YES));
+		document.add(new LongField("createTime", itemIndex.getCreateTime()
+				.getTime(), Field.Store.YES));
 		LuceneUtils.addIndex(writer, document);
-		writer.close();
 	}
 
 	/**
@@ -80,7 +84,7 @@ public class ItemInfoIndexService {
 		QueryParser queryParser = new QueryParser("title", analyzer);
 		try {
 			Query query = queryParser.parse(itemIndex.getTitle());
-			TopDocs results = searcher.search(query, 100);
+			TopDocs results = searcher.search(query, 20);
 			ScoreDoc[] scores = results.scoreDocs;
 
 			for (int i = 0; i < scores.length; i++) {
@@ -91,7 +95,8 @@ public class ItemInfoIndexService {
 				for (IndexableField field : fields) {
 					// Explanation explanation = searcher.explain(query,
 					// scores[i].doc);
-					System.out.println((i + 1) + ".\t" + field.name() + ":\t" + field.stringValue());
+					System.out.println((i + 1) + ".\t" + field.name() + ":\t"
+							+ field.stringValue());
 					// 打印解释器
 					// System.out.println("explain:" + explanation.toString());
 				}// --> end for
@@ -103,6 +108,10 @@ public class ItemInfoIndexService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void close() {
+		LuceneUtils.closeIndexWriter(writer);
 	}
 
 	static final String INDEX_PATH = "E://index";

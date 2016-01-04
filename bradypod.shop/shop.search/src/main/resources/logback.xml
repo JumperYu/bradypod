@@ -16,7 +16,7 @@
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!--日志文件输出的文件名 -->
-			<FileNamePattern>${LOG_HOME}/schedule.bradypod.log.%d{yyyy-MM-dd}.log
+			<FileNamePattern>${LOG_HOME}/shop.search.%d{yyyy-MM-dd}.log
 			</FileNamePattern>
 			<!--日志文件保留天数 -->
 			<MaxHistory>31</MaxHistory>
@@ -35,5 +35,6 @@
 	
 	<root level="INFO">
 		<appender-ref ref="stdout" />
+		<appender-ref ref="file" />
 	</root>
 </configuration> 

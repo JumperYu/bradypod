@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bradypod.common.aop.RedisCache;
 import com.bradypod.common.aop.RedisCacheKey;
-import com.bradypod.common.po.Page;
 import com.bradypod.common.po.PageData;
 import com.bradypod.common.service.BaseMybatisServiceImpl;
 import com.yu.article.mapper.ArticleMapper;
@@ -108,9 +107,8 @@ public class ArticleService extends
 	 * @return - PageData<List<Article>>
 	 */
 	public PageData<List<Article>> getArticles(int pageSize, int pageNO) {
-		Page page = new Page(pageSize, pageNO);
-		Map<String, Object> params = new HashMap<String, Object>();
-		return findPageData(page, params);
+		//return findPageData(page, params);
+		return null;
 	}
 
 }

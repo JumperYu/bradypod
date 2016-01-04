@@ -1,6 +1,8 @@
 package com.yu.shop.item.center.service.impl;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.bradypod.common.po.GenericQueryParam;
+import com.alibaba.fastjson.JSON;
 import com.bradypod.shop.item.center.mapper.ItemInfoMapper;
 import com.bradypod.shop.item.center.po.ItemInfo;
 import com.bradypod.shop.item.center.service.ItemInfoService;
@@ -78,16 +80,20 @@ public class ItemInfoServiceImplTest {
 
 	@Test
 	public void testListData() {
-		GenericQueryParam genericQueryParam = new GenericQueryParam(0, 15);
-		genericQueryParam.setSortKey("id desc");
-		System.out.println(mapper.listData(genericQueryParam));
+		Map<String, Object> genericQueryParam = new HashMap<>();
+		genericQueryParam.put("pageNO", 0);
+		genericQueryParam.put("pageSize", 10);
+		genericQueryParam.put("id", 11);
+		// System.out.println(mapper.listData(genericQueryParam));
+		System.out.println(JSON.toJSONString(itemInfoService.findPageData(11L,
+				1, 10)));
 	}
 
 	@Test
 	public void testCountData() {
-		GenericQueryParam genericQueryParam = new GenericQueryParam();
-		// genericQueryParam.put("id", "2");
+		Map<String, Object> genericQueryParam = new HashMap<>();
 		System.out.println(mapper.countData(genericQueryParam));
+		System.out.println(itemInfoService.count());
 	}
 
 	protected Logger log = LoggerFactory.getLogger(getClass());

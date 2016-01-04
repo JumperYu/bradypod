@@ -277,6 +277,8 @@ public class LuceneUtils {
 	public static void addIndex(IndexWriter writer, Document document) {
 		try {
 			writer.addDocument(document);
+			// TODO did auto commit?
+			writer.commit();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

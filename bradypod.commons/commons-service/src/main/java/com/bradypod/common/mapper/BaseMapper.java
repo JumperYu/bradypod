@@ -1,8 +1,7 @@
 package com.bradypod.common.mapper;
 
 import java.util.List;
-
-import com.bradypod.common.po.GenericQueryParam;
+import java.util.Map;
 
 /**
  * 
@@ -74,7 +73,7 @@ public interface BaseMapper<E> {
 	 *            - 动态参数 需加上@param("参数名"), 否则以param1,2命名
 	 * @return - List<E>
 	 */
-	public List<E> listData(GenericQueryParam params);
+	public List<E> listData(Map<String, Object> params);
 
 	/**
 	 * 统计条数
@@ -83,5 +82,5 @@ public interface BaseMapper<E> {
 	 *            - Map参数
 	 * @return - 条数
 	 */
-	public long countData(GenericQueryParam params);
+	public long countData(Map<String, Object> params);
 }
