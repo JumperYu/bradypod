@@ -49,7 +49,7 @@ public class SimpleCSVWriter {
 		tempFile.deleteOnExit();
 		// 闭包输出
 		try (Writer bufferWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(
-				tempFile)));) {
+				tempFile), "GBK"));) {
 			SimpleCSVWriter simpleWriter = new SimpleCSVWriter(bufferWriter);
 			// 闭包 执行
 			callback.withWriter(simpleWriter);
@@ -92,7 +92,8 @@ public class SimpleCSVWriter {
 	 *            是否拼接
 	 * @throws Exception
 	 */
-	public static void writeFile(File file, WriterCallback callback, boolean appended) throws Exception {
+	public static void writeFile(File file, WriterCallback callback, boolean appended)
+			throws Exception {
 		// 闭包输出
 		try (Writer bufferWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(
 				file, appended)))) {

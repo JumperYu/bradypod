@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
-	xmlns:task="http://www.springframework.org/schema/task"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:task="http://www.springframework.org/schema/task"
 	xsi:schemaLocation="
        http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -22,23 +21,19 @@
        http://www.springframework.org/schema/mvc/spring-mvc.xsd
        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
-	<!-- 开启scheduler注解 -->
-	<task:annotation-driven/>
-	
-	<!-- spring基于TimerTask的定时任务模式 -->
-<!-- 	<bean id="taskExecutor"
-		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
-		<property name="corePoolSize" value="5" />
-		<property name="maxPoolSize" value="10" />
-		<property name="queueCapacity" value="25" />
-	</bean>
-	<bean id="scheduler"
-		class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler">
-	</bean>
+	<!-- 三种开启方式 -->
 
-	具体的工作
-	<bean id="taskExecutorExample" class="com.yu.task.TaskExecutorExample">
-		<constructor-arg ref="taskExecutor" /> 
-	</bean>
--->
+	<!-- 相当于下面的简写 -->
+	<bean id="scheduleTask" class="com.yu.task.ScheduleTask" />
+	<task:annotation-driven executor="executor" scheduler="scheduler" />
+	<task:executor id="executor" pool-size="5" />
+	<task:scheduler id="scheduler" pool-size="10" />
+
+
+	<!-- spring基于TimerTask的定时任务模式 -->
+	<!-- <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor"> 
+		<property name="corePoolSize" value="5" /> <property name="maxPoolSize" value="10" /> <property name="queueCapacity" 
+		value="25" /> </bean> <bean id="scheduler" class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler"> 
+		</bean> <bean id="taskExecutorExample" class="com.yu.task.TaskExecutorExample"> <constructor-arg ref="taskExecutor" 
+		/> </bean> -->
 </beans>
