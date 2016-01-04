@@ -10,12 +10,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.bradypod.util.date.DateUtils;
 import com.yu.sys.constant.TaskState;
 import com.yu.sys.constant.TaskType;
 import com.yu.sys.po.Task;
 import com.yu.sys.service.TaskService;
 import com.yu.test.spring.LocalApplicationContextTest;
-import com.yu.util.date.DateUtils;
 
 public class TaskServiceTest {
 

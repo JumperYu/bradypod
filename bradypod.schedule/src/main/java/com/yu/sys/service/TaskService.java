@@ -1,13 +1,12 @@
 package com.yu.sys.service;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bradypod.common.service.MyBatisBaseService;
+import com.bradypod.common.service.BaseMybatisServiceImpl;
 import com.yu.sys.constant.TaskState;
 import com.yu.sys.mapper.TaskMapper;
 import com.yu.sys.po.Task;
@@ -24,7 +23,7 @@ import com.yu.util.validate.AssertUtil;
  */
 @Service
 @Transactional(propagation = Propagation.SUPPORTS)
-public class TaskService extends MyBatisBaseService<Task, TaskMapper> {
+public class TaskService extends BaseMybatisServiceImpl<TaskMapper, Task> {
 
 	/**
 	 * 按固定条件查找符合的数据
@@ -105,8 +104,8 @@ public class TaskService extends MyBatisBaseService<Task, TaskMapper> {
 		for (Task task : tasks) {
 			task.setState(TaskState.RUNNING);
 		}
-		int effected_rows = batchUpdate(Arrays.asList(tasks));
-		AssertUtil.assertGreaterThanZero(effected_rows, "批量运行任务更新失败, " + tasks);
+		//int effected_rows = batchUpdate(Arrays.asList(tasks));
+		//AssertUtil.assertGreaterThanZero(effected_rows, "批量运行任务更新失败, " + tasks);
 	}
 
 	/**
@@ -141,8 +140,8 @@ public class TaskService extends MyBatisBaseService<Task, TaskMapper> {
 		for (Task task : tasks) {
 			task.setState(TaskState.PAUSE);
 		}
-		int effected_rows = batchUpdate(Arrays.asList(tasks));
-		AssertUtil.assertGreaterThanZero(effected_rows, "批量运行任务暂停失败, " + tasks);
+		//int effected_rows = batchUpdate(Arrays.asList(tasks));
+		//AssertUtil.assertGreaterThanZero(effected_rows, "批量运行任务暂停失败, " + tasks);
 	}
 
 	/**
