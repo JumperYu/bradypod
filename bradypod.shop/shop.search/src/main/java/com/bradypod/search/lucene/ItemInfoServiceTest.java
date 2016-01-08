@@ -22,8 +22,8 @@ public class ItemInfoServiceTest {
 
 	public static void main(String[] args) throws IOException,
 			InterruptedException {
-		// testSearch();
-		testCreate();
+		testSearch();
+//		testCreate();
 	}
 
 	static final ItemInfoIndexService itemInfoIndexService = new ItemInfoIndexService();
@@ -38,8 +38,9 @@ public class ItemInfoServiceTest {
 		AtomicLong id = new AtomicLong(0);
 		Integer pageNO = 1;
 		Integer pageSize = 10;
-		while (id.get() < 4077) {
-			ThreadPool pool = new ThreadPool(10);
+		// 40801
+		while (id.get() < 40770) {
+			ThreadPool pool = new ThreadPool(100);
 			pool.executeThread(new ThreadWorker() {
 
 				@Override
@@ -67,7 +68,7 @@ public class ItemInfoServiceTest {
 			});
 
 			try {
-				TimeUnit.SECONDS.sleep(3);
+				TimeUnit.MILLISECONDS.sleep(10);
 			} catch (InterruptedException e) {
 				logger.error("wait error", e);
 			}

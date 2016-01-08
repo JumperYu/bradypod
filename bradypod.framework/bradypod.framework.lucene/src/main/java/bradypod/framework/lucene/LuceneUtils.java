@@ -278,7 +278,7 @@ public class LuceneUtils {
 		try {
 			writer.addDocument(document);
 			// TODO did auto commit?
-			writer.commit();
+			//writer.commit();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

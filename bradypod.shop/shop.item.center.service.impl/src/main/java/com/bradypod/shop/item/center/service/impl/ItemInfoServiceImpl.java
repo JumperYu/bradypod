@@ -37,16 +37,15 @@ public class ItemInfoServiceImpl extends
 		params.put("id", id);
 
 		// 1.找到mapper的list位置 和 count位置
-		long count = getMapper().countData(params);
+		//long count = getMapper().countData(params);
 		List<ItemInfo> result = getMapper().listData(params);
 
 		// 2.指定Page对象
 		PageData<List<ItemInfo>> pageResult = new PageData<List<ItemInfo>>();
 		pageResult.setCurrentPage(pageNO);
 		pageResult.setPageSize(pageSize);
-		pageResult.setCount(count);
-		pageResult.setTotalPage((count % pageSize > 0) ? (count / pageSize + 1)
-				: (count / pageSize));
+		//pageResult.setCount(count);
+		//pageResult.setTotalPage((count % pageSize > 0) ? (count / pageSize + 1) : (count / pageSize));
 		pageResult.setData(result);
 
 		// 3.返回List<T>

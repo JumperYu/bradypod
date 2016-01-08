@@ -84,7 +84,7 @@ public class ItemInfoIndexService {
 		QueryParser queryParser = new QueryParser("title", analyzer);
 		try {
 			Query query = queryParser.parse(itemIndex.getTitle());
-			TopDocs results = searcher.search(query, 20);
+			TopDocs results = searcher.search(query, 5);
 			ScoreDoc[] scores = results.scoreDocs;
 
 			for (int i = 0; i < scores.length; i++) {
