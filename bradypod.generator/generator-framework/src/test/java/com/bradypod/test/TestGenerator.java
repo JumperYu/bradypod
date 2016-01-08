@@ -25,8 +25,8 @@ public class TestGenerator {
 //		generatorFacade.generateByTable("t_brand_info", "template");
 //		generatorFacade.deleteByTable("t_comment", "template");
 //		generatorFacade.generateByTable("t_comment", "template");
-		generatorFacade.deleteByTable("t_item_info", "template");
-		generatorFacade.generateByTable("t_item_info", "template");
+		generatorFacade.deleteByTable("t_trade_supplier_settlement", "template");
+		generatorFacade.generateByTable("t_trade_supplier_settlement", "template");
 //		generatorFacade.deleteByTable("t_brand_info", "template");
 //		generatorFacade.generateByTable("t_brand_info", "template");
 //		generatorFacade.deleteByTable("t_ctg_info", "template");
