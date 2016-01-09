@@ -7,11 +7,15 @@
 
 package com.bradypod.shop.item.center.po;
 
-import javax.validation.constraints.*;
-import org.hibernate.validator.constraints.*;
-import org.apache.commons.lang.builder.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
 
-import com.bradypod.util.date.DateUtils;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -138,28 +142,12 @@ public class ItemInfo implements java.io.Serializable {
 		return this.status;
 	}
 
-	public String getCreateTimeString() {
-		return DateUtils.timeToString(getCreateTime(), FORMAT_CREATE_TIME);
-	}
-
-	public void setCreateTimeString(String value) {
-		setCreateTime(DateUtils.strToDate(value, FORMAT_CREATE_TIME));
-	}
-
 	public void setCreateTime(java.util.Date value) {
 		this.createTime = value;
 	}
 
 	public java.util.Date getCreateTime() {
 		return this.createTime;
-	}
-
-	public String getUpdateTimeString() {
-		return DateUtils.timeToString(getUpdateTime(), FORMAT_UPDATE_TIME);
-	}
-
-	public void setUpdateTimeString(String value) {
-		setUpdateTime(DateUtils.strToDate(value, FORMAT_UPDATE_TIME));
 	}
 
 	public void setUpdateTime(java.util.Date value) {

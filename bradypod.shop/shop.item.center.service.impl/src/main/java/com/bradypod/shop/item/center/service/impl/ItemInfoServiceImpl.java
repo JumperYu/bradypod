@@ -14,7 +14,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bradypod.common.po.PageData;
+import com.bradypod.bean.bo.PageData;
 import com.bradypod.common.service.BaseMybatisServiceImpl;
 import com.bradypod.shop.item.center.mapper.ItemInfoMapper;
 import com.bradypod.shop.item.center.po.ItemInfo;
@@ -27,7 +27,7 @@ public class ItemInfoServiceImpl extends
 		ItemInfoService {
 
 	@Override
-	public PageData<List<ItemInfo>> findPageData(Long id, Integer pageNO,
+	public PageData<ItemInfo> findPageData(Long id, Integer pageNO,
 			Integer pageSize) {
 		pageNO = pageNO - 1; // 使用mysql limit实现需要减去1
 
@@ -41,12 +41,12 @@ public class ItemInfoServiceImpl extends
 		List<ItemInfo> result = getMapper().listData(params);
 
 		// 2.指定Page对象
-		PageData<List<ItemInfo>> pageResult = new PageData<List<ItemInfo>>();
-		pageResult.setCurrentPage(pageNO);
+		PageData<ItemInfo> pageResult = new PageData<ItemInfo>();
+		pageResult.setPageNO(pageNO);
 		pageResult.setPageSize(pageSize);
 		//pageResult.setCount(count);
 		//pageResult.setTotalPage((count % pageSize > 0) ? (count / pageSize + 1) : (count / pageSize));
-		pageResult.setData(result);
+		pageResult.setList(result);
 
 		// 3.返回List<T>
 		return pageResult;

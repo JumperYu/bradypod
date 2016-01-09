@@ -12,6 +12,7 @@
 		<module>commons-util</module>
 		<module>commons-service</module>
 		<module>commons-web</module>
+		<module>commons-bean</module>
 	</modules>
 
 	<dependencies>

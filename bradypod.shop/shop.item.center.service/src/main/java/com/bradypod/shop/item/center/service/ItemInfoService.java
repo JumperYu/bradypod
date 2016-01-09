@@ -1,8 +1,6 @@
 package com.bradypod.shop.item.center.service;
 
-import java.util.List;
-
-import com.bradypod.common.po.PageData;
+import com.bradypod.bean.bo.PageData;
 import com.bradypod.common.service.BaseMybatiService;
 import com.bradypod.shop.item.center.po.ItemInfo;
 
@@ -24,7 +22,7 @@ public interface ItemInfoService extends BaseMybatiService<ItemInfo> {
 	 *            - Map<String, Object> 参数
 	 * @return
 	 */
-	public PageData<List<ItemInfo>> findPageData(Long id, Integer pageNO,
+	public PageData<ItemInfo> findPageData(Long id, Integer pageNO,
 			Integer pageSize);
 
 	public Long count();

@@ -8,9 +8,9 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.bradypod.bean.bo.PageData;
 import com.bradypod.common.aop.RedisCache;
 import com.bradypod.common.aop.RedisCacheKey;
-import com.bradypod.common.po.PageData;
 import com.bradypod.common.service.BaseMybatisServiceImpl;
 import com.yu.article.mapper.ArticleMapper;
 import com.yu.article.po.Article;
@@ -106,7 +106,7 @@ public class ArticleService extends
 	 *            - 页码
 	 * @return - PageData<List<Article>>
 	 */
-	public PageData<List<Article>> getArticles(int pageSize, int pageNO) {
+	public PageData<Article> getArticles(int pageSize, int pageNO) {
 		//return findPageData(page, params);
 		return null;
 	}

@@ -1,5 +1,8 @@
 package com.bradypod.util.array;
 
+import java.util.Collection;
+import java.util.Iterator;
+
 import com.yu.util.validate.AssertUtil;
 
 /**
@@ -18,7 +21,7 @@ public class ArrayUtil {
 	 *            数组
 	 * @param concat
 	 *            连接符
-	 * @return	String
+	 * @return String
 	 */
 	public static String join(String[] array, String concat) {
 		// 非空
@@ -31,6 +34,26 @@ public class ArrayUtil {
 			}
 		}
 		return sb.toString();
+	}
+
+	/**
+	 * 数组转换为字符串
+	 * 
+	 * @param array
+	 *            数组
+	 * @param concat
+	 *            连接符
+	 * @return String
+	 */
+	public static String join(Collection<String> array, String concat) {
+		// 非空
+		AssertUtil.notNull(array);
+		StringBuffer sb = new StringBuffer();
+		Iterator<String> iterator = array.iterator();
+		while (iterator.hasNext()) {
+			sb.append(iterator.next()).append(concat);
+		}
+		return sb.substring(0, sb.length() - 1).toString();
 	}
 
 }

@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bradypod.common.po.PageData;
+import com.bradypod.bean.bo.PageData;
 import com.bradypod.common.service.BaseMybatisServiceImpl;
 import com.bradypod.shop.item.center.constants.CtgInfoConstants;
 import com.bradypod.shop.item.center.mapper.CtgInfoMapper;
@@ -104,7 +104,7 @@ public class CtgInfoServiceImpl extends
 	 * @param depth
 	 * @return
 	 */
-	public PageData<List<CtgInfo>> findCategories(int pageNO, int pageSize,
+	public PageData<CtgInfo> findCategories(int pageNO, int pageSize,
 			Long pid, Integer depth) {
 /*		GenericQueryParam params = new GenericQueryParam(pageSize, pageNO);
 		params.put("pid", pid);

@@ -1,4 +1,4 @@
-package com.bradypod.search.lucene;
+package com.bradypod.search.lucene.service;
 
 import java.io.IOException;
 import java.util.List;
@@ -11,7 +11,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.alibaba.fastjson.JSON;
-import com.bradypod.common.po.PageData;
+import com.bradypod.bean.bo.PageData;
+import com.bradypod.search.lucene.bo.ItemInfoIndex;
 import com.bradypod.shop.item.center.po.ItemInfo;
 import com.bradypod.shop.item.center.service.ItemInfoService;
 import com.bradypod.util.bean.BeanCopyUtil;
@@ -23,10 +24,35 @@ public class ItemInfoServiceTest {
 	public static void main(String[] args) throws IOException,
 			InterruptedException {
 		testSearch();
-//		testCreate();
+		// testCreate();
 	}
 
 	static final ItemInfoIndexService itemInfoIndexService = new ItemInfoIndexService();
+
+	public static void testSearch() {
+
+		int pageNO = 1;
+		int pageSize = 5;
+		int count = 0;
+
+		ItemInfoIndex itemIndex = new ItemInfoIndex();
+		itemIndex.setTitle("留恋干");
+		itemIndex.setSortField("createTime");
+		itemIndex.setDescending(true);
+		itemIndex.setPageNO(pageNO);
+		itemIndex.setPageSize(pageSize);
+
+		PageData<ItemInfo> pageData = itemInfoIndexService
+				.searchIndex(itemIndex);
+		count = pageData.getTotalPage();
+		
+		System.out.println(JSON.toJSONString(pageData));
+		
+		for (; pageNO <= count; pageNO++) {
+			pageData = itemInfoIndexService.searchIndex(itemIndex);
+			System.out.println(JSON.toJSONString(pageData));
+		}
+	}
 
 	/**
 	 * 单线程创建索引
@@ -46,11 +72,11 @@ public class ItemInfoServiceTest {
 				@Override
 				public void execute() {
 					// 每次查询大于上一页的数据
-					PageData<List<ItemInfo>> pageData = itemInfoService
-							.findPageData(id.getAndIncrement() * pageSize + 1,
-									pageNO, pageSize);
+					PageData<ItemInfo> pageData = itemInfoService.findPageData(
+							id.getAndIncrement() * pageSize + 1, pageNO,
+							pageSize);
 					// 如果查到的数据没有则停止程序
-					List<ItemInfo> data = pageData.getData();
+					List<ItemInfo> data = pageData.getList();
 					if (data == null || data.size() <= 0) {
 						return;
 					}
@@ -78,12 +104,6 @@ public class ItemInfoServiceTest {
 		// 关闭写入器
 		itemInfoIndexService.close();
 		logger.info("完成");
-	}
-
-	public static void testSearch() {
-		ItemInfoIndex itemIndex = new ItemInfoIndex();
-		itemIndex.setTitle("鞋子");
-		itemInfoIndexService.searchIndex(itemIndex);
 	}
 
 	public static ApplicationContext startSpring() {
