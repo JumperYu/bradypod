@@ -1,4 +1,4 @@
-package bradypod.framework.lucene.demo;
+package bradypod.framework.lucene.official.demo;
 
 import java.io.IOException;
 import java.sql.Connection;

@@ -8,13 +8,21 @@ import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 
-public class ChineseAnalyzer {
+/**
+ * 中文分词测试
+ * 
+ * @author	zengxm<http://github.com/JumperYu>
+ *
+ * @date	2016年1月10日
+ */
+public class ChinaAnalyzer {
 
 	public static void main(String[] args) throws IOException {
 
-		String text = "有意见分歧";
+		String text = "榴莲干货";
 
 		Analyzer analyzer = new SmartChineseAnalyzer();
+//		Analyzer analyzer = new CJKAnalyzer();
 
 		TokenStream stream = analyzer.tokenStream("", new StringReader(text));
 		
@@ -27,7 +35,7 @@ public class ChineseAnalyzer {
 		}
 
 		analyzer.close();
-
+		
 	}
 
 }
