@@ -21,13 +21,34 @@ import com.bradypod.util.thread.ThreadWorker;
 
 public class ItemInfoServiceTest {
 
-	public static void main(String[] args) throws IOException,
-			InterruptedException {
+	public static void main(String[] args) throws IOException, InterruptedException {
+//		testWildcardSearch();
+//		testFuzzySearch();
 		testSearch();
 		// testCreate();
 	}
 
 	static final ItemInfoIndexService itemInfoIndexService = new ItemInfoIndexService();
+	
+	public static void testWildcardSearch() {
+		
+		int pageSize = 5;
+		
+		ItemInfoIndex itemIndex = new ItemInfoIndex();
+		itemIndex.setTitle("留连");
+		itemIndex.setPageSize(pageSize);
+		itemInfoIndexService.fuzzySearch(itemIndex);
+	}
+	
+	public static void testFuzzySearch() {
+		
+		int pageSize = 5;
+		
+		ItemInfoIndex itemIndex = new ItemInfoIndex();
+		itemIndex.setTitle("榴连");
+		itemIndex.setPageSize(pageSize);
+		itemInfoIndexService.fuzzySearch(itemIndex);
+	}
 
 	public static void testSearch() {
 
@@ -36,18 +57,17 @@ public class ItemInfoServiceTest {
 		int count = 0;
 
 		ItemInfoIndex itemIndex = new ItemInfoIndex();
-		itemIndex.setTitle("留恋干");
+		itemIndex.setTitle("榴莲干");
 		itemIndex.setSortField("createTime");
 		itemIndex.setDescending(true);
 		itemIndex.setPageNO(pageNO);
 		itemIndex.setPageSize(pageSize);
 
-		PageData<ItemInfo> pageData = itemInfoIndexService
-				.searchIndex(itemIndex);
+		PageData<ItemInfo> pageData = itemInfoIndexService.searchIndex(itemIndex);
 		count = pageData.getTotalPage();
-		
+
 		System.out.println(JSON.toJSONString(pageData));
-		
+
 		for (; pageNO <= count; pageNO++) {
 			pageData = itemInfoIndexService.searchIndex(itemIndex);
 			System.out.println(JSON.toJSONString(pageData));
@@ -59,8 +79,7 @@ public class ItemInfoServiceTest {
 	 */
 	public static void testCreate() {
 		ApplicationContext context = startSpring();
-		ItemInfoService itemInfoService = context.getBean("itemInfoService",
-				ItemInfoService.class);
+		ItemInfoService itemInfoService = context.getBean("itemInfoService", ItemInfoService.class);
 		AtomicLong id = new AtomicLong(0);
 		Integer pageNO = 1;
 		Integer pageSize = 10;
@@ -72,9 +91,8 @@ public class ItemInfoServiceTest {
 				@Override
 				public void execute() {
 					// 每次查询大于上一页的数据
-					PageData<ItemInfo> pageData = itemInfoService.findPageData(
-							id.getAndIncrement() * pageSize + 1, pageNO,
-							pageSize);
+					PageData<ItemInfo> pageData = itemInfoService.findPageData(id.getAndIncrement()
+							* pageSize + 1, pageNO, pageSize);
 					// 如果查到的数据没有则停止程序
 					List<ItemInfo> data = pageData.getList();
 					if (data == null || data.size() <= 0) {
@@ -82,8 +100,8 @@ public class ItemInfoServiceTest {
 					}
 
 					for (ItemInfo itemInfo : data) {
-						ItemInfoIndex index = BeanCopyUtil.copyProperties(
-								itemInfo, ItemInfoIndex.class);
+						ItemInfoIndex index = BeanCopyUtil.copyProperties(itemInfo,
+								ItemInfoIndex.class);
 						// 打印数据
 						logger.info("检索到数据: " + JSON.toJSONString(index));
 						// 调用lucene索引服务
