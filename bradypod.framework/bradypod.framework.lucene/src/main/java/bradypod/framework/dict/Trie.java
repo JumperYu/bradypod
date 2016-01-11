@@ -20,7 +20,7 @@ public class Trie {
 		private int num;// 有多少单词通过这个节点,即节点字符出现的次数
 		private TrieNode[] son;// 所有的儿子节点
 		private boolean isEnd;// 是不是最后一个节点
-		private char val;// 节点z的值
+		private char val;// 节点的值
 
 		TrieNode() {
 			num = 1;
@@ -100,8 +100,7 @@ public class Trie {
 	}
 
 	public static void main(String[] args) {
-		System.out.println((char)('c' - 'a'));
-/*		Trie tree = new Trie();
+		Trie tree = new Trie();
 		String[] strs = { "banana", "band", "bee", "absolute", "acm", };
 		String[] prefix = { "ba", "b", "band", "abc", };
 		for (String str : strs) {
@@ -114,6 +113,6 @@ public class Trie {
 		for (String pre : prefix) {
 			int num = tree.countPrefix(pre);
 			System.out.println(pre + " " + num);
-		}*/
+		}
 	}
 }
