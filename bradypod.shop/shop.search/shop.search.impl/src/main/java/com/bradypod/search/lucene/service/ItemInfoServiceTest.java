@@ -12,7 +12,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.alibaba.fastjson.JSON;
 import com.bradypod.bean.bo.PageData;
-import com.bradypod.search.lucene.bo.ItemInfoIndex;
+import com.bradypod.search.lucene.bo.ItemIndex;
 import com.bradypod.shop.item.center.po.ItemInfo;
 import com.bradypod.shop.item.center.service.ItemInfoService;
 import com.bradypod.util.bean.BeanCopyUtil;
@@ -27,7 +27,7 @@ public class ItemInfoServiceTest {
 		// testCreate();
 	}
 
-	static final ItemInfoIndexService itemInfoIndexService = new ItemInfoIndexService();
+	static final ItemIndexService itemInfoIndexService = new ItemIndexService();
 
 	public static void testSearch() {
 
@@ -35,7 +35,7 @@ public class ItemInfoServiceTest {
 		int pageSize = 5;
 		int count = 0;
 
-		ItemInfoIndex itemIndex = new ItemInfoIndex();
+		ItemIndex itemIndex = new ItemIndex();
 		itemIndex.setTitle("榴莲干");
 		itemIndex.setSortField("createTime");
 		itemIndex.setDescending(true);
@@ -81,8 +81,8 @@ public class ItemInfoServiceTest {
 					}
 
 					for (ItemInfo itemInfo : data) {
-						ItemInfoIndex index = BeanCopyUtil.copyProperties(
-								itemInfo, ItemInfoIndex.class);
+						ItemIndex index = BeanCopyUtil.copyProperties(
+								itemInfo, ItemIndex.class);
 						// 打印数据
 						logger.info("检索到数据: " + JSON.toJSONString(index));
 						// 调用lucene索引服务
@@ -103,6 +103,13 @@ public class ItemInfoServiceTest {
 		// 关闭写入器
 		itemInfoIndexService.close();
 		logger.info("完成");
+	}
+	
+	public static void testCreate2(){
+		ItemIndex itemIndex = new ItemIndex();
+		itemIndex.setId(200000L);
+		itemIndex.setTitle("zxm at home");
+		itemInfoIndexService.createIndex(itemIndex);
 	}
 
 	public static ApplicationContext startSpring() {

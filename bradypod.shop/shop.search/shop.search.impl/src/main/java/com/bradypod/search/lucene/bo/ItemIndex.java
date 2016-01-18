@@ -7,7 +7,7 @@ package com.bradypod.search.lucene.bo;
  *
  * @date 2015年12月28日 下午5:15:29
  */
-public class ItemInfoIndex extends BaseSearchIndex{
+public class ItemIndex extends BaseSearchIndex{
 
 	private java.lang.Long id;		   // 商品标识
 	private java.lang.Long ctgId;	   // 类目

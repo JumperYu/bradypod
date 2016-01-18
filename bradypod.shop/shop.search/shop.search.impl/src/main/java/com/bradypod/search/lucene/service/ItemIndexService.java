@@ -34,7 +34,7 @@ import org.apache.lucene.store.Directory;
 import bradypod.framework.lucene.LuceneUtils;
 
 import com.bradypod.bean.bo.PageData;
-import com.bradypod.search.lucene.bo.ItemInfoIndex;
+import com.bradypod.search.lucene.bo.ItemIndex;
 import com.bradypod.shop.item.center.po.ItemInfo;
 import com.bradypod.util.array.ArrayUtil;
 
@@ -45,7 +45,7 @@ import com.bradypod.util.array.ArrayUtil;
  *
  * @date 2015年12月28日 下午5:28:47
  */
-public class ItemInfoIndexService {
+public class ItemIndexService {
 
 	private Directory directory;
 	private Analyzer analyzer;
@@ -53,7 +53,7 @@ public class ItemInfoIndexService {
 	private IndexReader reader;
 	private IndexSearcher searcher;
 
-	public ItemInfoIndexService() {
+	public ItemIndexService() {
 		directory = LuceneUtils.openFSDirectory(INDEX_PATH);
 
 		analyzer = new SmartChineseAnalyzer();
@@ -68,7 +68,7 @@ public class ItemInfoIndexService {
 	 * @param itemIndex
 	 * @throws IOException
 	 */
-	public void createIndex(ItemInfoIndex itemIndex) {
+	public void createIndex(ItemIndex itemIndex) {
 		Document document = new Document();
 		document.add(new LongField("id", itemIndex.getId(), Field.Store.YES));
 		document.add(new LongField("ctgId", itemIndex.getCtgId(),
@@ -86,7 +86,7 @@ public class ItemInfoIndexService {
 	 * 
 	 * @param itemIndex
 	 */
-	public PageData<ItemInfo> searchIndex(ItemInfoIndex itemIndex) {
+	public PageData<ItemInfo> searchIndex(ItemIndex itemIndex) {
 
 		if (reader == null) {
 			reader = LuceneUtils.getIndexReader(directory);

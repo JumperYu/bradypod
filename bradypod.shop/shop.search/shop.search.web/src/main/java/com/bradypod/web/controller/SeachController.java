@@ -9,6 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSON;
+import com.bradypod.bean.bo.PageData;
+import com.bradypod.search.lucene.bo.ItemIndex;
+import com.bradypod.search.lucene.service.ItemIndexService;
+import com.bradypod.shop.item.center.po.ItemInfo;
+
 /**
  * 搜索接口
  * 
@@ -18,16 +24,30 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/search")
 public class SeachController extends HttpServlet {
-
+	
+	private ItemIndexService itemIndexService;
+	
+	public SeachController() {
+		itemIndexService = new ItemIndexService();
+	}
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		resp.setContentType("text/plain");
+		resp.setContentType("application/json");
 		resp.setCharacterEncoding("utf-8");
-
+		
+		String title = req.getParameter("title");
+		
+		ItemIndex itemIndex = new ItemIndex();
+		itemIndex.setTitle(title);
+		itemIndex.setSortField("createTime");
+		
+		PageData<ItemInfo> pageData = itemIndexService.searchIndex(itemIndex);
+		
 		PrintWriter out = resp.getWriter();
-		out.write("this");
+		out.write(JSON.toJSONString(pageData));
 		out.flush();
 		out.close();
 	}
@@ -35,14 +55,7 @@ public class SeachController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-
-		resp.setCharacterEncoding("utf-8");
-		resp.setContentType("application/xml");
-
-		PrintWriter out = resp.getWriter();
-		out.write("");
-		out.flush();
-		out.close();
+		return;
 	}
 
 	private static final long serialVersionUID = 1L;
