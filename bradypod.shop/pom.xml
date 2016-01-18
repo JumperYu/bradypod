@@ -16,6 +16,8 @@
 		<module>shop.item.center.service.impl</module>
 		<module>shop.item.center.web</module>
 		<module>shop.item.center.war</module>
+		<module>shop.search.war</module>
+		<module>shop.search.web</module>
 	</modules>
 
 	<build>

@@ -36,7 +36,7 @@ public class ItemInfoServiceTest {
 		int count = 0;
 
 		ItemInfoIndex itemIndex = new ItemInfoIndex();
-		itemIndex.setTitle("留恋干");
+		itemIndex.setTitle("榴莲干");
 		itemIndex.setSortField("createTime");
 		itemIndex.setDescending(true);
 		itemIndex.setPageNO(pageNO);
@@ -46,9 +46,8 @@ public class ItemInfoServiceTest {
 				.searchIndex(itemIndex);
 		count = pageData.getTotalPage();
 		
-		System.out.println(JSON.toJSONString(pageData));
-		
 		for (; pageNO <= count; pageNO++) {
+			itemIndex.setPageNO(pageNO);
 			pageData = itemInfoIndexService.searchIndex(itemIndex);
 			System.out.println(JSON.toJSONString(pageData));
 		}

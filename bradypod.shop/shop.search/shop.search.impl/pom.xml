@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.bradypod</groupId>
+		<artifactId>shop.search</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>shop.search.impl</artifactId>
+
+	<dependencies>
+		<!-- interface -->
+		<dependency>
+			<groupId>com.bradypod</groupId>
+			<artifactId>shop.item.center.service</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.caucho</groupId>
+			<artifactId>hessian</artifactId>
+		</dependency>
+		<!-- lucene -->
+		<dependency>
+			<groupId>com.bradypod</groupId>
+			<artifactId>bradypod.framework.lucene</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<!-- util -->
+		<dependency>
+			<groupId>com.bradypod</groupId>
+			<artifactId>commons-util</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<!-- test -->
+		<dependency>
+			<artifactId>junit</artifactId>
+			<groupId>junit</groupId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+</project>

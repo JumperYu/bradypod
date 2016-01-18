@@ -110,7 +110,6 @@ public class ItemInfoIndexService {
 			}
 			String queryValue = ArrayUtil.join(words, " ");
 
-			System.out.println("slit word: " + queryValue);
 			ts.close();
 
 			Query query = queryParser.parse(queryValue);
@@ -128,15 +127,14 @@ public class ItemInfoIndexService {
 				}
 			});
 
-			TopDocs results = searcher.search(query, itemIndex.getPageSize(),
-					sort);
+			TopDocs results = searcher.search(query, itemIndex.getPageSize()
+					* itemIndex.getPageNO(), sort);
 
 			ScoreDoc[] scores = results.scoreDocs;// 这里是全部的集合
 
 			int begin = itemIndex.getPageSize() * (itemIndex.getPageNO() - 1);
 			int end = Math.min(begin + itemIndex.getPageSize(), scores.length);
 
-			pageData.setPageNO(itemIndex.getPageNO());
 			pageData.setPageSize(itemIndex.getPageSize());
 			pageData.setTotalNum(results.totalHits);
 
