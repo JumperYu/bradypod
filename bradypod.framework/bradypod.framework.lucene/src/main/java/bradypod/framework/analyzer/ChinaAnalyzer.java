@@ -19,7 +19,7 @@ public class ChinaAnalyzer {
 
 	public static void main(String[] args) throws IOException {
 
-		String text = "榴莲干货";
+		String text = "列中有中国，和伟大的中国";
 
 		Analyzer analyzer = new SmartChineseAnalyzer();
 //		Analyzer analyzer = new CJKAnalyzer();
