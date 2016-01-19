@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>树懒搜索</title>
+		<style type="text/css">
+			body {
+				margin: 0;
+				padding: 0;
+				font: 12px/1.5 \5b8b\4f53, Arial, sans-serif;
+			}
+			
+			#main {
+				text-align: center;
+			}
+			
+			.search {
+				margin: 100px auto;
+			}
+			
+			.content {
+				text-align: center;
+			}
+			
+			textarea {
+				border: 1px solid #b8b8b8;
+			}
+			
+			.baidu {
+				border-color: #b8b8b8 transparent #ccc #b8b8b8;
+				border-image: none;
+				border-style: solid;
+				border-width: 1px 1px 1px 1px;
+				vertical-align: top;
+				width: 300px;
+				height: 32px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="main">
+			<div class="search">
+				<input type="text" name="search" id="search" class="baidu" value="" placeholder="输入想要查找的商品" autocomplete="off" />
+			</div>
+			<div class="content">
+				<textarea name="log" rows="15" cols="60"></textarea>
+			</div>
+		</div>
+		<script src="http://code.jquery.com/jquery-2.2.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			$(function() {
+				$("#search").on("keyup", function(evt) {
+					evt.stopPropagation();
+					var _title = $(this).val();
+					if (!_title) {
+						return false;
+					}
+					var _url = "http://www.bradypod.com/search?title=" + _title;
+					$.ajax({
+						url: _url,
+						dataType: "jsonp",
+						jsonp: "jsonp",
+						success: function(data) {
+							clear();
+							$.each(data.list, function(i, obj) {
+								append((i + 1) + ".【" + obj.title + "】" + "\n");
+							});
+						}
+					});
+				});
+				var append = function(msg) {
+					$(".content textarea").append(msg);
+				}
+				var clear = function() {
+					$(".content textarea").html("");
+				}
+			});
+		</script>
+	</body>
+
+</html>

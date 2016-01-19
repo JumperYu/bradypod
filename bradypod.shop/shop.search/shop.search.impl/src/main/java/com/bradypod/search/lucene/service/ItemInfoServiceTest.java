@@ -1,6 +1,7 @@
 package com.bradypod.search.lucene.service;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
@@ -23,8 +24,9 @@ public class ItemInfoServiceTest {
 
 	public static void main(String[] args) throws IOException,
 			InterruptedException {
-		testSearch();
+//		testSearch();
 		// testCreate();
+		testCreate2();
 	}
 
 	static final ItemIndexService itemInfoIndexService = new ItemIndexService();
@@ -108,7 +110,9 @@ public class ItemInfoServiceTest {
 	public static void testCreate2(){
 		ItemIndex itemIndex = new ItemIndex();
 		itemIndex.setId(200000L);
-		itemIndex.setTitle("zxm at home");
+		itemIndex.setCtgId(2000L);
+		itemIndex.setCreateTime(new Date());
+		itemIndex.setTitle("zxm at company");
 		itemInfoIndexService.createIndex(itemIndex);
 	}
 

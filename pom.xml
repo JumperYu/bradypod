@@ -54,8 +54,7 @@
 		<maven-shade-plugin.version>2.4.1</maven-shade-plugin.version>
 		<jetty-maven-plugin.version>9.2.9.v20150224</jetty-maven-plugin.version>
 		<elasticsearch.version>1.7.1</elasticsearch.version>
-		<lucene.version>5.3.1</lucene.version>
-		<lucene.cn.analyzer>5.4.0</lucene.cn.analyzer>
+		<lucene.version>5.4.0</lucene.version>
 		<netty.version>4.0.24.Final</netty.version>
 		<cglib.version>3.2.0</cglib.version>
 		<stanford-corenlp.version>3.5.2</stanford-corenlp.version>
@@ -86,8 +85,8 @@
 				<version>1.2</version>
 				<scope>provided</scope>
 			</dependency>
-			<!-- <dependency> <groupId>taglibs</groupId> <artifactId>standard</artifactId> <version>1.1.2</version> 
-				</dependency> -->
+			<!-- <dependency> <groupId>taglibs</groupId> <artifactId>standard</artifactId> 
+				<version>1.1.2</version> </dependency> -->
 			<!-- Spring Framework -->
 			<dependency>
 				<groupId>org.springframework</groupId>
@@ -284,8 +283,8 @@
 				<artifactId>dom4j</artifactId>
 				<version>${dom4j.version}</version>
 			</dependency>
-			<!-- <dependency> <groupId>org.json</groupId> <artifactId>json</artifactId> <version>20140107</version> 
-				</dependency> -->
+			<!-- <dependency> <groupId>org.json</groupId> <artifactId>json</artifactId> 
+				<version>20140107</version> </dependency> -->
 			<!-- End of JSON -->
 			<!-- cache -->
 			<dependency>
@@ -300,9 +299,10 @@
 				<version>${org.slf4j-version}</version>
 			</dependency>
 			<!-- 向logback改进 -->
-			<!-- <dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-log4j12</artifactId> <version>${org.slf4j-version}</version> 
-				<scope>runtime</scope> </dependency> <dependency> <groupId>log4j</groupId> <artifactId>log4j</artifactId> 
-				<version>1.2.17</version> <scope>runtime</scope> </dependency> -->
+			<!-- <dependency> <groupId>org.slf4j</groupId> <artifactId>slf4j-log4j12</artifactId> 
+				<version>${org.slf4j-version}</version> <scope>runtime</scope> </dependency> 
+				<dependency> <groupId>log4j</groupId> <artifactId>log4j</artifactId> <version>1.2.17</version> 
+				<scope>runtime</scope> </dependency> -->
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
@@ -346,8 +346,8 @@
 				<artifactId>hibernate-validator</artifactId>
 				<version>5.2.1.Final</version>
 				<!-- <exclusions> <exclusion> <artifactId>jaxb-impl</artifactId> <groupId>com.sun.xml.bind</groupId> 
-					</exclusion> <exclusion> <artifactId>jaxb-api</artifactId> <groupId>javax.xml.bind</groupId> </exclusion> 
-					</exclusions> -->
+					</exclusion> <exclusion> <artifactId>jaxb-api</artifactId> <groupId>javax.xml.bind</groupId> 
+					</exclusion> </exclusions> -->
 			</dependency>
 
 			<!-- poi version -->
@@ -388,12 +388,22 @@
 			<dependency>
 				<groupId>org.apache.lucene</groupId>
 				<artifactId>lucene-queryparser</artifactId>
-				<version> ${lucene.version}</version>
+				<version>${lucene.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.lucene</groupId>
 				<artifactId>lucene-analyzers-smartcn</artifactId>
-				<version>${lucene.cn.analyzer}</version>
+				<version>${lucene.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.lucene</groupId>
+				<artifactId>lucene-highlighter</artifactId>
+				<version>${lucene.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.solr</groupId>
+				<artifactId>solr-solrj</artifactId>
+				<version>${lucene.version}</version>
 			</dependency>
 
 			<!-- dubbo -->
@@ -514,7 +524,8 @@
 
 	<distributionManagement>
 		<!-- <repository> <id>releases</id> <name>Internal Releases</name> <url>http://192.168.1.130:5050/nexus/content/repositories/releases</url> 
-			</repository> <snapshotRepository> <id>snapshots</id> <name>Internal Snapshots</name> <url>http://192.168.1.130:5050/nexus/content/repositories/snapshots</url> 
+			</repository> <snapshotRepository> <id>snapshots</id> <name>Internal Snapshots</name> 
+			<url>http://192.168.1.130:5050/nexus/content/repositories/snapshots</url> 
 			</snapshotRepository> -->
 	</distributionManagement>
 

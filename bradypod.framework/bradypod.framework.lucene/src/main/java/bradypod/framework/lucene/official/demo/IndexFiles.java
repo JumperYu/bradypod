@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.LongField;
@@ -41,7 +41,7 @@ public class IndexFiles {
 
 		// 创建索引
 		Directory dir = FSDirectory.open(Paths.get(indexPath));
-		IndexWriterConfig iwc = new IndexWriterConfig(new StandardAnalyzer());
+		IndexWriterConfig iwc = new IndexWriterConfig(new SmartChineseAnalyzer());
 		iwc.setOpenMode(created ? OpenMode.CREATE : OpenMode.APPEND);
 		IndexWriter writer = new IndexWriter(dir, iwc);
 

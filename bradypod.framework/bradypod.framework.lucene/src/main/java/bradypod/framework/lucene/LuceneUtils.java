@@ -275,10 +275,21 @@ public class LuceneUtils {
 	 * @param doc
 	 */
 	public static void addIndex(IndexWriter writer, Document document) {
+		addIndex(writer, document, false);
+	}
+	
+	/**
+	 * 添加索引文档
+	 * 
+	 * @param writer
+	 * @param doc
+	 */
+	public static void addIndex(IndexWriter writer, Document document, boolean autoCommit) {
 		try {
 			writer.addDocument(document);
 			// TODO did auto commit?
-			//writer.commit();
+			if(autoCommit)
+				writer.commit();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -2,6 +2,7 @@ package com.bradypod.web.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,6 +40,7 @@ public class SeachController extends HttpServlet {
 		resp.setCharacterEncoding("utf-8");
 		
 		String title = req.getParameter("title");
+		String jsonp = req.getParameter("jsonp");
 		
 		ItemIndex itemIndex = new ItemIndex();
 		itemIndex.setTitle(title);
@@ -46,8 +48,10 @@ public class SeachController extends HttpServlet {
 		
 		PageData<ItemInfo> pageData = itemIndexService.searchIndex(itemIndex);
 		
+		String ret = jsonp + "(" + JSON.toJSONString(pageData) + ")";
+		
 		PrintWriter out = resp.getWriter();
-		out.write(JSON.toJSONString(pageData));
+		out.write(ret);
 		out.flush();
 		out.close();
 	}
@@ -55,6 +59,15 @@ public class SeachController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		
+		String title = req.getParameter("title");
+		
+		ItemIndex itemIndex = new ItemIndex();
+		itemIndex.setId(200000L);
+		itemIndex.setCtgId(2000L);
+		itemIndex.setCreateTime(new Date());
+		itemIndex.setTitle(title);
+		itemIndexService.createIndex(itemIndex);
 		return;
 	}
 

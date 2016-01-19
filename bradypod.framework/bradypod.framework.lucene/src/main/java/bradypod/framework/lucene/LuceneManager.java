@@ -50,17 +50,13 @@ public class LuceneManager {
 			throw new IllegalArgumentException("Directory can not be null.");
 		}
 		if (null == config) {
-			throw new IllegalArgumentException("IndexWriterConfig can not be null.");
+			throw new IllegalArgumentException(
+					"IndexWriterConfig can not be null.");
 		}
 		try {
 			writerLock.lock();
 			if (null == writer) {
 				// 如果索引目录被锁，则直接抛异常
-				/*
-				 * if (IndexWriter.isLocked(dir)) { throw new
-				 * LockObtainFailedException
-				 * ("Directory of index had been locked."); }
-				 */
 				writer = new IndexWriter(dir, config);
 			}
 		} catch (LockObtainFailedException e) {
@@ -91,7 +87,8 @@ public class LuceneManager {
 			} else {
 				if (enableNRTReader && reader instanceof DirectoryReader) {
 					// 开启近实时Reader,能立即看到动态添加/删除的索引变化
-					reader = DirectoryReader.openIfChanged((DirectoryReader) reader);
+					reader = DirectoryReader
+							.openIfChanged((DirectoryReader) reader);
 				}
 			}
 		} catch (IOException e) {
@@ -121,7 +118,8 @@ public class LuceneManager {
 	 */
 	public IndexSearcher getIndexSearcher(IndexReader reader) {
 		if (null == reader) {
-			throw new IllegalArgumentException("The indexReader can not be null.");
+			throw new IllegalArgumentException(
+					"The indexReader can not be null.");
 		}
 		if (null == searcher) {
 			searcher = new IndexSearcher(reader);

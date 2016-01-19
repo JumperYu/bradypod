@@ -28,7 +28,6 @@ import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.SortField.Type;
 import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.search.similarities.DefaultSimilarity;
 import org.apache.lucene.store.Directory;
 
 import bradypod.framework.lucene.LuceneUtils;
@@ -78,7 +77,7 @@ public class ItemIndexService {
 		// 只做评分和排序
 		document.add(new NumericDocValuesField("createTime", itemIndex
 				.getCreateTime().getTime()));
-		LuceneUtils.addIndex(writer, document);
+		LuceneUtils.addIndex(writer, document, true);
 	}
 
 	/**
@@ -89,7 +88,7 @@ public class ItemIndexService {
 	public PageData<ItemInfo> searchIndex(ItemIndex itemIndex) {
 
 		if (reader == null) {
-			reader = LuceneUtils.getIndexReader(directory);
+			reader = LuceneUtils.getIndexReader(directory, true);
 			searcher = LuceneUtils.getIndexSearcher(reader);
 		}
 
@@ -102,15 +101,17 @@ public class ItemIndexService {
 
 			TokenStream ts = analyzer.tokenStream("", new StringReader(
 					itemIndex.getTitle()));
-			ts.reset();
+			ts.reset(); // required set to begin
 			CharTermAttribute cta = ts.addAttribute(CharTermAttribute.class);
 			Set<String> words = new HashSet<String>();
 			while (ts.incrementToken()) {
 				words.add("+" + cta.toString());
 			}
 			String queryValue = ArrayUtil.join(words, " ");
-
-			ts.close();
+			
+			ts.end(); // required set to final
+			
+			ts.close(); 
 
 			Query query = queryParser.parse(queryValue);
 
@@ -118,14 +119,6 @@ public class ItemIndexService {
 			Sort sort = new Sort();
 			sort.setSort(new SortField(itemIndex.getSortField(), Type.LONG,
 					itemIndex.isDescending()));
-
-			// 设置相似度
-			searcher.setSimilarity(new DefaultSimilarity() {
-				@Override
-				public float coord(int overlap, int maxOverlap) {
-					return super.coord(overlap, maxOverlap);
-				}
-			});
 
 			TopDocs results = searcher.search(query, itemIndex.getPageSize()
 					* itemIndex.getPageNO(), sort);
