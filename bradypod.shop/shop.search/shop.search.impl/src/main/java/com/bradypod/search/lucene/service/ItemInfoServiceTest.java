@@ -1,7 +1,6 @@
 package com.bradypod.search.lucene.service;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
@@ -25,8 +24,7 @@ public class ItemInfoServiceTest {
 	public static void main(String[] args) throws IOException,
 			InterruptedException {
 //		testSearch();
-		// testCreate();
-		testCreate2();
+		testCreate();
 	}
 
 	static final ItemIndexService itemInfoIndexService = new ItemIndexService();
@@ -56,7 +54,7 @@ public class ItemInfoServiceTest {
 	}
 
 	/**
-	 * 单线程创建索引
+	 * 多线程创建索引
 	 */
 	public static void testCreate() {
 		ApplicationContext context = startSpring();
@@ -64,7 +62,7 @@ public class ItemInfoServiceTest {
 				ItemInfoService.class);
 		AtomicLong id = new AtomicLong(0);
 		Integer pageNO = 1;
-		Integer pageSize = 10;
+		Integer pageSize = 100;
 		// 40801
 		while (id.get() < 40770) {
 			ThreadPool pool = new ThreadPool(100);
@@ -105,15 +103,6 @@ public class ItemInfoServiceTest {
 		// 关闭写入器
 		itemInfoIndexService.close();
 		logger.info("完成");
-	}
-	
-	public static void testCreate2(){
-		ItemIndex itemIndex = new ItemIndex();
-		itemIndex.setId(200000L);
-		itemIndex.setCtgId(2000L);
-		itemIndex.setCreateTime(new Date());
-		itemIndex.setTitle("zxm at company");
-		itemInfoIndexService.createIndex(itemIndex);
 	}
 
 	public static ApplicationContext startSpring() {

@@ -1,8 +1,9 @@
 package com.bradypod.bean.bo;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class PageData<T> {
+public class PageData<T> implements Serializable{
 
 	private int pageNO;
 
@@ -66,5 +67,6 @@ public class PageData<T> {
 	public void setList(List<T> list) {
 		this.list = list;
 	}
-
+	
+	private static final long serialVersionUID = 1L;
 }

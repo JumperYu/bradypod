@@ -61,9 +61,10 @@ public class SeachController extends HttpServlet {
 			throws ServletException, IOException {
 		
 		String title = req.getParameter("title");
+		Long id = Long.parseLong(req.getParameter("id"));
 		
 		ItemIndex itemIndex = new ItemIndex();
-		itemIndex.setId(200000L);
+		itemIndex.setId(id);
 		itemIndex.setCtgId(2000L);
 		itemIndex.setCreateTime(new Date());
 		itemIndex.setTitle(title);
