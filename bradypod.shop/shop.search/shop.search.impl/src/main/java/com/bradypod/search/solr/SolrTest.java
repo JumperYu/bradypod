@@ -1,6 +1,7 @@
 package com.bradypod.search.solr;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -9,13 +10,22 @@ import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrInputDocument;
+import org.apache.solr.common.util.NamedList;
 
 public class SolrTest {
 
 	public static void main(String[] args) throws SolrServerException,
 			IOException {
-		index();
-		query();
+//		index();
+		//query();
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("a", "1");
+		map.put("b", "2");
+		map.put("c", "3");
+		map.put("d", "4");
+		NamedList<String> namedList = new NamedList<String>(map);
+		System.out.println(namedList.get("b"));
+		System.out.println(namedList.getName(1));
 	}
 
 	public static void index() throws SolrServerException, IOException {
@@ -44,6 +54,7 @@ public class SolrTest {
 
 		SolrQuery query = new SolrQuery();
 		query.set("q", "榴莲");
+		query.set("wt", "json");
 		QueryResponse response = solr.query(query);
 
 		System.out.println(response.toString());

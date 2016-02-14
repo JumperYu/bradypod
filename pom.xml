@@ -36,7 +36,7 @@
 		<commons-beanutils.version>1.9.2</commons-beanutils.version>
 		<commons-csv.version>1.2</commons-csv.version>
 		<freemarker.version>2.3.20</freemarker.version>
-		<guava.version>18.0</guava.version>
+		<guava.version>19.0</guava.version>
 		<spymemcached.version>2.11.5</spymemcached.version>
 		<mysql-connector-java.version>5.1.30</mysql-connector-java.version>
 		<h2.version>1.4.189</h2.version>
@@ -62,6 +62,7 @@
 		<poi.version>3.13</poi.version>
 		<itextpdf.version>5.5.8</itextpdf.version>
 		<itextpdf.asian.version>5.1.1</itextpdf.asian.version>
+		<asm.version>3.3.1</asm.version>
 	</properties>
 
 	<dependencyManagement>
@@ -286,6 +287,13 @@
 			<!-- <dependency> <groupId>org.json</groupId> <artifactId>json</artifactId> 
 				<version>20140107</version> </dependency> -->
 			<!-- End of JSON -->
+
+			<dependency>
+				<groupId>asm</groupId>
+				<artifactId>asm</artifactId>
+				<version>${asm.version}</version>
+			</dependency>
+
 			<!-- cache -->
 			<dependency>
 				<groupId>net.spy</groupId>

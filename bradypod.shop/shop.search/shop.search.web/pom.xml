@@ -8,6 +8,7 @@
 	</parent>
 	<artifactId>shop.search.web</artifactId>
 	<name>shop.search.web</name>
+	<packaging>jar</packaging>
 
 	<dependencies>
 		<dependency>

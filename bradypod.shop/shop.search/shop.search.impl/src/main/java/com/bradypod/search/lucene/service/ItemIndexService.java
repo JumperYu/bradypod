@@ -9,16 +9,13 @@ import java.util.Set;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.LongField;
 import org.apache.lucene.document.NumericDocValuesField;
 import org.apache.lucene.document.TextField;
-import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
@@ -28,9 +25,9 @@ import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.search.SortField.Type;
 import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.store.Directory;
 
-import bradypod.framework.lucene.LuceneUtils;
+import bradypod.framework.lucene.LuceneCallback;
+import bradypod.framework.lucene.LuceneManager;
 
 import com.bradypod.bean.bo.PageData;
 import com.bradypod.search.lucene.bo.ItemIndex;
@@ -46,19 +43,10 @@ import com.bradypod.util.array.ArrayUtil;
  */
 public class ItemIndexService {
 
-	private Directory directory;
-	private Analyzer analyzer;
-	private IndexWriter writer;
-	private IndexReader reader;
-	private IndexSearcher searcher;
+	private LuceneManager luceneManager;
 
 	public ItemIndexService() {
-		directory = LuceneUtils.openFSDirectory(INDEX_PATH);
-
-		analyzer = new SmartChineseAnalyzer();
-		IndexWriterConfig config = new IndexWriterConfig(analyzer);
-
-		writer = LuceneUtils.getIndexWrtier(directory, config);
+		luceneManager = new LuceneManager(INDEX_PATH);
 	}
 
 	/**
@@ -68,6 +56,7 @@ public class ItemIndexService {
 	 * @throws IOException
 	 */
 	public void createIndex(ItemIndex itemIndex) {
+		IndexWriter writer = luceneManager.getWriter();
 		Document document = new Document();
 		document.add(new LongField("id", itemIndex.getId(), Field.Store.YES));
 		document.add(new LongField("ctgId", itemIndex.getCtgId(),
@@ -77,7 +66,12 @@ public class ItemIndexService {
 		// 只做评分和排序
 		document.add(new NumericDocValuesField("createTime", itemIndex
 				.getCreateTime().getTime()));
-		LuceneUtils.addIndex(writer, document, true);
+		// 添加并且提交
+		try {
+			writer.addDocument(document);
+			writer.commit();
+		} catch (IOException e) {
+		}
 	}
 
 	/**
@@ -87,14 +81,12 @@ public class ItemIndexService {
 	 */
 	public PageData<ItemInfo> searchIndex(ItemIndex itemIndex) {
 
-		if (reader == null) {
-			reader = LuceneUtils.getIndexReader(directory, true);
-			searcher = LuceneUtils.getIndexSearcher(reader);
-		}
-
 		PageData<ItemInfo> pageData = new PageData<ItemInfo>();
 
 		String queryField = "title";
+
+		Analyzer analyzer = luceneManager.getAnalyzer();
+
 		QueryParser queryParser = new QueryParser(queryField, analyzer);
 
 		try {
@@ -108,10 +100,10 @@ public class ItemIndexService {
 				words.add("+" + cta.toString());
 			}
 			String queryValue = ArrayUtil.join(words, " ");
-			
+
 			ts.end(); // required set to final
-			
-			ts.close(); 
+
+			ts.close();
 
 			Query query = queryParser.parse(queryValue);
 
@@ -120,31 +112,48 @@ public class ItemIndexService {
 			sort.setSort(new SortField(itemIndex.getSortField(), Type.LONG,
 					itemIndex.isDescending()));
 
-			TopDocs results = searcher.search(query, itemIndex.getPageSize()
-					* itemIndex.getPageNO(), sort);
+			// 内部获取search对象进行实时查询
+			luceneManager.search(new LuceneCallback<Void>() {
+				@Override
+				public Void executeQuery(IndexSearcher searcher) {
 
-			ScoreDoc[] scores = results.scoreDocs;// 这里是全部的集合
+					TopDocs results;
+					try {
+						results = searcher.search(
+								query,
+								itemIndex.getPageSize() * itemIndex.getPageNO(),
+								sort);
 
-			int begin = itemIndex.getPageSize() * (itemIndex.getPageNO() - 1);
-			int end = Math.min(begin + itemIndex.getPageSize(), scores.length);
+						ScoreDoc[] scores = results.scoreDocs;// 这里是全部的集合
 
-			pageData.setPageSize(itemIndex.getPageSize());
-			pageData.setTotalNum(results.totalHits);
+						int begin = itemIndex.getPageSize()
+								* (itemIndex.getPageNO() - 1);
+						int end = Math.min(begin + itemIndex.getPageSize(),
+								scores.length);
 
-			List<ItemInfo> itemInfos = new ArrayList<ItemInfo>();
+						pageData.setPageSize(itemIndex.getPageSize());
+						pageData.setTotalNum(results.totalHits);
 
-			for (int i = begin; i < end; i++) {
+						List<ItemInfo> itemInfos = new ArrayList<ItemInfo>();
 
-				// output
-				Document doc = searcher.doc(scores[i].doc);
-				ItemInfo itemInfo = new ItemInfo();
-				itemInfo.setId(Long.parseLong(doc.get("id")));
-				itemInfo.setTitle(doc.get("title"));
-				itemInfos.add(itemInfo);
+						for (int i = begin; i < end; i++) {
 
-			}// --> end for
+							// output
+							Document doc = searcher.doc(scores[i].doc);
+							ItemInfo itemInfo = new ItemInfo();
+							itemInfo.setId(Long.parseLong(doc.get("id")));
+							itemInfo.setTitle(doc.get("title"));
+							itemInfos.add(itemInfo);
 
-			pageData.setList(itemInfos);
+						}// --> end for
+
+						pageData.setList(itemInfos);
+					} catch (IOException e) {
+					}
+
+					return null;
+				}
+			});
 
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -155,9 +164,10 @@ public class ItemIndexService {
 		return pageData;
 	}
 
+	// close
 	public void close() {
-		LuceneUtils.closeIndexWriter(writer);
+		luceneManager.closeWriter();
 	}
 
-	static final String INDEX_PATH = "E://index";
+	private static final String INDEX_PATH = "E://index";
 }
