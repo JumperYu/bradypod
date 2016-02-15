@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+
 import com.alibaba.fastjson.JSON;
 import com.bradypod.bean.bo.PageData;
 import com.bradypod.search.lucene.bo.ItemIndex;
@@ -35,7 +37,9 @@ public class SeachController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-
+		
+		logger.info("someone call from {}", req.getRemoteHost());
+		
 		resp.setContentType("application/json");
 		resp.setCharacterEncoding("utf-8");
 		
@@ -71,6 +75,8 @@ public class SeachController extends HttpServlet {
 		itemIndexService.createIndex(itemIndex);
 		return;
 	}
-
+	
+	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(SeachController.class);
+	
 	private static final long serialVersionUID = 1L;
 }

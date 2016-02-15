@@ -62,7 +62,10 @@
 		<poi.version>3.13</poi.version>
 		<itextpdf.version>5.5.8</itextpdf.version>
 		<itextpdf.asian.version>5.1.1</itextpdf.asian.version>
-		<asm.version>3.3.1</asm.version>
+		<asm.version>5.0.3</asm.version>
+		<protobuf.version>3.0.0-beta-2</protobuf.version>
+		<javassist.version>3.20.0-GA</javassist.version>
+		<cglib.version>3.2.0</cglib.version>
 	</properties>
 
 	<dependencyManagement>
@@ -284,14 +287,30 @@
 				<artifactId>dom4j</artifactId>
 				<version>${dom4j.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>com.google.protobuf</groupId>
+				<artifactId>protobuf-java</artifactId>
+				<version>${protobuf.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.javassist</groupId>
+				<artifactId>javassist</artifactId>
+				<version>${javassist.version}</version>
+			</dependency>
 			<!-- <dependency> <groupId>org.json</groupId> <artifactId>json</artifactId> 
 				<version>20140107</version> </dependency> -->
 			<!-- End of JSON -->
 
 			<dependency>
-				<groupId>asm</groupId>
+				<groupId>org.ow2.asm</groupId>
 				<artifactId>asm</artifactId>
 				<version>${asm.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>cglib</groupId>
+				<artifactId>cglib</artifactId>
+				<version>${cglib.version}</version>
 			</dependency>
 
 			<!-- cache -->
