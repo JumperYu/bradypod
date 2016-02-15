@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bradypod.bean.bo.PageData;
+import com.bradypod.common.aop.CacheType;
+import com.bradypod.common.aop.RedisCache;
+import com.bradypod.common.aop.RedisCacheClear;
 import com.bradypod.common.service.BaseMybatisServiceImpl;
 import com.bradypod.shop.item.center.mapper.ItemInfoMapper;
 import com.bradypod.shop.item.center.po.ItemInfo;
@@ -37,22 +40,31 @@ public class ItemInfoServiceImpl extends
 		params.put("id", id);
 
 		// 1.找到mapper的list位置 和 count位置
-		//long count = getMapper().countData(params);
 		List<ItemInfo> result = getMapper().listData(params);
 
 		// 2.指定Page对象
 		PageData<ItemInfo> pageResult = new PageData<ItemInfo>();
 		pageResult.setPageNO(pageNO);
 		pageResult.setPageSize(pageSize);
-		//pageResult.setCount(count);
-		//pageResult.setTotalPage((count % pageSize > 0) ? (count / pageSize + 1) : (count / pageSize));
 		pageResult.setList(result);
 
 		// 3.返回List<T>
 		return pageResult;
 	}
+	
+	@Override
+	public ItemInfo get(ItemInfo e) {
+		return super.get(e);
+	}
+	
+	@Override
+	@RedisCacheClear
+	public int update(ItemInfo e) {
+		return 0;
+	}
 
 	@Override
+	@RedisCache(expire = 1000, key = "", type = CacheType.STRING)
 	public Long count() {
 		return getMapper().countData(null);
 	}

@@ -9,16 +9,18 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface RedisCache {
 
-	
 	/**
 	 * - 设置redis的key, 如果为空则由RedisAOP.getCacheKey(...)生成
 	 */
 	public String key() default ""; // 缓存key
-
 
 	/**
 	 * - 缓存多少秒,默认无限期
 	 */
 	public int expire() default 0;
 
+	/**
+	 * - 缓存类型, string or hash
+	 */
+	public CacheType type() default CacheType.STRING;
 }

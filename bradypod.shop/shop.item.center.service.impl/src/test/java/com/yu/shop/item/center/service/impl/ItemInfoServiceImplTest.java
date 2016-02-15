@@ -36,7 +36,7 @@ public class ItemInfoServiceImplTest {
 	@Test
 	public void testGet() {
 		ItemInfo item = new ItemInfo();
-		item.setId(1L);
+		item.setId(2L);
 		// mapper.get(item);
 		log.info(itemInfoService.get(item).toString());
 	}
@@ -91,9 +91,13 @@ public class ItemInfoServiceImplTest {
 
 	@Test
 	public void testCountData() {
-		Map<String, Object> genericQueryParam = new HashMap<>();
-		System.out.println(mapper.countData(genericQueryParam));
-		System.out.println(itemInfoService.count());
+		itemInfoService.count();
+		itemInfoService.count();
+		itemInfoService.count();
+		itemInfoService.update(null);
+		itemInfoService.count();
+		itemInfoService.count();
+		itemInfoService.count();
 	}
 
 	protected Logger log = LoggerFactory.getLogger(getClass());
