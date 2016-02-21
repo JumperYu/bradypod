@@ -16,8 +16,10 @@ import org.apache.lucene.document.LongField;
 import org.apache.lucene.document.NumericDocValuesField;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.queries.mlt.MoreLikeThisQuery;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.Explanation;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -162,6 +164,71 @@ public class ItemIndexService {
 		}
 
 		return pageData;
+	}
+
+	public void moreLikeThis(String title) {
+
+		String[] moreLikeFields = { "title" }; // { "Name" ,"Info"};
+		MoreLikeThisQuery query = new MoreLikeThisQuery(title, moreLikeFields,
+				luceneManager.getAnalyzer(), "title");
+		// 设置停用词
+		// query.setStopWords(getStopWords(reader));
+
+		// 最少的词频
+		// Sets the frequency below which terms will be ignored in the source
+		// doc.
+		query.setMinTermFrequency(1);
+
+		// 最多的查询词数目
+		// Sets the maximum number of query terms that will be included in any
+		// generated query.
+		query.setMaxQueryTerms(5);
+
+		// 词至少在这么多篇文档中出现
+		// Ignore words which do not occur in at least this many docs.
+		// DEFAULT_MIN_DOC_FREQ = 5
+		query.setMinDocFreq(1);
+
+		System.out.println("搜索条件:" + query.toString());
+
+		long start = System.currentTimeMillis();
+
+		luceneManager.search(new LuceneCallback<Void>() {
+			@Override
+			public Void executeQuery(IndexSearcher searcher) {
+
+				try {
+					TopDocs tDocs = searcher.search(query, 10);
+
+					ScoreDoc sDocs[] = tDocs.scoreDocs;
+
+					int len = sDocs.length;
+
+					for (int i = 0; i < len; i++) {
+						ScoreDoc tScore = sDocs[i];
+						// 从Lucene3.0开始已经不能通过 tScore.score 这样来得到些文档的得分了
+						int docId = tScore.doc;
+						Explanation exp = searcher.explain(query, docId);
+
+						Document tDoc = searcher.doc(docId);
+						String title = tDoc.get("title");
+
+						float score = exp.getValue();
+						// System.out.println(exp.toString());
+						// //如果需要打印文档得分的详细信息则可以通过此方法
+
+						System.out.println("DocId:" + docId + "\tScore:"
+								+ score + "\ttitle:" + title);
+					}
+				} catch (Exception e) {
+
+				}
+				return null;
+			}
+		});
+
+		Long end = System.currentTimeMillis();
+		System.out.println("搜索用时:" + (end - start) + "ms");
 	}
 
 	// close

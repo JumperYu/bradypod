@@ -23,8 +23,9 @@ public class ItemInfoServiceTest {
 
 	public static void main(String[] args) throws IOException,
 			InterruptedException {
-//		testSearch();
-		testCreate();
+//		 testSearch();
+		//testCreate();
+		testMoreLikeThis();
 	}
 
 	static final ItemIndexService itemInfoIndexService = new ItemIndexService();
@@ -45,7 +46,7 @@ public class ItemInfoServiceTest {
 		PageData<ItemInfo> pageData = itemInfoIndexService
 				.searchIndex(itemIndex);
 		count = pageData.getTotalPage();
-		
+
 		for (; pageNO <= count; pageNO++) {
 			itemIndex.setPageNO(pageNO);
 			pageData = itemInfoIndexService.searchIndex(itemIndex);
@@ -81,8 +82,8 @@ public class ItemInfoServiceTest {
 					}
 
 					for (ItemInfo itemInfo : data) {
-						ItemIndex index = BeanCopyUtil.copyProperties(
-								itemInfo, ItemIndex.class);
+						ItemIndex index = BeanCopyUtil.copyProperties(itemInfo,
+								ItemIndex.class);
 						// 打印数据
 						logger.info("检索到数据: " + JSON.toJSONString(index));
 						// 调用lucene索引服务
@@ -103,6 +104,10 @@ public class ItemInfoServiceTest {
 		// 关闭写入器
 		itemInfoIndexService.close();
 		logger.info("完成");
+	}
+
+	public static void testMoreLikeThis() {
+		itemInfoIndexService.moreLikeThis("男些子");
 	}
 
 	public static ApplicationContext startSpring() {
