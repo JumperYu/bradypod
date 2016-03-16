@@ -3,6 +3,7 @@ package com.bradypod.web.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.concurrent.Semaphore;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,14 +31,21 @@ public class SeachController extends HttpServlet {
 	
 	private ItemIndexService itemIndexService;
 	
+	private Semaphore semaphore;
+	
 	public SeachController() {
 		itemIndexService = new ItemIndexService();
+		semaphore = new Semaphore(2);
 	}
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
+		try {
+			semaphore.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		logger.info("someone call from {}", req.getRemoteHost());
 		
 		resp.setContentType("application/json");
@@ -58,6 +66,8 @@ public class SeachController extends HttpServlet {
 		out.write(ret);
 		out.flush();
 		out.close();
+		
+		semaphore.release();
 	}
 
 	@Override

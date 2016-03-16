@@ -39,9 +39,12 @@ package com.yu.test.nio.sample;
  */
 
 
-import java.io.*;
-import java.nio.channels.*;
-import javax.net.ssl.*;
+import java.io.IOException;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
+
+import javax.net.ssl.SSLContext;
 
 /**
  * A single threaded Handler that performs accepts SocketChannels and
