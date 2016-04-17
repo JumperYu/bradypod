@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class HttpResponse implements HttpServletResponse {
 
-	OutputStream output;
+	private OutputStream output;
 
 	public HttpResponse(OutputStream output) {
 		this.output = output;

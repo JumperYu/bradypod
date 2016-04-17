@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,8 +19,6 @@ public class HelloServlet extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		PrintWriter out = resp.getWriter();
-		out.write("Welcome my first servlet.");
-		out.flush();
+		resp.getWriter().println("Welcome my first servlet.");
 	}
 }

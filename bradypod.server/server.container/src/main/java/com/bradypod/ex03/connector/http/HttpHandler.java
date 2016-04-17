@@ -17,7 +17,7 @@ import com.bradypod.ex03.ServletProcessor;
  */
 public class HttpHandler {
 
-	private HttpConnector connector = null;
+	HttpConnector connector = null;
 
 	private HttpRequest request;
 
@@ -34,16 +34,20 @@ public class HttpHandler {
 		try {
 			input = socket.getInputStream();
 			output = socket.getOutputStream();
-
+			
 			// 创建请求对象
 			request = new HttpRequest(input);
 
 			// 创建响应对象
 			response = new HttpResponse(output);
-
+			
 			// 解析请求
 			request.parse();
-
+			
+			//response.getWriter().println("Welcome my first servlet.");
+			//output.write("outputstream write words".getBytes());
+			
+			
 			// 判断是否请求动态资源
 			if (request.getRequestURI().startsWith("/servlet/")) {
 				ServletProcessor processor = new ServletProcessor();

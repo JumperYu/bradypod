@@ -68,7 +68,7 @@ public class HttpRequest implements HttpServletRequest {
 		this.uri = m.group(2);
 
 		// 关闭输入输出流
-		input.close();
+		//input.close();
 		out.close();
 	}
 
