@@ -46,7 +46,12 @@ public class HttpHandler {
 
 			// response.getWriter().println("Welcome my first servlet.");
 			// output.write("outputstream write words".getBytes());
-
+			
+			// 设置响应头
+			//response.addHeader("Content-Type", "text/html");
+			
+			response.sendHeaders(); // 发送响应头
+			
 			// 判断是否请求动态资源
 			if (request.getRequestURI() == null) {
 				response.getWriter().println("404 Not Found!");

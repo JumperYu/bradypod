@@ -3,8 +3,12 @@ package com.bradypod.ex03.connector.http;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
@@ -14,12 +18,40 @@ public class HttpResponse implements HttpServletResponse {
 
 	private OutputStream output;
 
+	Map<String, ArrayList<String>> headers = new HashMap<>(); // 响应头
+
+	ArrayList<Cookie> cookies = new ArrayList<>();// cookie
+
 	public HttpResponse(OutputStream output) {
 		this.output = output;
 	}
 
 	public OutputStream getStream() {
 		return output;
+	}
+
+	public void sendHeaders() throws IOException {
+		PrintWriter out = getWriter();
+		out.print("HTTP/1.1 200 OK\r\n");
+		out.print("Server: Bradypod Server\r\n");
+		out.print("Content-Type: text/html\r\n");
+		out.print("Content-Length: 112\r\n");
+		out.println();
+		synchronized (headers) {
+			Iterator<String> names = headers.keySet().iterator();
+			while (names.hasNext()) {
+				String name = (String) names.next();
+				ArrayList<String> values = headers.get(name);
+				Iterator<String> items = values.iterator();
+				while (items.hasNext()) {
+					String value = (String) items.next();
+					out.print(name);
+					out.print(": ");
+					out.print(value);
+					out.print("\r\n");
+				}
+			}
+		}
 	}
 
 	@Override
@@ -106,7 +138,9 @@ public class HttpResponse implements HttpServletResponse {
 
 	@Override
 	public void addCookie(Cookie cookie) {
-
+		synchronized (cookies) {
+			cookies.add(cookie);
+		}
 	}
 
 	@Override
@@ -171,7 +205,14 @@ public class HttpResponse implements HttpServletResponse {
 
 	@Override
 	public void addHeader(String name, String value) {
-
+		synchronized (headers) {
+			ArrayList<String> values = headers.get(name);
+			if (values == null) {
+				values = new ArrayList<>();
+				headers.put(name, values);
+			} // --> end if
+			values.add(value);// 一个头可以对应多个值
+		} // --> end sync
 	}
 
 	@Override

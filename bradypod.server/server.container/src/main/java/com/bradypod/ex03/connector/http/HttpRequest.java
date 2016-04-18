@@ -8,6 +8,8 @@ import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -38,6 +40,8 @@ public class HttpRequest implements HttpServletRequest {
 	String protocol; // 协议
 	
 	String queryString; // 查询内容
+	
+	Map<String, List<String>> headers = new HashMap<>(); // 请求头
 
 	public HttpRequest(InputStream input) {
 		this.input = input;
@@ -65,7 +69,7 @@ public class HttpRequest implements HttpServletRequest {
 		}// --> end while
 		String headContent = out.toString("UTF-8");
 		
-		System.out.println(headContent);
+		// System.out.println(headContent);
 
 		// 正则匹配
 		Matcher m = requestPattern.matcher(headContent);

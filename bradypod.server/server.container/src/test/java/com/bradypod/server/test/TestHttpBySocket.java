@@ -22,13 +22,13 @@ public class TestHttpBySocket {
 
 	@Test
 	public void testHttpRequest() {
-		try (Socket socket = new Socket("127.0.0.1", 80)) {
+		try (Socket socket = new Socket("127.0.0.1", 8080)) {
 			OutputStream os = socket.getOutputStream();
 			PrintWriter out = new PrintWriter(os);
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					socket.getInputStream()));
 			// send http GET
-			out.println("GET /index.php HTTP/1.1");
+			out.println("GET /servlet/HelloServlet HTTP/1.1");
 			out.println("Host: 127.0.0.1");
 
 			out.println("Connection: Close");
