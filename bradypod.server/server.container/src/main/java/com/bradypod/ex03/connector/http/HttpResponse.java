@@ -18,6 +18,10 @@ public class HttpResponse implements HttpServletResponse {
 		this.output = output;
 	}
 
+	public OutputStream getStream() {
+		return output;
+	}
+
 	@Override
 	public String getCharacterEncoding() {
 

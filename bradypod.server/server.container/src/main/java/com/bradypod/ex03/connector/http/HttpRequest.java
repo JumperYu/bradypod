@@ -32,6 +32,12 @@ public class HttpRequest implements HttpServletRequest {
 	InputStream input;
 
 	String uri; // 请求路径
+	
+	String method; // 请求方法: GET/POST/PUT/DELETE
+	
+	String protocol; // 协议
+	
+	String queryString; // 查询内容
 
 	public HttpRequest(InputStream input) {
 		this.input = input;
@@ -40,7 +46,7 @@ public class HttpRequest implements HttpServletRequest {
 	public String getRequestURI() {
 		return uri;
 	}
-
+	
 	/**
 	 * 解析
 	 */
@@ -58,6 +64,8 @@ public class HttpRequest implements HttpServletRequest {
 			}
 		}// --> end while
 		String headContent = out.toString("UTF-8");
+		
+		System.out.println(headContent);
 
 		// 正则匹配
 		Matcher m = requestPattern.matcher(headContent);
@@ -65,10 +73,11 @@ public class HttpRequest implements HttpServletRequest {
 			return;
 
 		// 设置URI
+		this.method = m.group(1);
 		this.uri = m.group(2);
+		this.protocol = m.group(3);
 
 		// 关闭输入输出流
-		//input.close();
 		out.close();
 	}
 
@@ -378,7 +387,7 @@ public class HttpRequest implements HttpServletRequest {
 	@Override
 	public String getQueryString() {
 
-		return null;
+		return queryString;
 	}
 
 	@Override
