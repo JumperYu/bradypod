@@ -22,6 +22,9 @@ public class HttpHandler {
 	private HttpRequest request;
 
 	private HttpResponse response;
+	
+	public HttpHandler() {
+	}
 
 	public HttpHandler(HttpConnector connector) {
 		this.connector = connector;
