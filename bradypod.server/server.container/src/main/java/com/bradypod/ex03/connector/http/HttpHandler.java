@@ -40,15 +40,13 @@ public class HttpHandler {
 
 			// 创建响应对象
 			response = new HttpResponse(output);
+			response.setRequest(request);
 
+			// 设置响应头
+			response.addHeader("Server", "Bradypod Server Container");
+			
 			// 解析请求
 			request.parse();
-
-			// response.getWriter().println("Welcome my first servlet.");
-			// output.write("outputstream write words".getBytes());
-			
-			// 设置响应头
-			//response.addHeader("Content-Type", "text/html");
 			
 			response.sendHeaders(); // 发送响应头
 			

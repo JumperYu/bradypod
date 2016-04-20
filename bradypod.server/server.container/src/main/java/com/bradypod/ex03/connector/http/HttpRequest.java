@@ -34,13 +34,15 @@ public class HttpRequest implements HttpServletRequest {
 	InputStream input;
 
 	String uri; // 请求路径
-	
+
 	String method; // 请求方法: GET/POST/PUT/DELETE
-	
+
 	String protocol; // 协议
-	
+
+	String status; // 状态
+
 	String queryString; // 查询内容
-	
+
 	Map<String, List<String>> headers = new HashMap<>(); // 请求头
 
 	public HttpRequest(InputStream input) {
@@ -50,7 +52,7 @@ public class HttpRequest implements HttpServletRequest {
 	public String getRequestURI() {
 		return uri;
 	}
-	
+
 	/**
 	 * 解析
 	 */
@@ -66,9 +68,9 @@ public class HttpRequest implements HttpServletRequest {
 			if (isComplete(buffer, read)) {
 				break;
 			}
-		}// --> end while
+		} // --> end while
 		String headContent = out.toString("UTF-8");
-		
+
 		// System.out.println(headContent);
 
 		// 正则匹配
@@ -98,14 +100,13 @@ public class HttpRequest implements HttpServletRequest {
 		if (buffer == null || read < 4) {
 			return false;
 		}
-		return buffer[read - 4] == '\r' && buffer[read - 3] == '\n'
-				&& buffer[read - 2] == '\r' && buffer[read - 1] == '\n';
+		return buffer[read - 4] == '\r' && buffer[read - 3] == '\n' && buffer[read - 2] == '\r'
+				&& buffer[read - 1] == '\n';
 	}
 
 	static Pattern requestPattern = Pattern.compile(
-			"\\A([A-Z]+) +([^ ]+) +HTTP/([0-9\\.]+)$"
-					+ ".*^Host: ([^ ]+)$.*\r\n\r\n\\z", Pattern.MULTILINE
-					| Pattern.DOTALL);
+			"\\A([A-Z]+) +([^ ]+) +HTTP/([0-9\\.]+)$" + ".*^Host: ([^ ]+)$.*\r\n\r\n\\z",
+			Pattern.MULTILINE | Pattern.DOTALL);
 
 	@Override
 	public Object getAttribute(String name) {
@@ -126,21 +127,20 @@ public class HttpRequest implements HttpServletRequest {
 	}
 
 	@Override
-	public void setCharacterEncoding(String env)
-			throws UnsupportedEncodingException {
+	public void setCharacterEncoding(String env) throws UnsupportedEncodingException {
 
 	}
 
 	@Override
 	public int getContentLength() {
-
-		return 0;
+		// TODO 先写死
+		return 1024;
 	}
 
 	@Override
 	public String getContentType() {
-
-		return null;
+		// TODO 先写死
+		return "text/html";
 	}
 
 	@Override
@@ -176,7 +176,7 @@ public class HttpRequest implements HttpServletRequest {
 	@Override
 	public String getProtocol() {
 
-		return null;
+		return this.protocol;
 	}
 
 	@Override
@@ -292,8 +292,8 @@ public class HttpRequest implements HttpServletRequest {
 	}
 
 	@Override
-	public AsyncContext startAsync(ServletRequest servletRequest,
-			ServletResponse servletResponse) throws IllegalStateException {
+	public AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse)
+			throws IllegalStateException {
 
 		return null;
 	}
@@ -467,8 +467,7 @@ public class HttpRequest implements HttpServletRequest {
 	}
 
 	@Override
-	public boolean authenticate(HttpServletResponse response)
-			throws IOException, ServletException {
+	public boolean authenticate(HttpServletResponse response) throws IOException, ServletException {
 
 		return false;
 	}

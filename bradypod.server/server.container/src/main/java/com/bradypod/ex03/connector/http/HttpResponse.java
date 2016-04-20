@@ -18,6 +18,8 @@ public class HttpResponse implements HttpServletResponse {
 
 	private OutputStream output;
 
+	private HttpRequest request;
+
 	Map<String, ArrayList<String>> headers = new HashMap<>(); // 响应头
 
 	ArrayList<Cookie> cookies = new ArrayList<>();// cookie
@@ -30,13 +32,14 @@ public class HttpResponse implements HttpServletResponse {
 		return output;
 	}
 
+	public void setRequest(HttpRequest request) {
+		this.request = request;
+	}
+
 	public void sendHeaders() throws IOException {
-		PrintWriter out = getWriter();
-		out.print("HTTP/1.1 200 OK\r\n");
-		out.print("Server: Bradypod Server\r\n");
-		out.print("Content-Type: text/html\r\n");
-		out.print("Content-Length: 112\r\n");
-		out.println();
+		output.write(String.format("HTTP/%s %d %s\r\n", request.getProtocol(), getStatus(), "OK").getBytes());
+		output.write(String.format("Content-Type: %s\r\n", request.getContentType()).getBytes());
+		output.write(String.format("Content-Length: %d\r\n", request.getContentLength()).getBytes());
 		synchronized (headers) {
 			Iterator<String> names = headers.keySet().iterator();
 			while (names.hasNext()) {
@@ -45,13 +48,14 @@ public class HttpResponse implements HttpServletResponse {
 				Iterator<String> items = values.iterator();
 				while (items.hasNext()) {
 					String value = (String) items.next();
-					out.print(name);
-					out.print(": ");
-					out.print(value);
-					out.print("\r\n");
+					output.write(name.getBytes());
+					output.write(": ".getBytes());
+					output.write(value.getBytes());
+					output.write("\r\n".getBytes());
 				}
 			}
 		}
+		output.write("\r\n".getBytes());// 输出结束符\r\n
 	}
 
 	@Override
@@ -237,8 +241,8 @@ public class HttpResponse implements HttpServletResponse {
 
 	@Override
 	public int getStatus() {
-
-		return 0;
+		// 先写死
+		return 200;
 	}
 
 	@Override
@@ -258,5 +262,4 @@ public class HttpResponse implements HttpServletResponse {
 
 		return null;
 	}
-
 }
