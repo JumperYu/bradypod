@@ -14,13 +14,12 @@ import com.bradypod.ex03.connector.http.SimpleContainer;
 public class Bootstrap {
 
 	public static void main(String[] args) {
-		HttpConnector connector = new HttpConnector(8080);
+		HttpConnector connector = new HttpConnector();
 		Container container = new SimpleContainer();
 		connector.setContainer(container);
 		try {
 			connector.initialize();
 			connector.start();
-
 			// wait until user press any key
 			System.in.read();
 		} catch (Exception e) {

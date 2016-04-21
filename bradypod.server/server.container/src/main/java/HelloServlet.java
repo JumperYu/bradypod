@@ -19,9 +19,9 @@ public class HelloServlet extends HttpServlet {
 
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		resp.setContentType("text/html");
 		PrintWriter out = resp.getWriter();
-		String message = "<h5>Welcome my first servlet</h5>";
-		out.println(message);
-		out.flush();
+		String html = "<htlm><body>test</body></html>";
+		out.println(html);
 	}
 }

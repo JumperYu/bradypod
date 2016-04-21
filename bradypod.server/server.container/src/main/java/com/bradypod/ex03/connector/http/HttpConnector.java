@@ -7,15 +7,15 @@ import java.net.Socket;
 import java.util.Stack;
 
 /**
- * http连接器
+ * Implementation of an HTTP/1.1 connector
  * 
  * @author zengxm<http://github.com/JumperYu>
  *
  * @date 2016年3月23日
  */
-public class HttpConnector implements Runnable, Connector {
+public final class HttpConnector implements Runnable, Connector {
 
-	int port;
+	private int port;
 	private String scheme = "http";
 
 	static final int DEFAULT_PORT = 8080;
@@ -28,20 +28,8 @@ public class HttpConnector implements Runnable, Connector {
 		this.port = port;
 	}
 
-	public String getScheme() {
-		return scheme;
-	}
-
 	@Override
 	public void run() {
-		ServerSocket serverSocket = null;
-		int port = 8080;
-		try {
-			serverSocket = new ServerSocket(port, 1, InetAddress.getByName("127.0.0.1"));
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.exit(1);
-		}
 		while (!stopped) {
 			// Accept the next incoming connection from the server socket
 			Socket socket = null;
@@ -51,18 +39,21 @@ public class HttpConnector implements Runnable, Connector {
 				continue;
 			}
 			// Hand this socket off to an HttpProcessor
-			HttpHandler processor = new HttpHandler(this);
-			processor.handle(socket);
+			HttpHandler handler = new HttpHandler(this);
+			handler.handle(socket);
 		}
 	}
 
 	private volatile boolean started = false;
 	private volatile boolean stopped = false;
-	private int curProcessor;
+	private boolean initialized = false;
+	private int curProcessor = 0;
 	private int minProcessor = 5;
 	private int maxProcessors = 20;
 	private Stack processors = new Stack();
 	private Thread thread;
+
+	private ServerSocket serverSocket;
 
 	/**
 	 * 启动线程
@@ -71,12 +62,14 @@ public class HttpConnector implements Runnable, Connector {
 		if (started) {
 			System.exit(-1);
 		}
-		started = true;
-		threadStart();
+
+		threadStart(); // 启动线程
+
+		started = true; // 设置标识位
 
 		// create the specified handler
-		HttpHandler handler = newHandler();
-		recycle(handler);
+		// HttpHandler handler = newHandler();
+		// recycle(handler);
 	}
 
 	private HttpHandler newHandler() {
@@ -91,10 +84,33 @@ public class HttpConnector implements Runnable, Connector {
 	 * 线程启动
 	 */
 	public void threadStart() {
-		System.out.println("http connector starting");
+		System.out.println("BradyPod Server: http connector starting");
 		thread = new Thread(this, "ex03.http.server.connector");
 		thread.setDaemon(true);
 		thread.start();
+	}
+
+	/**
+	 *	 
+	 */
+	public ServerSocket open() {
+		ServerSocket serverSocket = null;
+		try {
+			serverSocket = new ServerSocket(this.port, 1, InetAddress.getByName("127.0.0.1"));
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+		return serverSocket;
+	}
+
+	/**
+	 * Initialize this connector (create ServerSocket here!)
+	 */
+	@Override
+	public void initialize() {
+		serverSocket = open();
+		initialized = true;
 	}
 
 	// 容器
@@ -125,8 +141,8 @@ public class HttpConnector implements Runnable, Connector {
 		return null;
 	}
 
-	@Override
-	public void initialize() {
-
+	public String getScheme() {
+		return scheme;
 	}
+
 }

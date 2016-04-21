@@ -38,8 +38,6 @@ public class HttpResponse implements HttpServletResponse {
 
 	public void sendHeaders() throws IOException {
 		output.write(String.format("HTTP/%s %d %s\r\n", request.getProtocol(), getStatus(), "OK").getBytes());
-		output.write(String.format("Content-Type: %s\r\n", request.getContentType()).getBytes());
-		output.write(String.format("Content-Length: %d\r\n", request.getContentLength()).getBytes());
 		synchronized (headers) {
 			Iterator<String> names = headers.keySet().iterator();
 			while (names.hasNext()) {
@@ -94,7 +92,7 @@ public class HttpResponse implements HttpServletResponse {
 
 	@Override
 	public void setContentType(String type) {
-
+		setHeader("Content-Type", type);
 	}
 
 	@Override

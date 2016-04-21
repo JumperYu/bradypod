@@ -47,6 +47,7 @@ public class HttpHandler {
 
 			// 设置响应头
 			response.addHeader("Server", "Bradypod Server Container");
+			response.addHeader("Content-Type", "text/html");
 			
 			// 解析请求
 			request.parse();
