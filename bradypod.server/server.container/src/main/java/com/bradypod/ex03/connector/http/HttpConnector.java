@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Stack;
+import java.util.Vector;
 
 /**
  * Implementation of an HTTP/1.1 connector
@@ -13,7 +14,7 @@ import java.util.Stack;
  *
  * @date 2016年3月23日
  */
-public final class HttpConnector implements Runnable, Connector {
+public final class HttpConnector implements Runnable, Lifecycle, Connector {
 
 	private int port;
 	private String scheme = "http";
@@ -35,22 +36,23 @@ public final class HttpConnector implements Runnable, Connector {
 			Socket socket = null;
 			try {
 				socket = serverSocket.accept();
-			} catch (Exception e) {
-				continue;
+			} catch (IOException e) {
+				System.err.println("server socket error!");
 			}
 			// Hand this socket off to an HttpProcessor
-			HttpHandler handler = new HttpHandler(this);
-			handler.handle(socket);
+			HttpHandler handler = createHandler();
+			handler.assign(socket);
 		}
 	}
 
 	private volatile boolean started = false;
 	private volatile boolean stopped = false;
 	private boolean initialized = false;
-	private int curProcessor = 0;
-	private int minProcessor = 5;
+	private int curProcessors = 0;
+	// private int minProcessor = 5;
 	private int maxProcessors = 20;
-	private Stack processors = new Stack();
+	private Stack<HttpHandler> processors = new Stack<>();
+	private Vector<HttpHandler> created = new Vector<>();
 	private Thread thread;
 
 	private ServerSocket serverSocket;
@@ -66,17 +68,32 @@ public final class HttpConnector implements Runnable, Connector {
 		threadStart(); // 启动线程
 
 		started = true; // 设置标识位
+	}
 
-		// create the specified handler
-		// HttpHandler handler = newHandler();
-		// recycle(handler);
+	private HttpHandler createHandler() {
+		synchronized (processors) {
+			if (processors.size() > 0) {
+				return ((HttpHandler) processors.pop());
+			} // --> 如果队列里有则出队
+			if ((maxProcessors > 0) && (curProcessors < maxProcessors)) {
+				return (newHandler());
+			} else {
+				if (maxProcessors < 0) {
+					return (newHandler());
+				} else {
+					return (null);
+				}
+			} // --> 看是否达到最大限制
+		}
 	}
 
 	private HttpHandler newHandler() {
-		return new HttpHandler();
+		HttpHandler handler = new HttpHandler(this, curProcessors++);
+		created.addElement(handler);
+		return handler;
 	}
 
-	private void recycle(HttpHandler handler) {
+	public void recycle(HttpHandler handler) {
 
 	}
 
@@ -109,6 +126,9 @@ public final class HttpConnector implements Runnable, Connector {
 	 */
 	@Override
 	public void initialize() {
+		if (initialized) {
+			System.err.println("Server has been initialized");
+		}
 		serverSocket = open();
 		initialized = true;
 	}
@@ -143,6 +163,16 @@ public final class HttpConnector implements Runnable, Connector {
 
 	public String getScheme() {
 		return scheme;
+	}
+
+	@Override
+	public void begintLife() {
+
+	}
+
+	@Override
+	public void endLife() {
+
 	}
 
 }
