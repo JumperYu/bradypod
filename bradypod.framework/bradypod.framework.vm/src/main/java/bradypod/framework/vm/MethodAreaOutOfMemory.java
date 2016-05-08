@@ -28,7 +28,7 @@ public class MethodAreaOutOfMemory {
 
 			enhancer.setCallback(new MethodInterceptor() {
 
-				@Override
+				//@Override
 				public Object intercept(Object arg0, Method arg1, Object[] arg2,
 
 				MethodProxy arg3) throws Throwable {

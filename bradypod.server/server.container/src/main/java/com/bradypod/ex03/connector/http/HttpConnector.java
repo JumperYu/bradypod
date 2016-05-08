@@ -87,8 +87,12 @@ public final class HttpConnector implements Runnable, Lifecycle, Connector {
 		}
 	}
 
+	/**
+	 * 创建新的处理器, 并且处理器处于等待输入输出状态
+	 */
 	private HttpHandler newHandler() {
 		HttpHandler handler = new HttpHandler(this, curProcessors++);
+		handler.start();
 		created.addElement(handler);
 		return handler;
 	}

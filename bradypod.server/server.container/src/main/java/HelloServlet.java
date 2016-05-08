@@ -21,7 +21,7 @@ public class HelloServlet extends HttpServlet {
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("text/html");
 		PrintWriter out = resp.getWriter();
-		String html = "<htlm><body>test</body></html>";
+		String html = "<htlm><body>My Servlet Container</body></html>";
 		out.println(html);
 	}
 }
