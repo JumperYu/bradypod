@@ -101,7 +101,7 @@ public class HttpHandler implements Lifecycle, Runnable {
 		}
 	}
 
-	private Socket await() {
+	private synchronized Socket await() {
 		while (!available) {
 			try {
 				wait();
@@ -118,7 +118,7 @@ public class HttpHandler implements Lifecycle, Runnable {
 	/**
 	 * 委派
 	 */
-	public void assign(Socket socket) {
+	public synchronized void assign(Socket socket) {
 		while (available) {
 			try {
 				System.out.println(Thread.currentThread() + " waiting...");

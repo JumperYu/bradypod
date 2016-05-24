@@ -20,7 +20,6 @@ public class Bootstrap {
 		try {
 			connector.initialize();
 			connector.start();
-			// wait until user press any key
 			System.in.read();
 		} catch (Exception e) {
 			System.exit(-1);
