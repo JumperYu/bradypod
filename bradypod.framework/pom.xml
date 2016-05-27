@@ -43,5 +43,6 @@
 		<module>bradypod.framework.lucene</module>
 		<module>framework.poi</module>
 		<module>framework.reflect</module>
+		<module>framework.config</module>
 	</modules>
 </project>
