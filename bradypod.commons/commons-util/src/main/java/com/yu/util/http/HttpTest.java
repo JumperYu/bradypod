@@ -37,7 +37,7 @@ public class HttpTest {
 	}
 
 	static void getMsg() {
-		// 获取短信
+		// 鑾峰彇鐭俊
 		String messagePath = "http://user.ttwg168.com/front/user/getvfcode.html";
 		Map<String, Object> msgContent = new HashMap<String, Object>();
 		msgContent.put("mobileNum", "18680547506");
@@ -60,9 +60,9 @@ public class HttpTest {
 		headers.put("xxx", "xxx1");
 		headers.put("yyy", "yyy");
 		headers.put("aaa", "aaa");
-		headers.put("bbb", URLEncoder.encode("我是中文我是中文我是中文我是中文我是中文我是中文我是中文", "UTF-8"));
-//		headers.put("bbb", "我是中文我是中文我是中文我是中文我是中文我是中文我是中文");
-		request("http://192.168.1.111/json.html?param=中文", "GET", headers, null);
+		headers.put("bbb", URLEncoder.encode("鎴戞槸涓枃鎴戞槸涓枃鎴戞槸涓枃鎴戞槸涓枃鎴戞槸涓枃鎴戞槸涓枃鎴戞槸涓枃", "UTF-8"));
+//		headers.put("bbb", "鎴戞槸涓枃鎴戞槸涓枃鎴戞槸涓枃鎴戞槸涓枃鎴戞槸涓枃鎴戞槸涓枃鎴戞槸涓枃");
+		request("http://192.168.1.111/json.html?param=涓枃", "GET", headers, null);
 //		request("http://192.168.2.212:3004/front/homeitem/list.html?pageNO=1&pageSize=10", "GET", headers, null);
 //		request("http://192.168.1.201:3604/front/homeitem/list.html?pageNO=1&pageSize=10", "GET", headers, null);
 	}
@@ -74,7 +74,7 @@ public class HttpTest {
 	
 	@Test
 	public void testAdminLogin(){
-		request("http://admin.ttwg168.com", "POST", null, "userName=admin&loginPwd=jonson@ttwg");
+		request("http://localhost/longPoll.do", "GET", null, null);
 	}
 	
 	static void request(String path, String method, Map<String, String> headers, String content) {
@@ -92,7 +92,8 @@ public class HttpTest {
 			conn.setUseCaches(false);
 			conn.setInstanceFollowRedirects(true);
 			conn.setRequestProperty("Content-Type", "text/plain;charset=utf-8");
-			conn.setReadTimeout(2000);
+			conn.setReadTimeout(0);
+			conn.setConnectTimeout(200);
 			
 			if (headers != null) {
 				for (String key : headers.keySet()) {
@@ -102,7 +103,7 @@ public class HttpTest {
 			conn.connect();
 			if (content != null) {
 				DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
-				// 要传的参数
+				// 瑕佷紶鐨勫弬鏁�
 				dos.writeBytes(content.toString());
 				dos.flush();
 				dos.close();
@@ -114,7 +115,7 @@ public class HttpTest {
 						conn.getInputStream(), "UTF-8"));
 				String lines = "";
 				while ((lines = reader.readLine()) != null) {
-					ret += lines;
+					System.out.println(lines);
 				}
 				reader.close();
 				Map<String, List<String>> respHeaders = conn.getHeaderFields();
