@@ -39,7 +39,7 @@ public class LongPollController extends HttpServlet {
 		response.setHeader("Cache-Control", "no-cache,no-store,must-revalidate");
 		response.setHeader("Cache-Control", "pre-check=0,post-check=0");
 		response.setDateHeader("Expires", 0);
-		response.getWriter().write(sb.toString());
+		response.getWriter().print(sb.toString());
 		response.flushBuffer();
 	}
 
