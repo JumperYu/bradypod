@@ -1,8 +1,6 @@
 package com.bradypod.framework.config.web;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,22 +11,8 @@ public class LongPollController extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-		for (int i = 0; i < 100; i++) {
-			try {
-				Thread.sleep(1500);
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss E");
-			String date_str = df.format(new Date());
-
-			writerResponse(resp, date_str);// msg是test.jsp中的那个js方法的名称
-		}
-		return;
+		
+		writerResponse(resp, "");
 	}
 
 	protected void writerResponse(HttpServletResponse response, String body) throws IOException {
