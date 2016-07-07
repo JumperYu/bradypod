@@ -1,40 +1,25 @@
 package framework.config.schedule;
 
-import java.util.concurrent.Callable;
+import java.nio.file.Paths;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.Future;
 
 import com.bradypod.framework.config.job.CheckingFileJob;
 
 public class TestSchedule {
 
-	public static void main(String[] args) throws InterruptedException {
-		final String path = "D://a.txt";
-		ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-		scheduledExecutorService.schedule(new Callable<Void>() {
-			@Override
-			public Void call() throws Exception {
-				setTimeOut(true);
-				return null;
-			}
-		}, 30, TimeUnit.SECONDS);
-		scheduledExecutorService.shutdown();
-		while (!isTimeOut && !isChanged) {
-			isChanged = CheckingFileJob.beChanged(path);
-		}
-		System.out.println("isChanged: " + isChanged + ", isTimeOut:" + isTimeOut);
-	}
+	public static void main(String[] args) throws InterruptedException, ExecutionException {
+		final CheckingFileJob checkingFileJob = new CheckingFileJob(Paths.get("D://a.txt"));
 
-	static boolean isTimeOut = false;
-	static boolean isChanged = false;
+		ExecutorService executorService = Executors.newSingleThreadExecutor();
+		Future<Boolean> result = executorService.submit(checkingFileJob);
 
-	public static boolean isTimeOut() {
-		return isTimeOut;
-	}
+		System.out.println("isChanged: " + result.get());
 
-	public static void setTimeOut(boolean isTimeOut) {
-		TestSchedule.isTimeOut = isTimeOut;
+		executorService.shutdown();
+		
 	}
 
 }

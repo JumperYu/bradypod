@@ -22,6 +22,11 @@
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.taobao.diamond</groupId>
+			<artifactId>diamond-client</artifactId>
+			<version>3.7.7</version>
+		</dependency>
 	</dependencies>
 
 </project>

@@ -8,7 +8,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
@@ -19,14 +18,14 @@ public class HttpTest {
 
 	@Test
 	public void testPost() {
-//		getMsg();
+		// getMsg();
 		// reg();
-//		 login();
+		// login();
 	}
 
 	static void login() {
 		String messagePath = "http://user.ttwg168.com/front/user/supplierlogin.html";
-//		String messagePath = "http://user.ttwg168.com/front/user/login.html";
+		// String messagePath = "http://user.ttwg168.com/front/user/login.html";
 		Map<String, String> header = new HashMap<String, String>();
 		header.put("client_type", "3");
 		Map<String, Object> msgContent = new HashMap<String, Object>();
@@ -38,7 +37,7 @@ public class HttpTest {
 
 	static void getMsg() {
 		// 鑾峰彇鐭俊
-		String messagePath = "http://user.ttwg168.com/front/user/getvfcode.html";
+		String messagePath = "http://user.ttwg168.c om/front/user/getvfcode.html";
 		Map<String, Object> msgContent = new HashMap<String, Object>();
 		msgContent.put("mobileNum", "18680547506");
 		msgContent.put("type", Integer.valueOf(1));
@@ -53,38 +52,40 @@ public class HttpTest {
 		regContent.put("verifyCode", "315960");
 		request(regPath, "POST", null, JSON.toJSONString(regContent));
 	}
-	
+
 	@Test
-	public void testHeader() throws UnsupportedEncodingException{
+	public void testHeader() throws UnsupportedEncodingException {
 		Map<String, String> headers = new HashMap<>();
 		headers.put("xxx", "xxx1");
 		headers.put("yyy", "yyy");
 		headers.put("aaa", "aaa");
 		headers.put("bbb", URLEncoder.encode("鎴戞槸涓枃鎴戞槸涓枃鎴戞槸涓枃鎴戞槸涓枃鎴戞槸涓枃鎴戞槸涓枃鎴戞槸涓枃", "UTF-8"));
-//		headers.put("bbb", "鎴戞槸涓枃鎴戞槸涓枃鎴戞槸涓枃鎴戞槸涓枃鎴戞槸涓枃鎴戞槸涓枃鎴戞槸涓枃");
+		// headers.put("bbb", "鎴戞槸涓枃鎴戞槸涓枃鎴戞槸涓枃鎴戞槸涓枃鎴戞槸涓枃鎴戞槸涓枃鎴戞槸涓枃");
 		request("http://192.168.1.111/json.html?param=涓枃", "GET", headers, null);
-//		request("http://192.168.2.212:3004/front/homeitem/list.html?pageNO=1&pageSize=10", "GET", headers, null);
-//		request("http://192.168.1.201:3604/front/homeitem/list.html?pageNO=1&pageSize=10", "GET", headers, null);
+		// request("http://192.168.2.212:3004/front/homeitem/list.html?pageNO=1&pageSize=10",
+		// "GET", headers, null);
+		// request("http://192.168.1.201:3604/front/homeitem/list.html?pageNO=1&pageSize=10",
+		// "GET", headers, null);
 	}
-	
+
 	@Test
-	public void testHttpHeader(){
-		
+	public void testHttpHeader() {
+
 	}
-	
+
 	@Test
-	public void testAdminLogin(){
+	public void testAdminLogin() {
 		request("http://localhost/longPoll.do", "GET", null, null);
 	}
-	
+
 	static void request(String path, String method, Map<String, String> headers, String content) {
 		String ret = "";
 		HttpURLConnection conn = null;
-		try {	
+		try {
 			URL url = new URL(path);
 			if (path.startsWith("https")) {// -->> Begin https init
 				// ignoreSSL();
-			}// -->> End of https init
+			} // -->> End of https init
 			conn = (HttpURLConnection) url.openConnection();
 			conn.setDoOutput(true);
 			conn.setDoInput(true);
@@ -92,14 +93,14 @@ public class HttpTest {
 			conn.setUseCaches(false);
 			conn.setInstanceFollowRedirects(true);
 			conn.setRequestProperty("Content-Type", "text/plain;charset=utf-8");
-			conn.setReadTimeout(0);
-			conn.setConnectTimeout(200);
-			
+			conn.setReadTimeout(50000);
+			conn.setConnectTimeout(0);
+
 			if (headers != null) {
 				for (String key : headers.keySet()) {
 					conn.setRequestProperty(key, headers.get(key));
-				}// -->> end of for
-			}// -->> end of if
+				} // -->> end of for
+			} // -->> end of if
 			conn.connect();
 			if (content != null) {
 				DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
@@ -111,17 +112,16 @@ public class HttpTest {
 			int code = conn.getResponseCode();
 			System.out.format("response code:%d%n", code);
 			if (code == HttpURLConnection.HTTP_OK) {
-				BufferedReader reader = new BufferedReader(new InputStreamReader(
-						conn.getInputStream(), "UTF-8"));
+				BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 				String lines = "";
 				while ((lines = reader.readLine()) != null) {
-					System.out.println(lines);
+					ret += lines;
 				}
 				reader.close();
-				Map<String, List<String>> respHeaders = conn.getHeaderFields();
-				for (String key : respHeaders.keySet()) {
-					System.out.println(key + ":" + respHeaders.get(key));
-				}//--> end for
+				// Map<String, List<String>> respHeaders = conn.getHeaderFields();
+				// for (String key : respHeaders.keySet()) {
+				   // System.out.println(key + ":" + respHeaders.get(key));
+				// } // --> end for
 			} else {
 				System.out.println("request error");
 			}

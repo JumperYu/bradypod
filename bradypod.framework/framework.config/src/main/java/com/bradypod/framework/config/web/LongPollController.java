@@ -1,18 +1,32 @@
 package com.bradypod.framework.config.web;
 
 import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.bradypod.framework.config.job.CheckingFileJob;
+
 public class LongPollController extends HttpServlet {
+
+	static ExecutorService pool = Executors.newCachedThreadPool();
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-		writerResponse(resp, "");
+		CheckingFileJob checkingFileJob = new CheckingFileJob(Paths.get("D://a.txt"));
+		Future<Boolean> future = pool.submit(checkingFileJob);
+		try {
+			writerResponse(resp, future.get().toString());
+		} catch (InterruptedException | ExecutionException e) {
+
+		}
 	}
 
 	protected void writerResponse(HttpServletResponse response, String body) throws IOException {
