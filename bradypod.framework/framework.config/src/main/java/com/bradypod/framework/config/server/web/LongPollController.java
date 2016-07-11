@@ -1,4 +1,4 @@
-package com.bradypod.framework.config.web;
+package com.bradypod.framework.config.server.web;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.bradypod.framework.config.job.CheckingFileJob;
+import com.bradypod.framework.config.client.job.CheckingFileJob;
 
 public class LongPollController extends HttpServlet {
 

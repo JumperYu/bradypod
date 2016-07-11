@@ -1,4 +1,4 @@
-package com.bradypod.framework.config.job;
+package com.bradypod.framework.config.client.job;
 
 import java.io.IOException;
 import java.nio.file.Files;

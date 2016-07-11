@@ -6,7 +6,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import com.bradypod.framework.config.job.CheckingFileJob;
+import com.bradypod.framework.config.client.job.CheckingFileJob;
 
 public class TestSchedule {
 
