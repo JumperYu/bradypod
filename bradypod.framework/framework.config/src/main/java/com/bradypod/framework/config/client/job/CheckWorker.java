@@ -3,13 +3,12 @@ package com.bradypod.framework.config.client.job;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.concurrent.Callable;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
 import com.bradypod.framework.config.util.HttpUtil;
 
-public class CheckWorker implements Callable<Void> {
+public class CheckWorker implements Runnable {
 
 	private String path;
 
@@ -17,12 +16,12 @@ public class CheckWorker implements Callable<Void> {
 		this.path = path;
 	}
 
-	public Void call() throws Exception {
+	public void run() {
 		boolean isChanged = false;
 		while (!isChanged) {
 			isChanged = verify();
 		}
-		return null;
+		System.out.println("changed");
 	};
 
 	ThreadLocal<String> localCache = new ThreadLocal<>();

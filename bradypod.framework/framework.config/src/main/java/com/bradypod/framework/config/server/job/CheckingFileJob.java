@@ -1,4 +1,4 @@
-package com.bradypod.framework.config.client.job;
+package com.bradypod.framework.config.server.job;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,7 +15,7 @@ import org.apache.commons.codec.digest.DigestUtils;
  * @author xiangmin.zxm
  *
  */
-public class CheckingFileJob implements Callable<Boolean> {
+public class CheckingFileJob implements Callable<String> {
 
 	private boolean isBroken = false; // is interrupted
 
@@ -34,7 +34,7 @@ public class CheckingFileJob implements Callable<Boolean> {
 	final Timer timer = new Timer(false);
 
 	@Override
-	public Boolean call() {
+	public String call() {
 
 		timer.schedule(new TimerTask() {
 
@@ -50,7 +50,7 @@ public class CheckingFileJob implements Callable<Boolean> {
 
 		timer.cancel();
 
-		return isChanged;
+		return holder.get();
 	}
 
 	/**
@@ -66,6 +66,8 @@ public class CheckingFileJob implements Callable<Boolean> {
 			}
 			if (holder.get().equals(md5Hex)) {
 				return false;
+			} else {
+				holder.set(md5Hex);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

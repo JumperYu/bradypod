@@ -8,7 +8,7 @@
 
 	<servlet>
 		<servlet-name>longPoll</servlet-name>
-		<servlet-class>com.bradypod.framework.config.web.LongPollController</servlet-class>
+		<servlet-class>com.bradypod.framework.config.server.web.LongPollController</servlet-class>
 	</servlet>
 
 	<servlet-mapping>

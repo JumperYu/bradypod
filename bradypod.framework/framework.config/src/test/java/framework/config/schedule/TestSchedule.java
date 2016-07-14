@@ -6,7 +6,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import com.bradypod.framework.config.client.job.CheckingFileJob;
+import com.bradypod.framework.config.server.job.CheckingFileJob;
 
 public class TestSchedule {
 
@@ -14,7 +14,7 @@ public class TestSchedule {
 		final CheckingFileJob checkingFileJob = new CheckingFileJob(Paths.get("D://a.txt"));
 
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
-		Future<Boolean> result = executorService.submit(checkingFileJob);
+		Future<String> result = executorService.submit(checkingFileJob);
 
 		System.out.println("isChanged: " + result.get());
 

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.bradypod.framework.config.client.job.CheckingFileJob;
+import com.bradypod.framework.config.server.job.CheckingFileJob;
 
 public class LongPollController extends HttpServlet {
 
@@ -21,9 +21,11 @@ public class LongPollController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		CheckingFileJob checkingFileJob = new CheckingFileJob(Paths.get("D://a.txt"));
-		Future<Boolean> future = pool.submit(checkingFileJob);
+		Future<String> future = pool.submit(checkingFileJob);
 		try {
-			writerResponse(resp, future.get().toString());
+			String data = future.get();
+			writerResponse(resp, data);
+			System.out.println("change data: " + data);
 		} catch (InterruptedException | ExecutionException e) {
 
 		}
