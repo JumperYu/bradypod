@@ -584,7 +584,4 @@
 		</pluginManagement>
 	</build>
 
-	<modules>
-		<module>bradypod.health</module>
-	</modules>
 </project>
