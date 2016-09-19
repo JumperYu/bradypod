@@ -1,12 +1,12 @@
 package bradypod.framework.redis;
 
+import java.rmi.activation.Activatable;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.junit.Test;
 
-import com.bradypod.util.thread.ThreadPool;
-import com.bradypod.util.thread.ThreadWorker;
-
+import bradypod.framework.local.ActiveKeyDetect;
+import bradypod.framework.local.ActiveKeyDetect.Counter;
 import bradypod.framework.local.LocalCacheStore;
 
 public class TestLocalCache {
@@ -37,6 +37,13 @@ public class TestLocalCache {
 		System.out.println(System.currentTimeMillis());
 		System.out.println(System.currentTimeMillis());
 		System.out.println(System.currentTimeMillis());
+	}
+
+	@Test
+	public void testRing() {
+		ActiveKeyDetect activeKeyDetect = new ActiveKeyDetect();
+		Counter counter = activeKeyDetect.getActiveKeyCounter("xx");
+		System.out.println(counter);
 	}
 
 }

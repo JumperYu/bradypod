@@ -14,8 +14,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.alibaba.fastjson.JSONObject;
-
 /**
  * 本地缓存
  * 
@@ -31,10 +29,6 @@ public class LocalCacheStore {
 	private ExecutorService executorService = new ThreadPoolExecutor(1, 1, 0L, TimeUnit.MILLISECONDS,
 			new LinkedBlockingQueue<Runnable>(1), Executors.defaultThreadFactory(), new DiscardPolicy());
 
-	private AtomicInteger queryCount = new AtomicInteger(0);
-
-	private AtomicInteger hitCount = new AtomicInteger(0);
-
 	/**
 	 * 本地缓存数量计数器
 	 */
@@ -43,6 +37,7 @@ public class LocalCacheStore {
 	private static final Logger logger = LoggerFactory.getLogger(LocalCacheStore.class);
 
 	/**
+	 * 清除过期缓存
 	 * 
 	 * @param dependOnTime
 	 */
@@ -64,13 +59,24 @@ public class LocalCacheStore {
 				}
 			}
 		} catch (Throwable t) {
-			logger.warn("SimpleMemoryCacheStore removePolicy error", t);
+			logger.warn("local cache store removePolicy error", t);
 		}
 	}
 
+	/**
+	 * 更新缓存
+	 * 
+	 * @param key
+	 *            - 键
+	 * @param value
+	 *            - 值
+	 * @param cacheTime
+	 *            - 毫秒
+	 */
 	public void put(Object key, Object value, long cacheTime) {
+		// 如果缓存已经大于最大容量则值执行逻辑清除
 		if (counter.get() > cacheConfig.getMaxCapacity()) {
-			LoggerFactory.getLogger(getClass()).warn("SimpleMemoryCacheStore has {}", counter.get());
+			logger.warn("local cache store is full and size is: " + counter.get());
 			try {
 				executorService.execute(new Runnable() {
 					@Override
@@ -82,48 +88,34 @@ public class LocalCacheStore {
 				logger.warn("executorService execute error", t);
 			}
 		}
+		// 如果缓存已经大于2倍的容量则执行物理清除
 		if (counter.get() > cacheConfig.getMaxCapacity() * 2) {
-			logger.warn("SimpleMemoryCacheStore remove all, count={}", counter.get());
+			logger.warn("local cache store is full and size is:" + counter.get());
 			removePolicy(false);
 		}
+		// 执行put操作
 		CacheElement cacheElement = storeMap.put(key, new CacheElement(value, cacheTime));
 		if (cacheElement == null) {
 			counter.incrementAndGet();
-			logger.warn("SimpleMemoryCacheStore put it, key={},count={}", key, counter.get());
+			logger.warn("local cache store put key=" + key + " count=" + counter.get());
 		}
 	}
 
 	private void removeLocal(Object key) {
 		if (storeMap.remove(key) != null) {
 			counter.decrementAndGet();
-			logger.warn("SimpleMemoryCacheStore remove it, key={}, count={}", JSONObject.toJSONString(key),
-					counter.get());
+			logger.warn("local cache store remove key=" + key + " count=" + counter.get());
 		}
 	}
 
 	public Object get(Object key) {
-		Object value = innerGet(key);
-		if (cacheConfig.isCounteHitRate()) {
-			int queryNum = queryCount.incrementAndGet();
-			int hitNum = hitCount.get();
-			if (value != null) {
-				hitNum = hitCount.incrementAndGet();
-			}
-			if (queryNum % cacheConfig.getCountNum() == 0) {
-				logger.warn("get querycount={},hitCount={}", queryNum, hitNum);
-			}
-		}
-		return value;
-	}
-
-	private Object innerGet(Object key) {
 		CacheElement cacheElement = storeMap.get(key);
 		// 数据已经过去
 		if (cacheElement == null) {
 			return null;
 		}
-		long curTime = System.currentTimeMillis();
-		if (curTime - cacheElement.getExpiredTime() > 0) {
+
+		if (System.currentTimeMillis() - cacheElement.getExpiredTime() > 0) {
 			removeLocal(key);
 			return null;
 		}
@@ -149,7 +141,7 @@ public class LocalCacheStore {
 		 *            the executor attempting to execute this task
 		 */
 		public void rejectedExecution(Runnable r, ThreadPoolExecutor e) {
-			logger.warn("DiscardPolicy rejectedExecution");
+			logger.warn("local cache store DiscardPolicy rejectedExecution");
 		}
 	}
 }
