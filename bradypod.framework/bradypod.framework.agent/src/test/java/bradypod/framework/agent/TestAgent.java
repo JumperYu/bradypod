@@ -18,8 +18,8 @@ public class TestAgent {
 			public void run() {
 				while (true) {
 					try {
-						int number = new TransformClass().getNumber();
-						System.out.println(number);
+//						int number = new TransformClass().getNumber();
+//						System.out.println(number);
 						Thread.sleep(5000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
