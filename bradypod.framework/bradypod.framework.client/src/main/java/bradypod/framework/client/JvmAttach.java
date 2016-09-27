@@ -1,4 +1,5 @@
-package bradypod.framework.agent;
+package bradypod.framework.client;
+
 
 import java.lang.reflect.InvocationTargetException;
 

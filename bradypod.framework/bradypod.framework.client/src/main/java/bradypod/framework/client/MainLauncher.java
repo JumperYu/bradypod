@@ -1,8 +1,7 @@
-package bradypod.framework.agent.core;
+package bradypod.framework.client;
 
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
-import bradypod.framework.agent.JvmAttach;
 
 /**
  * 
@@ -36,10 +35,9 @@ public class MainLauncher {
 
 		// os.valueOf("pid").toString()
 		JvmAttach jvmAttach = new JvmAttach();
-		jvmAttach
-				.bind("3892",
-						"127.0.0.1",
-						"E://work/new-life/bradypod/bradypod.framework/bradypod.framework.agent/target/agent.jar");
+		jvmAttach.bind(String.valueOf(os.valueOf("pid")), "127.0.0.1",
+				(String) os.valueOf("agent"));
+		// "E://work/new-life/bradypod/bradypod.framework/bradypod.framework.agent/target/agent.jar"
 	}
 
 	static String target = "127.0.0.1";
