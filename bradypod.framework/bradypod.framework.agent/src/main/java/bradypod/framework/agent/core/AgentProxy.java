@@ -1,8 +1,19 @@
 package bradypod.framework.agent.core;
 
+import java.io.IOException;
+import java.lang.instrument.ClassDefinition;
 import java.lang.instrument.Instrumentation;
 import java.lang.instrument.UnmodifiableClassException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.jar.JarFile;
+
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Opcodes;
+
+import bradypod.framework.agent.core.asm.ClassAdapter;
 
 public class AgentProxy {
 
@@ -40,6 +51,8 @@ public class AgentProxy {
 		// jarfile要加入已启动的classloadder里面
 		inst.appendToBootstrapClassLoaderSearch(new JarFile(AgentProxy.class
 				.getProtectionDomain().getCodeSource().getLocation().getFile()));
+
+		reLoadClass(inst, "com.bradypod.reflect.jdk.Programmer");
 
 		ClassLoader agentLoader = AgentProxy.class.getClassLoader();
 
@@ -79,6 +92,29 @@ public class AgentProxy {
 
 		}
 
+	}
+
+	private static void reLoadClass(Instrumentation inst, String className)
+			throws ClassNotFoundException, UnmodifiableClassException,
+			IOException {
+		Class<?> clazz = Class.forName(className);
+		ClassDefinition def = new ClassDefinition(clazz,
+				getBytesFromClass(clazz));
+		inst.redefineClasses(new ClassDefinition[] { def });
+	}
+
+	private static byte[] getBytesFromClass(Class<?> clazz) throws IOException {
+
+		byte[] bytes = Files.readAllBytes(Paths.get(clazz.getProtectionDomain()
+				.getCodeSource().getLocation().getFile().substring(1)
+				+ "com/bradypod/reflect/jdk/Programmer.class"));
+		ClassReader cr = new ClassReader(bytes);
+		ClassWriter cw = new ClassWriter(cr, 0);
+		ClassVisitor cv = new ClassAdapter(Opcodes.ASM5, cw);
+		cr.accept(cv, ClassReader.SKIP_DEBUG);
+		byte[] data = cw.toByteArray();
+
+		return data;
 	}
 
 }
