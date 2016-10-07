@@ -1,11 +1,8 @@
 package bradypod.framework.client;
 
-
-import java.lang.reflect.InvocationTargetException;
-
 /**
  * 
- * 这些包在tools.jar上, 所以使用反射来实现, 不然编译不过 import
+ * 这些包在tools.jar上, 所以使用反射来实现, import的话需要强依赖不然编译不过
  * 
  * 
  * @author zengxm<http://github.com/JumperYu>
@@ -14,10 +11,7 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class JvmAttach {
 
-	public void bind(String pid, String ip, String agent)
-			throws ClassNotFoundException, IllegalAccessException,
-			IllegalArgumentException, InvocationTargetException,
-			NoSuchMethodException, SecurityException {
+	public void bind(String pid, String ip, String agent) throws Exception {
 		// AttachJVM进程上
 		ClassLoader classLoader = Thread.currentThread()
 				.getContextClassLoader();
