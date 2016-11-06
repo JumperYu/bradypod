@@ -44,7 +44,6 @@
 		<module>framework.poi</module>
 		<module>framework.reflect</module>
 		<module>framework.config</module>
-		<module>bradypod.framework.agent</module>
 		<module>bradypod.framework.client</module>
 	</modules>
 </project>

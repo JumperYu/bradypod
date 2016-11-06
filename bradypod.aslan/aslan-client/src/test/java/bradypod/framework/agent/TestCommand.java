@@ -11,7 +11,7 @@ public class TestCommand {
 	@Test
 	public void testThreadMxBean() {
 		final ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
-		long totalCpuTime = threadMXBean.getCurrentThreadCpuTime();
+		// long totalCpuTime = threadMXBean.getCurrentThreadCpuTime();
 		for (ThreadInfo tInfo : threadMXBean.getThreadInfo(
 				threadMXBean.getAllThreadIds(), Integer.MAX_VALUE)) {
 			final long tId = tInfo.getThreadId();

@@ -3,14 +3,16 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.bradypod</groupId>
-		<artifactId>bradypod.framework</artifactId>
+		<artifactId>bradypod.aslan</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>bradypod.framework.agent</artifactId>
+
+	<artifactId>aslan-agent</artifactId>
 	<packaging>jar</packaging>
-	<name>agent</name>
+	<name>aslan-agent</name>
+
 	<dependencies>
-		<dependency>
+		<!-- <dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
@@ -30,8 +32,9 @@
 		<dependency>
 			<groupId>org.ow2.asm</groupId>
 			<artifactId>asm-util</artifactId>
-		</dependency>
+		</dependency> -->
 	</dependencies>
+	
 	<build>
 		<finalName>agent</finalName>
 		<plugins>
@@ -61,13 +64,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-jar-plugin</artifactId> 
-				<version>2.3.1</version> <configuration> <archive> <manifest> <addClasspath>true</addClasspath> 
-				<mainClass>bradypod.framework.agent.core.MainLauncher</mainClass> </manifest> 
-				<manifestEntries> <Premain-Class> bradypod.framework.agent.MyAgent </Premain-Class> 
-				<Agent-Class>bradypod.framework.agent.MyAgent</Agent-Class> <Can-Redefine-Classes> 
-				true </Can-Redefine-Classes> <Can-Retransform-Classes> true </Can-Retransform-Classes> 
-				</manifestEntries> </archive> </configuration> </plugin> -->
 		</plugins>
 	</build>
+	
 </project>
