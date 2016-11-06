@@ -52,7 +52,7 @@ public class AgentProxy {
 		inst.appendToBootstrapClassLoaderSearch(new JarFile(AgentProxy.class
 				.getProtectionDomain().getCodeSource().getLocation().getFile()));
 
-		reLoadClass(inst, "com.bradypod.reflect.jdk.Programmer");
+		// reLoadClass(inst, "com.bradypod.reflect.jdk.Programmer");
 
 		ClassLoader agentLoader = AgentProxy.class.getClassLoader();
 

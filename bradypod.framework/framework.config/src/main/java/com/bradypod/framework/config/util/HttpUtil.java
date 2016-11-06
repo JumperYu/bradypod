@@ -7,7 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
-import com.taobao.diamond.utils.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
 public class HttpUtil {
 
