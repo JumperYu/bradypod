@@ -11,32 +11,8 @@
 	<packaging>jar</packaging>
 	<name>aslan-agent</name>
 
-	<dependencies>
-		<!-- <dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.ow2.asm</groupId>
-			<artifactId>asm</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.ow2.asm</groupId>
-			<artifactId>asm-commons</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.ow2.asm</groupId>
-			<artifactId>asm-util</artifactId>
-		</dependency> -->
-	</dependencies>
-	
 	<build>
-		<finalName>agent</finalName>
+		<finalName>aslan-agent</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -66,5 +42,5 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 </project>

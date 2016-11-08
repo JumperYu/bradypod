@@ -1,8 +1,15 @@
 package bradypod.framework.agent.core;
 
+import java.io.IOException;
 import java.lang.instrument.Instrumentation;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.jar.JarFile;
 
 /**
@@ -36,11 +43,15 @@ public class AgentProxy {
 
 	public static void main(String agentArgs, Instrumentation inst) {
 		try {
+			
+			String[] args = agentArgs.split(";");
+			String jarLibPath = args[0];
+			
 			// aslan-agent加入到目标进程的classloader里面
 			inst.appendToBootstrapClassLoaderSearch(
 					new JarFile(AgentProxy.class.getProtectionDomain().getCodeSource().getLocation().getFile()));
 
-			ClassLoader agentLoader = loadOrDefineClassLoader("");
+			ClassLoader agentLoader = loadOrDefineClassLoader(jarLibPath);
 
 			// Configure类定义
 			final Class<?> classOfConfigure = agentLoader.loadClass("bradypod.framework.agent.core.Configure");
@@ -80,7 +91,7 @@ public class AgentProxy {
 	// 全局持有classloader用于隔离greys实现
 	private static volatile ClassLoader aslanClassLoader;
 
-	private static ClassLoader loadOrDefineClassLoader(String agentJar) throws Throwable {
+	private static ClassLoader loadOrDefineClassLoader(String jarLibPath) throws Throwable {
 
 		final ClassLoader classLoader;
 
@@ -91,31 +102,54 @@ public class AgentProxy {
 
 		// 如果未启动则重新加载
 		else {
-			classLoader = new URLClassLoader(new URL[] { new URL("file:" + agentJar) }) {
-
-				@Override
-				protected synchronized Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
-					final Class<?> loadedClass = findLoadedClass(name);
-					if (loadedClass != null) {
-						return loadedClass;
-					}
-
-					try {
-						Class<?> aClass = findClass(name);
-						if (resolve) {
-							resolveClass(aClass);
-						}
-						return aClass;
-					} catch (Exception e) {
-						return super.loadClass(name, resolve);
-					}
-				}
-
-			};
-
+			classLoader = new AgentClassLoader(jarLibPath);
 		}
 
 		return aslanClassLoader = classLoader;
 	}
 
+}
+
+class AgentClassLoader extends URLClassLoader {
+
+	public AgentClassLoader(String dir) throws IOException {
+		super(new URL[] {});
+		loadJarFileFromDirctory(dir);
+	}
+
+	private void loadJarFileFromDirctory(String dir) throws IOException {
+		Files.walkFileTree(Paths.get(dir), new SimpleFileVisitor<Path>() {
+			@Override
+			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+				if (attrs.isDirectory()) {
+					return FileVisitResult.CONTINUE;
+				}
+				addURL(file.toUri().toURL());
+				return FileVisitResult.CONTINUE;
+			}
+		});
+	}
+
+	@Override
+	protected void addURL(URL url) {
+		super.addURL(url);
+	}
+
+	@Override
+	protected synchronized Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
+		final Class<?> loadedClass = findLoadedClass(name);
+		if (loadedClass != null) {
+			return loadedClass;
+		}
+
+		try {
+			Class<?> aClass = findClass(name);
+			if (resolve) {
+				resolveClass(aClass);
+			}
+			return aClass;
+		} catch (Exception e) {
+			return super.loadClass(name, resolve);
+		}
+	}
 }
