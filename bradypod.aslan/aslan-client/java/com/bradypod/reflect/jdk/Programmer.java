@@ -10,7 +10,7 @@ package com.bradypod.reflect.jdk;
 public class Programmer {
 	
 	public void code(String code){
-		System.out.println("I'm a Programmer, Just Coding..." + code); 
+		System.out.println("I'm tire to suffer this, " + code); 
 	}
 	
 }

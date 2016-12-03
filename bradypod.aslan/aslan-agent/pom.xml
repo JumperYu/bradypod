@@ -16,29 +16,17 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>attached</goal>
-						</goals>
-						<phase>package</phase>
-						<configuration>
-							<descriptorRefs>
-								<descriptorRef>jar-with-dependencies</descriptorRef>
-							</descriptorRefs>
-							<archive>
-								<manifestEntries>
-									<mainClass>bradypod.framework.agent.core.MainLauncher</mainClass>
-									<Premain-Class>bradypod.framework.agent.core.AgentProxy</Premain-Class>
-									<Agent-Class>bradypod.framework.agent.core.AgentProxy</Agent-Class>
-									<Can-Redefine-Classes>true</Can-Redefine-Classes>
-									<Can-Retransform-Classes>true</Can-Retransform-Classes>
-								</manifestEntries>
-							</archive>
-						</configuration>
-					</execution>
-				</executions>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifestEntries>
+							<Premain-Class>bradypod.framework.agent.core.AgentProxy</Premain-Class>
+							<Agent-Class>bradypod.framework.agent.core.AgentProxy</Agent-Class>
+							<Can-Redefine-Classes>true</Can-Redefine-Classes>
+							<Can-Retransform-Classes>true</Can-Retransform-Classes>
+						</manifestEntries>
+					</archive>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

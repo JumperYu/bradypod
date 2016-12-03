@@ -6,7 +6,7 @@ set AGENT_LIB=..\aslan-agent\target\aslan-agent.jar
 
 set JAR_FILE=..\aslan-client\target\aslan-client.jar
 
-set CORE_DIR=..\aslan-client\target\aslan-client\lib
+set CORE_DIR=..\aslan-client\target\lib
 
 :: 因为有空格需使用""
 set BOOT_CLASSPATH="-Xbootclasspath/a:%JAVA_HOME%/lib/tools.jar"   

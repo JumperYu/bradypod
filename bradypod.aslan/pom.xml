@@ -12,8 +12,28 @@
 	<artifactId>bradypod.aslan</artifactId>
 	<packaging>pom</packaging>
 
+	<properties>
+		<java-version>1.7</java-version>
+	</properties>
+
 	<modules>
 		<module>aslan-agent</module>
 		<module>aslan-client</module>
 	</modules>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.3</version>
+					<configuration>
+						<source>${java-version}</source>
+						<target>${java-version}</target>
+						<encoding>UTF-8</encoding>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 </project>

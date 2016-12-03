@@ -10,7 +10,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.jar.JarFile;
 
 /**
  * Aslan-Agent, 启动接收命令的服务
@@ -43,13 +42,14 @@ public class AgentProxy {
 
 	public static void main(String agentArgs, Instrumentation inst) {
 		try {
-			
+			System.out.println(agentArgs);
 			String[] args = agentArgs.split(";");
 			String jarLibPath = args[0];
+//			String jarLibPath = "D:/work/my/repo/bradypod/bradypod.aslan/aslan-client/target/lib/";
 			
 			// aslan-agent加入到目标进程的classloader里面
-			inst.appendToBootstrapClassLoaderSearch(
-					new JarFile(AgentProxy.class.getProtectionDomain().getCodeSource().getLocation().getFile()));
+//			inst.appendToBootstrapClassLoaderSearch(
+//					new JarFile(AgentProxy.class.getProtectionDomain().getCodeSource().getLocation().getFile()));
 
 			ClassLoader agentLoader = loadOrDefineClassLoader(jarLibPath);
 

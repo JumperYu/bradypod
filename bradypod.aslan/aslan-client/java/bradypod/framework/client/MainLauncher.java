@@ -20,6 +20,8 @@ public class MainLauncher {
 	 */
 	public static void main(String[] args) throws Exception {
 
+//		args = hack(7016);
+		
 		final OptionParser parser = new OptionParser();
 		parser.accepts("pid").withOptionalArg().ofType(int.class);
 		parser.accepts("target").withOptionalArg().ofType(String.class);
@@ -34,7 +36,18 @@ public class MainLauncher {
 		}
 		JvmAttach jvmAttach = new JvmAttach();
 		jvmAttach.bind(String.valueOf(os.valueOf("pid")), "127.0.0.1",
-				(String) os.valueOf("agent"));
+				(String) os.valueOf("agent") + "=" + os.valueOf("core"));
+	}
+	
+	static String[] hack(int pid){
+		String[] args = new String[6];
+		args[0] = "-pid";
+		args[1] = "" + pid;
+		args[2] = "-agent";
+		args[3] = "D:/work/my/repo/bradypod/bradypod.aslan/aslan-agent/target/aslan-agent.jar";
+		args[4] = "-core";
+		args[5] = "D:/work/my/repo/bradypod/bradypod.aslan/aslan-client/target/lib/";
+		return args;
 	}
 
 	static String target = "127.0.0.1";

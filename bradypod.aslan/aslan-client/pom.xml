@@ -10,10 +10,6 @@
 	<artifactId>aslan-client</artifactId>
 	<name>aslan-client</name>
 
-	<properties>
-		<java-version>1.8</java-version>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>jline</groupId>
@@ -49,24 +45,20 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>bradypod.framework.client.MainLauncher</mainClass>
-						</manifest>
-					</archive>
-					<descriptors>
-						<descriptor>src/main/assembly/assembly.xml</descriptor>
-					</descriptors>
-				</configuration>
+				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>make-assembly</id>
-						<phase>package</phase>
+						<id>copy-dependencies</id>
+						<phase>prepare-package</phase>
 						<goals>
-							<goal>single</goal>
+							<goal>copy-dependencies</goal>
 						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/lib</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>false</overWriteSnapshots>
+							<overWriteIfNewer>true</overWriteIfNewer>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
