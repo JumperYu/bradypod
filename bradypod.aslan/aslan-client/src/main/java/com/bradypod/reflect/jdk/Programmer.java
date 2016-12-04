@@ -9,8 +9,8 @@ package com.bradypod.reflect.jdk;
  */
 public class Programmer {
 	
-	public void code(String code){
-		System.out.println("I'm tire to suffer this, " + code); 
+	public void doCoding(){
+		System.out.println("I'm tire to suffer this, " + "it's not my life"); 
 	}
 	
 }

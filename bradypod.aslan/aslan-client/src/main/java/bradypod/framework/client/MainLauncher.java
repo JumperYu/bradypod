@@ -20,8 +20,8 @@ public class MainLauncher {
 	 */
 	public static void main(String[] args) throws Exception {
 
-//		args = hack(7016);
-		
+		// args = hack(7016);
+
 		final OptionParser parser = new OptionParser();
 		parser.accepts("pid").withOptionalArg().ofType(int.class);
 		parser.accepts("target").withOptionalArg().ofType(String.class);
@@ -38,8 +38,8 @@ public class MainLauncher {
 		jvmAttach.bind(String.valueOf(os.valueOf("pid")), "127.0.0.1",
 				(String) os.valueOf("agent") + "=" + os.valueOf("core"));
 	}
-	
-	static String[] hack(int pid){
+
+	static String[] hack(int pid) {
 		String[] args = new String[6];
 		args[0] = "-pid";
 		args[1] = "" + pid;

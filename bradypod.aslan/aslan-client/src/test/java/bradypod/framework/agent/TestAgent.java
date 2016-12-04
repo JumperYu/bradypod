@@ -2,6 +2,8 @@ package bradypod.framework.agent;
 
 import java.lang.reflect.InvocationTargetException;
 
+import com.bradypod.reflect.jdk.Programmer;
+
 /**
  * 
  * Transformer.java改变编译后打包到agent里面, premain的时候将他替换掉
@@ -34,10 +36,12 @@ public class TestAgent {
 		Thread thread = new Thread(new Runnable() {
 			@Override
 			public void run() {
+				Programmer programmer = new Programmer();
 				while (true) {
 					try {
 						System.out.println("current process：" + runtimeName);
 						System.out.println("current pid：" + pid);
+						programmer.doCoding();
 						Thread.sleep(1000 * 10);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
