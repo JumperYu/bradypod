@@ -20,7 +20,7 @@ public class MainLauncher {
 	 */
 	public static void main(String[] args) throws Exception {
 
-		// args = hack(7016);
+		args = hack(10944);
 
 		final OptionParser parser = new OptionParser();
 		parser.accepts("pid").withOptionalArg().ofType(int.class);

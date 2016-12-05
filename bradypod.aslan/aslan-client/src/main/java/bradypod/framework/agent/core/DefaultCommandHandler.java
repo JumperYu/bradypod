@@ -29,8 +29,8 @@ public class DefaultCommandHandler {
 	}
 
 	public void executeCommand(final String line, final Session session) throws IOException {
-		System.out.println(line);
-		execute(session, "threads");
+		System.err.println(line);
+		execute(session, "class");
 	}
 
 	/*

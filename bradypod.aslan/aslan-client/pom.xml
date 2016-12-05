@@ -38,6 +38,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<build>
@@ -49,10 +50,7 @@
 				<configuration>
 					<archive>
 						<manifestEntries>
-							<Premain-Class>bradypod.framework.agent.core.AgentProxy</Premain-Class>
-							<Agent-Class>bradypod.framework.agent.core.AgentProxy</Agent-Class>
-							<Can-Redefine-Classes>true</Can-Redefine-Classes>
-							<Can-Retransform-Classes>true</Can-Retransform-Classes>
+							<Main-Class>bradypod.framework.client.MainLauncher</Main-Class>
 						</manifestEntries>
 					</archive>
 				</configuration>
