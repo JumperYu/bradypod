@@ -91,7 +91,7 @@ public class GaServer {
 			GaServer.this._destroy();
 		}
 	};
-
+	
 	private final SessionManager sessionManager;
 	private final DefaultCommandHandler commandHandler;
 
@@ -104,13 +104,12 @@ public class GaServer {
 					return t;
 				}
 			});
-
+	
 	private GaServer(int javaPid, Instrumentation inst) {
 		this.javaPid = javaPid;
 		this.sessionManager = new DefaultSessionManager();
 		this.commandHandler = new DefaultCommandHandler(this, inst);
 		Runtime.getRuntime().addShutdownHook(jvmShutdownHooker);
-
 	}
 
 	/**

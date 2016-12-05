@@ -45,7 +45,7 @@ public class AgentProxy {
 		try {
 			System.out.println(agentArgs);
 			String[] args = agentArgs.split(";");
-			String jarLibPath = args[0];
+			String jarLibPath = args[0]; // core-lib
 			
 			// aslan-agent加入到目标进程的classloader里面
 			inst.appendToBootstrapClassLoaderSearch(
@@ -80,7 +80,6 @@ public class AgentProxy {
 					classOfGaServer.getMethod("destroy").invoke(objectOfGaServer);
 					throw t;
 				}
-
 			}
 		} catch (Throwable t) {
 			t.printStackTrace();
@@ -88,7 +87,7 @@ public class AgentProxy {
 
 	}
 
-	// 全局持有classloader用于隔离greys实现
+	// 使用单独的classloader
 	private static volatile ClassLoader aslanClassLoader;
 
 	private static ClassLoader loadOrDefineClassLoader(String jarLibPath) throws Throwable {
@@ -121,10 +120,9 @@ class AgentClassLoader extends URLClassLoader {
 		Files.walkFileTree(Paths.get(dir), new SimpleFileVisitor<Path>() {
 			@Override
 			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-				if (attrs.isDirectory()) {
-					return FileVisitResult.CONTINUE;
+				if (!attrs.isDirectory()) {
+					addURL(file.toUri().toURL());
 				}
-				addURL(file.toUri().toURL());
 				return FileVisitResult.CONTINUE;
 			}
 		});
