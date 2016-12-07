@@ -43,7 +43,6 @@ public class AgentProxy {
 
 	public static void main(String agentArgs, Instrumentation inst) {
 		try {
-			System.out.println(agentArgs);
 			String[] args = agentArgs.split(";");
 			String jarLibPath = args[0]; // core-lib
 			

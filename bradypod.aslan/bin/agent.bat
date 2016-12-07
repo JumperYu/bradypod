@@ -2,36 +2,25 @@
 
 echo "Welcome to use bradypod's aslan tool"
 
-SET AGENT_LIB=..\aslan-agent\target\aslan-agent.jar
+SET AGENT_LIB=D:\work\my\repo\bradypod\bradypod.aslan\aslan-agent\target\aslan-agent.jar
 
-SET JAR_FILE=..\aslan-client\target\aslan-client.jar
+SET JAR_FILE=D:\work\my\repo\bradypod\bradypod.aslan\aslan-client\target\aslan-client.jar
 
-SET CORE_DIR=..\aslan-client\target\lib
+SET CORE_DIR=D:\work\my\repo\bradypod\bradypod.aslan\aslan-client\target\aslan-client\target\lib\
 
 :: 因为有空格需使用""
-:: set BOOT_CLASSPATH="-Xbootclasspath/a:%JAVA_HOME%/lib/tools.jar;%CORE_DIR%"
-
-set CLASS_PATH="%JAVA_HOME%/lib/tools.jar"
-
-cd %CORE_DIR%
+set BOOT_CLASSPATH="-Xbootclasspath/a:%JAVA_HOME%/lib/tools.jar"
 
 setlocal enabledelayedexpansion
-set aa=""
-for /f "delims=" %%a in ('dir ..\aslan-client\target\lib ".\lib\*.jar"') do (
-set "aa=!aa!%%a"
+
+for /r %CORE_DIR% %%i in (*) do (
+	set "BOOT_CLASSPATH=!BOOT_CLASSPATH!;%%i"
 )
-
-::for /R . %%s in (*) do (
-::	set CLASS_PATH=%CLASS_PATH%;%%s
-::)
-
-echo %aa%
-
-cd ../../../bin
 
 ::::
 ::::	main_start()
 ::::
-call java -cp %CLASS_PATH% -jar %JAR_FILE% bradypod.framework.client.MainLauncher -pid %1 -agent %AGENT_LIB% -core %CORE_DIR%
+:: call java -classpath %CLASS_PATH% -jar %JAR_FILE% bradypod.framework.client.MainLauncher -pid %1 -agent %AGENT_LIB% -core %CORE_DIR%
+call java %BOOT_CLASSPATH% -jar %JAR_FILE% bradypod.framework.client.MainLauncher -pid %1 -agent %AGENT_LIB% -core %CORE_DIR%
 
 @pause

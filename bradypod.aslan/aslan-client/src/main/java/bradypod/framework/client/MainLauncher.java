@@ -1,5 +1,7 @@
 package bradypod.framework.client;
 
+import java.util.Arrays;
+
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 
@@ -20,8 +22,10 @@ public class MainLauncher {
 	 */
 	public static void main(String[] args) throws Exception {
 
-		args = hack(10944);
+		// args = hack(10944);
 
+		System.out.println(Arrays.toString(args));
+		
 		final OptionParser parser = new OptionParser();
 		parser.accepts("pid").withOptionalArg().ofType(int.class);
 		parser.accepts("target").withOptionalArg().ofType(String.class);
