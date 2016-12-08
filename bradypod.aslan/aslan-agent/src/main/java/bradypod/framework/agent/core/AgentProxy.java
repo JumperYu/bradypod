@@ -10,7 +10,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.jar.JarFile;
 
 /**
  * Aslan-Agent, 启动接收命令的服务
@@ -47,8 +46,8 @@ public class AgentProxy {
 			String jarLibPath = args[0]; // core-lib
 			
 			// aslan-agent加入到目标进程的classloader里面
-			inst.appendToBootstrapClassLoaderSearch(
-					new JarFile(AgentProxy.class.getProtectionDomain().getCodeSource().getLocation().getFile()));
+//			inst.appendToBootstrapClassLoaderSearch(
+//					new JarFile(AgentProxy.class.getProtectionDomain().getCodeSource().getLocation().getFile()));
 
 			ClassLoader agentLoader = loadOrDefineClassLoader(jarLibPath);
 
@@ -116,6 +115,8 @@ class AgentClassLoader extends URLClassLoader {
 	}
 
 	private void loadJarFileFromDirctory(String dir) throws IOException {
+		System.out.println(dir);
+		System.out.println(Paths.get(dir).toAbsolutePath());
 		Files.walkFileTree(Paths.get(dir), new SimpleFileVisitor<Path>() {
 			@Override
 			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {

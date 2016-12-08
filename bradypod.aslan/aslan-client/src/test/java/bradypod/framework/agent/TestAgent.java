@@ -37,12 +37,12 @@ public class TestAgent {
 			@Override
 			public void run() {
 				Programmer programmer = new Programmer();
+				System.out.println("current process：" + runtimeName);
+				System.out.println("current pid：" + pid);
 				while (true) {
 					try {
-						System.out.println("current process：" + runtimeName);
-						System.out.println("current pid：" + pid);
 						programmer.doCoding();
-						Thread.sleep(1000 * 10);
+						Thread.sleep(1000 * 30);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
