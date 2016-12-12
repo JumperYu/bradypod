@@ -17,8 +17,6 @@ for /r %CORE_DIR% %%i in (*) do (
 	set "BOOT_CLASSPATH=!BOOT_CLASSPATH!;%%i"
 )
 
-echo %BOOT_CLASSPATH%
-
 ::::
 ::::	main_start()
 ::::
