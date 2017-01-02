@@ -20,17 +20,16 @@ import bradypod.framework.agent.core.ui.Table;
 
 public class DefaultCommandHandler {
 
-	private final GaServer gaServer;
+//	private final GaServer gaServer;
 	private final Instrumentation inst;
 
 	public DefaultCommandHandler(GaServer gaServer, Instrumentation inst) {
-		this.gaServer = gaServer;
+//		this.gaServer = gaServer;
 		this.inst = inst;
 	}
 
 	public void executeCommand(final String line, final Session session) throws IOException {
-		System.err.println(line);
-		execute(session, "class");
+		execute(session, line);
 	}
 
 	/*

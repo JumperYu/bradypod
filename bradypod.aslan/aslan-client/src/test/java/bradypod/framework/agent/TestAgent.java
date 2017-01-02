@@ -41,7 +41,7 @@ public class TestAgent {
 				System.out.println("current pid：" + pid);
 				while (true) {
 					try {
-						programmer.doCoding();
+						programmer.doCoding("hello moto." + Math.random() * 100);
 						Thread.sleep(1000 * 30);
 					} catch (InterruptedException e) {
 						e.printStackTrace();

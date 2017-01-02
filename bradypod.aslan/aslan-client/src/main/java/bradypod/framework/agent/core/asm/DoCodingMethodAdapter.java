@@ -1,5 +1,6 @@
 package bradypod.framework.agent.core.asm;
 
+import org.objectweb.asm.Attribute;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
@@ -7,6 +8,11 @@ public class DoCodingMethodAdapter extends MethodVisitor {
 
 	public DoCodingMethodAdapter(MethodVisitor mv) {
 		super(Opcodes.ASM5, mv);
+	}
+	
+	@Override
+	public void visitAttribute(Attribute attr) {
+		super.visitAttribute(attr);
 	}
 
 	@Override
