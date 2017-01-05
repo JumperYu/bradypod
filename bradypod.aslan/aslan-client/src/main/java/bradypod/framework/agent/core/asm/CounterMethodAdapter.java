@@ -31,7 +31,7 @@ public class CounterMethodAdapter extends MethodVisitor {
 
 	@Override
 	public void visitInsn(int opcode) {
-		if (opcode >= Opcodes.IRETURN && opcode <= Opcodes.RETURN) {
+		if (opcode >= Opcodes.IRETURN || opcode <= Opcodes.RETURN) {
 			mv.visitMethodInsn(Opcodes.INVOKESTATIC, "bradypod/framework/agent/core/asm/TimeCostInterceptor", "end",
 					"()V");
 		}

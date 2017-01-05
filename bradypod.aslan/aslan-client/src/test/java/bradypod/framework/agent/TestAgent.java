@@ -36,7 +36,7 @@ public class TestAgent {
 				System.out.println("current process：" + runtimeName);
 				System.out.println("current pid：" + pid);
 				while (true) {
-					programmer.doCoding("hello moto." + Math.random() * 100, 3000, TimeUnit.MILLISECONDS);
+					programmer.doCoding("hello moto." + Math.random() * 100, 10000, TimeUnit.MILLISECONDS);
 				}
 			};
 		});

@@ -19,57 +19,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-class GaAttachment {
-
-	private final int bufferSize;
-	private final Session session;
-
-	private LineDecodeState lineDecodeState;
-	private ByteBuffer lineByteBuffer;
-
-	GaAttachment(int bufferSize, Session session) {
-		this.lineByteBuffer = ByteBuffer.allocate(bufferSize);
-		this.bufferSize = bufferSize;
-		this.lineDecodeState = LineDecodeState.READ_CHAR;
-		this.session = session;
-	}
-
-	public LineDecodeState getLineDecodeState() {
-		return lineDecodeState;
-	}
-
-	public void setLineDecodeState(LineDecodeState lineDecodeState) {
-		this.lineDecodeState = lineDecodeState;
-	}
-
-	public void put(byte data) {
-		if (lineByteBuffer.hasRemaining()) {
-			lineByteBuffer.put(data);
-		} else {
-			final ByteBuffer newLineByteBuffer = ByteBuffer
-					.allocate(lineByteBuffer.capacity() + bufferSize);
-			lineByteBuffer.flip();
-			newLineByteBuffer.put(lineByteBuffer);
-			newLineByteBuffer.put(data);
-			this.lineByteBuffer = newLineByteBuffer;
-		}
-	}
-
-	public String clearAndGetLine(Charset charset) {
-		lineByteBuffer.flip();
-		final byte[] dataArray = new byte[lineByteBuffer.limit()];
-		lineByteBuffer.get(dataArray);
-		final String line = new String(dataArray, charset);
-		lineByteBuffer.clear();
-		return line;
-	}
-
-	public Session getSession() {
-		return session;
-	}
-
-}
-
 public class GaServer {
 
 	private static final int BUFFER_SIZE = 4 * 1024;
@@ -424,6 +373,57 @@ public class GaServer {
 		} catch (IOException ioe) {
 			// ignore
 		}
+	}
+
+}
+
+class GaAttachment {
+
+	private final int bufferSize;
+	private final Session session;
+
+	private LineDecodeState lineDecodeState;
+	private ByteBuffer lineByteBuffer;
+
+	GaAttachment(int bufferSize, Session session) {
+		this.lineByteBuffer = ByteBuffer.allocate(bufferSize);
+		this.bufferSize = bufferSize;
+		this.lineDecodeState = LineDecodeState.READ_CHAR;
+		this.session = session;
+	}
+
+	public LineDecodeState getLineDecodeState() {
+		return lineDecodeState;
+	}
+
+	public void setLineDecodeState(LineDecodeState lineDecodeState) {
+		this.lineDecodeState = lineDecodeState;
+	}
+
+	public void put(byte data) {
+		if (lineByteBuffer.hasRemaining()) {
+			lineByteBuffer.put(data);
+		} else {
+			final ByteBuffer newLineByteBuffer = ByteBuffer
+					.allocate(lineByteBuffer.capacity() + bufferSize);
+			lineByteBuffer.flip();
+			newLineByteBuffer.put(lineByteBuffer);
+			newLineByteBuffer.put(data);
+			this.lineByteBuffer = newLineByteBuffer;
+		}
+	}
+
+	public String clearAndGetLine(Charset charset) {
+		lineByteBuffer.flip();
+		final byte[] dataArray = new byte[lineByteBuffer.limit()];
+		lineByteBuffer.get(dataArray);
+		final String line = new String(dataArray, charset);
+		lineByteBuffer.clear();
+		return line;
+	}
+
+	public Session getSession() {
+		return session;
 	}
 
 }
