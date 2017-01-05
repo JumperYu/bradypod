@@ -15,7 +15,7 @@ public class AsmLaunch {
 		
 		ClassReader classReader = new ClassReader(className);
 		ClassWriter classWriter = new ClassWriter(classReader, 0);
-		ClassVisitor classVisitor = new ProgrammerClassAdapter(classWriter);
+		ClassVisitor classVisitor = new CounterClassAdapter(classWriter, "doCoding");
 		classReader.accept(classVisitor, 0);
 
 		byte[] classData = classWriter.toByteArray();

@@ -15,16 +15,16 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 
-import bradypod.framework.agent.core.asm.ProgrammerClassAdapter;
+import bradypod.framework.agent.core.asm.CounterClassAdapter;
 import bradypod.framework.agent.core.ui.Table;
 
 public class DefaultCommandHandler {
 
-//	private final GaServer gaServer;
+	// private final GaServer gaServer;
 	private final Instrumentation inst;
 
 	public DefaultCommandHandler(GaServer gaServer, Instrumentation inst) {
-//		this.gaServer = gaServer;
+		// this.gaServer = gaServer;
 		this.inst = inst;
 	}
 
@@ -59,16 +59,20 @@ public class DefaultCommandHandler {
 			}
 			// 输出到客户端
 			write(socketChannel, table.toString(), session.getCharset());
-		} else {
-			String className = "com.bradypod.reflect.jdk.Programmer";
+		} else if (command.contains("count")) {
 			
+			String[] cmds = command.split(" ");
+			
+			String className = cmds[1];//"com.bradypod.reflect.jdk.Programmer";
+			String methodName = cmds[2];
+
 			ClassReader classReader = new ClassReader(className);
 			ClassWriter classWriter = new ClassWriter(classReader, 0);
-			ClassVisitor classVisitor = new ProgrammerClassAdapter(classWriter);
+			ClassVisitor classVisitor = new CounterClassAdapter(classWriter, methodName);
 			classReader.accept(classVisitor, 0);
 
 			byte[] classData = classWriter.toByteArray();
-			
+
 			try {
 				inst.redefineClasses(new ClassDefinition(Class.forName(className), classData));
 			} catch (ClassNotFoundException e) {
@@ -76,6 +80,8 @@ public class DefaultCommandHandler {
 			} catch (UnmodifiableClassException e) {
 				e.printStackTrace();
 			}
+		} else {
+			
 		}
 	}
 
@@ -94,7 +100,7 @@ public class DefaultCommandHandler {
 			}
 		}
 	}
-	
+
 	public static void main(String[] args) throws ClassNotFoundException {
 		String className = "com.bradypod.reflect.jdk.Programmer";
 		Class<?> clazz = Class.forName(className);
