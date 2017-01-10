@@ -20,7 +20,12 @@ for /r %CORE_DIR% %%i in (*) do (
 ::::
 ::::	main_start()
 ::::
-:: call java -classpath %CLASS_PATH% -jar %JAR_FILE% bradypod.framework.client.MainLauncher -pid %1 -agent %AGENT_LIB% -core %CORE_DIR%
 call java %BOOT_CLASSPATH% -jar %JAR_FILE% bradypod.framework.client.MainLauncher -pid %1 -agent %AGENT_LIB% -core %CORE_DIR%
+
+
+::::
+::::	client_con()
+::::
+call java %BOOT_CLASSPATH% -cp %JAR_FILE% bradypod.framework.agent.core.GaClient
 
 @pause

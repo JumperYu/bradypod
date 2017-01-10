@@ -28,8 +28,8 @@ public class GaServer {
 	private static final byte CTRL_X = 0x18;
 	private static final byte EOT = 0x04;
 	private static final int EOF = -1;
-	private static final int CR = 0x0D;
-	private static final int NL = 0x0A;
+	private static final int CR = 0x0D; //回车
+	private static final int NL = 0x0A; //换行
 
 	private final AtomicBoolean isBindRef = new AtomicBoolean(false);
 	private final int javaPid;
@@ -198,8 +198,8 @@ public class GaServer {
 				"Welcome to use bradypod's agent" + System.lineSeparator());
 
 		// Logo结束之后输出传输中止符
-		// writeToSocketChannel(socketChannel, ByteBuffer.wrap(new byte[] { EOT
-		// }));
+//		 writeToSocketChannel(socketChannel, ByteBuffer.wrap(new byte[] { EOT
+//		 }));
 
 		return socketChannel;
 	}

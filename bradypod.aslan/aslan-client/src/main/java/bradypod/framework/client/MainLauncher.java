@@ -21,8 +21,6 @@ public class MainLauncher {
 	public static void main(String[] args) throws Exception {
 
 		// args = hack(10944);
-
-		// System.out.println(Arrays.toString(args));
 		
 		final OptionParser parser = new OptionParser();
 		parser.accepts("pid").withOptionalArg().ofType(int.class);

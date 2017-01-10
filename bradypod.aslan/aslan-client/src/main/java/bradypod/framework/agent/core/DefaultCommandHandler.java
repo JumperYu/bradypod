@@ -81,7 +81,9 @@ public class DefaultCommandHandler {
 				e.printStackTrace();
 			}
 		} else {
-			
+			session.touch();
+			write(session.getSocketChannel(), "you say:" + command, session.getCharset());
+			System.out.println("receive cmd: " + command);
 		}
 	}
 
