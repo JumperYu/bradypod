@@ -115,8 +115,6 @@ class AgentClassLoader extends URLClassLoader {
 	}
 
 	private void loadJarFileFromDirctory(String dir) throws IOException {
-		System.out.println(dir);
-		System.out.println(Paths.get(dir).toAbsolutePath());
 		Files.walkFileTree(Paths.get(dir), new SimpleFileVisitor<Path>() {
 			@Override
 			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {

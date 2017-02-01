@@ -63,8 +63,8 @@ public class DefaultCommandHandler {
 			
 			String[] cmds = command.split(" ");
 			
-			String className = cmds[1];//"com.bradypod.reflect.jdk.Programmer";
-			String methodName = cmds[2];
+			String className = "com.bradypod.reflect.jdk.Programmer"; // cmds[1];
+			String methodName = "doCoding"; // cmds[2];
 
 			ClassReader classReader = new ClassReader(className);
 			ClassWriter classWriter = new ClassWriter(classReader, 0);
