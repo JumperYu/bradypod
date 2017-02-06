@@ -6,11 +6,20 @@ import org.objectweb.asm.Opcodes;
 
 public class CounterClassAdapter extends ClassVisitor {
 
+	private String qualifiedName;
 	private String methodName;
-
+	
+	@Deprecated
 	public CounterClassAdapter(ClassVisitor cv, String methodName) {
 		super(Opcodes.ASM5);
 		super.cv = cv;
+		this.methodName = methodName;
+	}
+	
+	public CounterClassAdapter(ClassVisitor cv, String qualifiedName ,String methodName) {
+		super(Opcodes.ASM5);
+		super.cv = cv;
+		this.qualifiedName = qualifiedName;
 		this.methodName = methodName;
 	}
 	
@@ -30,7 +39,7 @@ public class CounterClassAdapter extends ClassVisitor {
 	public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
 		MethodVisitor methodVisitor = cv.visitMethod(access, name, desc, signature, exceptions);
 		if (methodVisitor != null && methodName.equals(name)) {
-			methodVisitor = new CounterMethodAdapter(methodVisitor);
+			methodVisitor = new CounterMethodAdapter(methodVisitor, qualifiedName, methodName);
 			return methodVisitor;
 		}
 		return methodVisitor;

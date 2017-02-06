@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
 import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
@@ -25,6 +26,8 @@ import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
+
+import bradypod.framework.agent.core.asm.CounterClassAdapter;
 
 public class TestASMNode implements Opcodes {
 
@@ -45,7 +48,7 @@ public class TestASMNode implements Opcodes {
 		// 增加指令
 		il.add(new FieldInsnNode(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;"));
 		il.add(new VarInsnNode(Opcodes.ALOAD, 1));
-		il.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V"));
+		il.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false));
 
 		il.add(new VarInsnNode(Opcodes.ILOAD, 1));
 		il.add(new InsnNode(Opcodes.ICONST_1));
@@ -104,9 +107,12 @@ public class TestASMNode implements Opcodes {
 			InsnList il = new InsnList();
 
 			il.add(new FieldInsnNode(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;"));
-//			il.add(new LdcInsnNode("Enter method-> " + cn.name + "." + md.name));
+			// il.add(new LdcInsnNode("Enter method-> " + cn.name + "." +
+			// md.name));
 			il.add(new VarInsnNode(LLOAD, 2));
-//			il.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false));
+			// il.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL,
+			// "java/io/PrintStream", "println", "(Ljava/lang/String;)V",
+			// false));
 			il.add(new MethodInsnNode(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(J)V", false));
 
 			insns.insert(il);
@@ -124,16 +130,44 @@ public class TestASMNode implements Opcodes {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		Class<?> programClass = Class.forName("com.bradypod.reflect.jdk.Programmer", true, new MyClassLoader());
 		Object programObj = programClass.newInstance();
-		programClass.getMethod("doCoding", String.class, long.class, TimeUnit.class).invoke(programObj, "hehhe", 5, TimeUnit.SECONDS);
+		programClass.getMethod("doCoding", String.class, long.class, TimeUnit.class).invoke(programObj, "hehhe", 5,
+				TimeUnit.SECONDS);
+	}
+
+	@Test
+	public void test03() throws IOException, ClassNotFoundException, IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException, SecurityException, InstantiationException {
+		String className = "com.bradypod.reflect.jdk.Programmer";
+
+		ClassReader classReader = new ClassReader(className);
+		ClassWriter classWriter = new ClassWriter(classReader, 0);
+		ClassVisitor classVisitor = new CounterClassAdapter(classWriter, className, "doCoding");
+		classReader.accept(classVisitor, 0);
+
+		byte[] classData = classWriter.toByteArray();
+
+		File file = new File("D://com/bradypod/reflect/jdk/Programmer.class");
+		FileOutputStream fout = new FileOutputStream(file);
+		try {
+			fout.write(classData);
+			fout.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		Class<?> programClass = Class.forName("com.bradypod.reflect.jdk.Programmer", true, new MyClassLoader());
+		Object programObj = programClass.newInstance();
+		programClass.getMethod("doCoding", String.class, long.class, TimeUnit.class).invoke(programObj, "hehhe", 5,
+				TimeUnit.SECONDS);
 	}
 
 }
 
 class MyClassLoader extends ClassLoader {
-	
+
 	@Override
 	public Class<?> loadClass(String name) throws ClassNotFoundException {
 		final Class<?> loadedClass = findLoadedClass(name);
@@ -141,7 +175,7 @@ class MyClassLoader extends ClassLoader {
 			return loadedClass;
 		}
 		try {
-			if("com.bradypod.reflect.jdk.Programmer".equals(name)){
+			if ("com.bradypod.reflect.jdk.Programmer".equals(name)) {
 				Class<?> aClass = findClass(name);
 				resolveClass(aClass);
 				return aClass;
@@ -152,7 +186,7 @@ class MyClassLoader extends ClassLoader {
 			return super.loadClass(name);
 		}
 	}
-	
+
 	@Override
 	protected Class<?> findClass(String name) throws ClassNotFoundException {
 		byte[] classBytes = null;

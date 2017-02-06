@@ -26,7 +26,7 @@ public class GaServer {
 
 	private static final byte CTRL_D = 0x04;
 	private static final byte CTRL_X = 0x18;
-	private static final byte EOT = 0x04;
+//	private static final byte EOT = 0x04;
 	private static final int EOF = -1;
 	private static final int CR = 0x0D; //回车
 	private static final int NL = 0x0A; //换行
