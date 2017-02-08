@@ -143,7 +143,7 @@ public class TestASMNode implements Opcodes {
 		String className = "com.bradypod.reflect.jdk.Programmer";
 
 		ClassReader classReader = new ClassReader(className);
-		ClassWriter classWriter = new ClassWriter(classReader, 0);
+		ClassWriter classWriter = new ClassWriter(classReader, 0); // 0 表示手动计算 ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES
 		ClassVisitor classVisitor = new CounterClassAdapter(classWriter, className, "doCoding");
 		classReader.accept(classVisitor, 0);
 
@@ -151,6 +151,7 @@ public class TestASMNode implements Opcodes {
 
 		File file = new File("D://com/bradypod/reflect/jdk/Programmer.class");
 		FileOutputStream fout = new FileOutputStream(file);
+		
 		try {
 			fout.write(classData);
 			fout.close();

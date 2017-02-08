@@ -67,7 +67,7 @@ public class DefaultCommandHandler {
 			String methodName = cmds[2]; // "doCoding";
 
 			ClassReader classReader = new ClassReader(className);
-			ClassWriter classWriter = new ClassWriter(classReader, 0);
+			ClassWriter classWriter = new ClassWriter(classReader, 0); // ClassWriter.COMPUTE_MAXS
 			ClassVisitor classVisitor = new CounterClassAdapter(classWriter, className, methodName);
 			classReader.accept(classVisitor, 0);
 

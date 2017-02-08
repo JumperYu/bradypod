@@ -1,6 +1,7 @@
 package bradypod.framework.agent;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.management.ManagementFactory;
 import java.lang.management.ThreadInfo;
 import java.lang.management.ThreadMXBean;
@@ -14,6 +15,7 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Type;
+import org.objectweb.asm.util.TraceClassVisitor;
 
 import bradypod.framework.agent.core.asm.CounterClassAdapter;
 
@@ -65,6 +67,13 @@ public class TestCommand {
 				}
 			}
 		}
+	}
+	
+	@Test
+	public void testTrace() throws IOException {
+		String className = "com.bradypod.reflect.jdk.Programmer";
+		ClassReader classReader = new ClassReader(className);
+		classReader.accept(new TraceClassVisitor(new PrintWriter(System.out)), 0);
 	}
 }
 

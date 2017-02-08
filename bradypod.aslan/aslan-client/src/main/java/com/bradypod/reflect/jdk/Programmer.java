@@ -12,11 +12,15 @@ import java.util.concurrent.TimeUnit;
 public class Programmer {
 
 	public void doCoding(String word, long sleep, TimeUnit timeUnit) {
+//		System.out.println(word);
+//		System.out.println(sleep);
+//		System.out.println(timeUnit);
 		System.out.println("I'm say:'" + word + "'");
 		try {
 			timeUnit.sleep(sleep);
 		} catch (InterruptedException e) {
 		}
+//		return 10;
 	}
 
 }
