@@ -20,7 +20,7 @@ public class CounterMethodAdapter extends MethodVisitor implements Opcodes{
 	@Override
 	public void visitCode() {
 		
-		mv.visitCode();
+		super.visitCode();
 		
 		Class<?> clazz = findClass(qualifiedName, Thread.currentThread().getContextClassLoader());
 		for (Method method : clazz.getMethods()) {
@@ -41,34 +41,6 @@ public class CounterMethodAdapter extends MethodVisitor implements Opcodes{
 //		mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
 //		
 //		mv.visitMethodInsn(INVOKESTATIC, "bradypod/framework/agent/core/asm/TimeCostInterceptor", "begin", "()V", false);
-	}
-
-	@Override
-	public void visitFrame(int type, int nLocal, java.lang.Object[] local, int nStack, java.lang.Object[] stack) { 
-		super.visitFrame(type, nLocal, local, nStack, stack);
-	}
-	
-	@Override
-	public void visitInsn(int opcode) {
-		
-//		if (opcode >= Opcodes.IRETURN || opcode <= Opcodes.RETURN) {
-//			mv.visitMethodInsn(Opcodes.INVOKESTATIC, "bradypod/framework/agent/core/asm/TimeCostInterceptor", "end",
-//					"()V", false);
-//		}
-		
-		mv.visitInsn(opcode);
-	}
-
-	@Override
-	public void visitMaxs(int maxStack, int maxLocals) {
-		mv.visitMaxs(4, 6);
-//		mv.visitMaxs(maxStack, maxLocals);
-	}
-	
-	@Override
-	public void visitEnd() {
-		// maxStacks, maxLocals
-		super.visitEnd();
 	}
 	
 	private static Class<?> findClass(String qualifiedName, ClassLoader classLoader) {

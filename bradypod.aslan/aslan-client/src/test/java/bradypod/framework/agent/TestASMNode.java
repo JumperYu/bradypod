@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldInsnNode;
@@ -48,7 +49,8 @@ public class TestASMNode implements Opcodes {
 		// 增加指令
 		il.add(new FieldInsnNode(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;"));
 		il.add(new VarInsnNode(Opcodes.ALOAD, 1));
-		il.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false));
+		il.add(new MethodInsnNode(Opcodes.INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V",
+				false));
 
 		il.add(new VarInsnNode(Opcodes.ILOAD, 1));
 		il.add(new InsnNode(Opcodes.ICONST_1));
@@ -143,15 +145,20 @@ public class TestASMNode implements Opcodes {
 		String className = "com.bradypod.reflect.jdk.Programmer";
 
 		ClassReader classReader = new ClassReader(className);
-		ClassWriter classWriter = new ClassWriter(classReader, 0); // 0 表示手动计算 ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES
+
+		int writerFlag = ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS;
+		int accpetFlag = 0; // ClassReader.SKIP_FRAMES;
+
+		ClassWriter classWriter = new ClassWriter(classReader, writerFlag);
+
 		ClassVisitor classVisitor = new CounterClassAdapter(classWriter, className, "doCoding");
-		classReader.accept(classVisitor, 0);
+		classReader.accept(classVisitor, accpetFlag);
 
 		byte[] classData = classWriter.toByteArray();
 
 		File file = new File("D://com/bradypod/reflect/jdk/Programmer.class");
 		FileOutputStream fout = new FileOutputStream(file);
-		
+
 		try {
 			fout.write(classData);
 			fout.close();
@@ -165,6 +172,67 @@ public class TestASMNode implements Opcodes {
 				TimeUnit.SECONDS);
 	}
 
+	@Test
+	public void test04() throws Exception {
+		final String className = "com.bradypod.reflect.jdk.Programmer";
+
+		Class<?> programClass = Class.forName(className + "_Tmp", true, new ClassLoader() {
+			@Override
+			public Class<?> loadClass(String name) throws ClassNotFoundException {
+				if (!name.contains("Programmer"))
+		            return super.loadClass(name);
+		        try {
+		            ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
+		            ClassReader cr = new ClassReader(className);
+		            cr.accept(new ClassVisitor(ASM5) {
+		            	public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
+		            		//更改类名，并使新类继承原有的类。
+		                    super.visit(version, access, name + "_Tmp", signature, name, interfaces);
+		                    {
+		                        MethodVisitor mv = super.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
+		                        mv.visitCode();
+		                        mv.visitVarInsn(ALOAD, 0);
+		                        mv.visitMethodInsn(INVOKESPECIAL, name, "<init>", "()V", false);
+		                        mv.visitInsn(RETURN);
+		                        mv.visitMaxs(1, 1);
+		                        mv.visitEnd();
+		                    }
+		            	};
+		            	public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
+		            		if ("<init>".equals(name)) {
+		                        return null;
+		            		}
+		                    if (!name.equals("doCoding")) {
+		                        return null;
+		                    }
+		                    //
+		                    MethodVisitor mv = super.visitMethod(access, name, desc, signature, exceptions);
+		                    return new MethodVisitor(this.api, mv) {
+		                    	public void visitCode() {
+		                    		super.visitCode();
+		                    		// this.visitMethodInsn(INVOKESTATIC, owner, className, desc, false);
+		                    	};
+		                    	public void visitInsn(int opcode) {
+		                    		if (opcode == RETURN) {
+		                                // mv.visitMethodInsn(INVOKESTATIC, "org/more/test/asm/AopInterceptor", "afterInvoke", "()V", false);
+		                            }
+		                            super.visitInsn(opcode);
+		                    	};
+							};
+		            	};
+					}, ClassReader.EXPAND_FRAMES);
+		            byte[] byteCode = cw.toByteArray();
+		            return this.defineClass(name, byteCode, 0, byteCode.length);
+		        } catch (Throwable e) {
+		            e.printStackTrace();
+		            throw new ClassNotFoundException();
+		        }
+			}
+		});
+		Object programObj = programClass.newInstance();
+		programClass.getMethod("doCoding", String.class, long.class, TimeUnit.class).invoke(programObj, "hehhe", 5,
+				TimeUnit.SECONDS);
+	}
 }
 
 class MyClassLoader extends ClassLoader {
