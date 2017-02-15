@@ -15,7 +15,7 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 
-import bradypod.framework.agent.core.asm.CounterClassAdapter;
+import bradypod.framework.agent.core.asm.AdviceWeaver;
 import bradypod.framework.agent.core.ui.Table;
 
 public class DefaultCommandHandler {
@@ -67,8 +67,8 @@ public class DefaultCommandHandler {
 			String methodName = cmds[2]; // "doCoding";
 
 			ClassReader classReader = new ClassReader(className);
-			ClassWriter classWriter = new ClassWriter(classReader, 0); // ClassWriter.COMPUTE_MAXS
-			ClassVisitor classVisitor = new CounterClassAdapter(classWriter, className, methodName);
+			ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
+			ClassVisitor classVisitor = new AdviceWeaver(classWriter, methodName);
 			classReader.accept(classVisitor, 0);
 
 			byte[] classData = classWriter.toByteArray();

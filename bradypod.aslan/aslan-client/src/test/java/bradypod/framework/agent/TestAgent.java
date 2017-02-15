@@ -1,7 +1,6 @@
 package bradypod.framework.agent;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.concurrent.TimeUnit;
 
 import com.bradypod.reflect.jdk.Programmer;
 
@@ -36,7 +35,7 @@ public class TestAgent {
 				System.out.println("current process：" + runtimeName);
 				System.out.println("current pid：" + pid);
 				while (true) {
-					programmer.doCoding("hello moto!");
+					programmer.doCoding("hello", "moto!");
 				}
 			};
 		});

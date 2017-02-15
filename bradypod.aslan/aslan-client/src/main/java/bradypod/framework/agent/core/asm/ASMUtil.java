@@ -1,7 +1,5 @@
 package bradypod.framework.agent.core.asm;
 
-import java.lang.reflect.Method;
-
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
@@ -27,7 +25,7 @@ public class ASMUtil implements Opcodes {
 	 * @return {@code opcodes} return
 	 * @see org.objectweb.asm.Opcodes
 	 */
-	public static int getOpCodes(Class<?> type) {
+	public static int getXLOAD(Class<?> type) {
 		if (type.isPrimitive()) {
 			if (type == int.class || type == short.class || type == byte.class || type == char.class) {
 				return ILOAD;
@@ -46,14 +44,57 @@ public class ASMUtil implements Opcodes {
 	}
 
 	/**
+	 * @see bradypod.framework.agent.core.asm.ASMUtil.getXLOAD(Class<?>)
+	 */
+	public static int getXSTORE(Class<?> type) {
+		if (type.isPrimitive()) {
+			if (type == int.class || type == short.class || type == byte.class || type == char.class) {
+				return ISTORE;
+			} else if (type == long.class) {
+				return LSTORE;
+			} else if (type == float.class) {
+				return FSTORE;
+			} else if (type == double.class) {
+				return DSTORE;
+			} else {
+				throw new IllegalArgumentException("unknown primitive type");
+			}
+		} else {
+			return ASTORE;
+		}
+	}
+	
+	/**
+	 * @see bradypod.framework.agent.core.asm.ASMUtil.getXLOAD(Class<?>)
+	 */
+	public static int getXRETURN(Class<?> type) {
+		if (type.isPrimitive()) {
+			if (type == int.class || type == short.class || type == byte.class || type == char.class) {
+				return IRETURN;
+			} else if (type == long.class) {
+				return LRETURN;
+			} else if (type == float.class) {
+				return FRETURN;
+			} else if (type == double.class) {
+				return DRETURN;
+			} else {
+				throw new IllegalArgumentException("unknown primitive type");
+			}
+		} else {
+			return ARETURN;
+		}
+	}
+
+	/**
 	 * 获取字节描述符, 含特殊逻辑
 	 * 
 	 * @param type
 	 * @param returnType
-	 * @param isSpecial {@code true} is going to hack code, false is default
+	 * @param isSpecial
+	 *            {@code true} is going to hack code, false is default
 	 * @return
 	 */
-	public static String getDescriptor(Class<?> type, Method method, boolean isSpecial) {
+	public static String getDescriptor(Class<?> type, boolean isSpecial) {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("(");
 		if (isSpecial && !type.isPrimitive() && type != String.class) {
@@ -61,7 +102,7 @@ public class ASMUtil implements Opcodes {
 		} else {
 			buffer.append(Type.getDescriptor(type));
 		}
-		buffer.append(")").append(Type.getDescriptor(method.getReturnType()));
+		buffer.append(")").append("V");
 		return buffer.toString();
 	}
 }

@@ -7,14 +7,11 @@ package com.bradypod.reflect.jdk;
  *
  * @date 2016年2月14日
  */
-public class Programmer {
+public class Programmer$ASMEnhanced extends Programmer{
 
 	public String doCoding(String hello, String word) {
-		return "To The End: " + word;
-	}
-
-	public long hi(int count) {
-		return 123;
+		String ret = super.doCoding(hello, word);
+		return ret;
 	}
 
 }
