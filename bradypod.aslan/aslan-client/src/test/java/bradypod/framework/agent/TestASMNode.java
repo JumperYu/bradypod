@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Test;
@@ -144,12 +145,12 @@ public class TestASMNode implements Opcodes {
 			InvocationTargetException, NoSuchMethodException, SecurityException, InstantiationException {
 		String className = "com.bradypod.reflect.jdk.Programmer";
 
-		ClassReader classReader = new ClassReader(className);
-
 		int writerFlag = ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS;
 		int accpetFlag = 0; // ClassReader.SKIP_FRAMES;
+		
+		ClassReader classReader = new ClassReader(className);
 
-		ClassWriter classWriter = new ClassWriter(classReader, writerFlag);
+		ClassWriter classWriter = new ClassWriter(writerFlag);
 
 		ClassVisitor classVisitor = new CounterClassAdapter(classWriter, className, "doCoding");
 		classReader.accept(classVisitor, accpetFlag);
@@ -172,66 +173,121 @@ public class TestASMNode implements Opcodes {
 				TimeUnit.SECONDS);
 	}
 
+	// ASM无伤修改字节码方式
 	@Test
 	public void test04() throws Exception {
-		final String className = "com.bradypod.reflect.jdk.Programmer";
 
-		Class<?> programClass = Class.forName(className + "_Tmp", true, new ClassLoader() {
+		final String superClassName = "com.bradypod.reflect.jdk.Programmer";
+		final String enhancedExt = "$Enhanced";
+
+		Class<?> programClass = Class.forName(superClassName + enhancedExt, true, new ClassLoader() {
+
 			@Override
 			public Class<?> loadClass(String name) throws ClassNotFoundException {
-				if (!name.contains("Programmer"))
-		            return super.loadClass(name);
-		        try {
-		            ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
-		            ClassReader cr = new ClassReader(className);
-		            cr.accept(new ClassVisitor(ASM5) {
-		            	public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
-		            		//更改类名，并使新类继承原有的类。
-		                    super.visit(version, access, name + "_Tmp", signature, name, interfaces);
-		                    {
-		                        MethodVisitor mv = super.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
-		                        mv.visitCode();
-		                        mv.visitVarInsn(ALOAD, 0);
-		                        mv.visitMethodInsn(INVOKESPECIAL, name, "<init>", "()V", false);
-		                        mv.visitInsn(RETURN);
-		                        mv.visitMaxs(1, 1);
-		                        mv.visitEnd();
-		                    }
-		            	};
-		            	public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
-		            		if ("<init>".equals(name)) {
-		                        return null;
-		            		}
-		                    if (!name.equals("doCoding")) {
-		                        return null;
-		                    }
-		                    //
-		                    MethodVisitor mv = super.visitMethod(access, name, desc, signature, exceptions);
-		                    return new MethodVisitor(this.api, mv) {
-		                    	public void visitCode() {
-		                    		super.visitCode();
-		                    		// this.visitMethodInsn(INVOKESTATIC, owner, className, desc, false);
-		                    	};
-		                    	public void visitInsn(int opcode) {
-		                    		if (opcode == RETURN) {
-		                                // mv.visitMethodInsn(INVOKESTATIC, "org/more/test/asm/AopInterceptor", "afterInvoke", "()V", false);
-		                            }
-		                            super.visitInsn(opcode);
-		                    	};
-							};
-		            	};
-					}, ClassReader.EXPAND_FRAMES);
-		            byte[] byteCode = cw.toByteArray();
-		            return this.defineClass(name, byteCode, 0, byteCode.length);
-		        } catch (Throwable e) {
-		            e.printStackTrace();
-		            throw new ClassNotFoundException();
-		        }
+				final Class<?> loadedClass = findLoadedClass(name);
+				if (loadedClass != null) {
+					return loadedClass;
+				}
+				try {
+					if (name.equals(superClassName + enhancedExt)) {
+						Class<?> aClass = findClass(name);
+						resolveClass(aClass);
+						return aClass;
+					} else {
+						return super.loadClass(name);
+					}
+				} catch (Exception e) {
+					return super.loadClass(name);
+				}
 			}
+
+			@Override
+			protected Class<?> findClass(String className) throws ClassNotFoundException {
+				if (!className.equals(superClassName + enhancedExt)) {
+					return super.findClass(className);
+				}
+				try {
+					ClassReader cr = new ClassReader(superClassName);
+					ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES); // 
+					cr.accept(new ClassVisitor(ASM5, cw) {
+						String subClassName = superClassName + enhancedExt;
+						@Override
+						public void visit(int version, int access, String name, String signature, String superName,
+								String[] interfaces) {
+							cv.visit(version, access, subClassName.replaceAll("\\.", "/"), signature,
+									name, interfaces);
+						};
+						@Override
+						public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
+							MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
+							if (mv != null) {
+								if (name.equals("<init>")) {
+									mv = new MethodVisitor(ASM5, mv) {
+										public void visitCode() {
+											mv.visitVarInsn(ALOAD, 0);
+											mv.visitMethodInsn(INVOKESPECIAL, superClassName.replaceAll("\\.", "/"), "<init>", "()V", false);
+											mv.visitInsn(RETURN);
+//										mv.visitMaxs(1, 1);
+										};
+									};
+								} else if (name.equals("doCoding")) {
+									mv = new MethodVisitor(ASM5, mv) {
+										public void visitCode() {
+											
+											// System.println(word);
+											mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
+											mv.visitVarInsn(ALOAD, 1);
+											mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
+											
+											// String ret = super.doCoding(word);
+											mv.visitVarInsn(ALOAD, 0);
+											mv.visitVarInsn(ALOAD, 1);
+											mv.visitMethodInsn(INVOKESPECIAL, "com/bradypod/reflect/jdk/Programmer", "doCoding", "(Ljava/lang/String;)Ljava/lang/String;", false);
+											mv.visitVarInsn(ASTORE, 2);
+											
+											// System.println.out(ret);
+											mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
+											mv.visitVarInsn(ALOAD, 2);
+											mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V", false);
+											
+											// return ret;
+											mv.visitVarInsn(ALOAD, 2);
+											mv.visitInsn(ARETURN);
+										};
+									};
+								}
+							}
+							return mv;
+						};
+					}, 0);
+					
+//					ClassWriter cw = new ClassWriter(0);
+//					cw.visit(V1_7, ACC_PUBLIC + ACC_SUPER, (superClassName + enhancedExt).replaceAll("\\.", "/"), null,
+//							superClassName.replaceAll("\\.", "/"), null);
+//					MethodVisitor mv = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
+//					mv.visitCode();
+//					mv.visitVarInsn(ALOAD, 0);
+//					mv.visitMethodInsn(INVOKESPECIAL, superClassName.replaceAll("\\.", "/"), "<init>", "()V", false);
+//					mv.visitInsn(RETURN);
+//					mv.visitMaxs(1, 1);
+//					mv.visitEnd();
+//					cw.visitEnd();
+					
+					byte[] byteCode = cw.toByteArray();
+					
+					Files.write(Paths.get("d://Programmer$Enhanced.class"), byteCode, StandardOpenOption.CREATE);
+					
+					Class<?> clazz = defineClass(className, byteCode, 0, byteCode.length);
+					return clazz;
+				} catch (Throwable e) {
+					e.printStackTrace();
+					throw new ClassNotFoundException();
+				}
+			}
+
 		});
 		Object programObj = programClass.newInstance();
-		programClass.getMethod("doCoding", String.class, long.class, TimeUnit.class).invoke(programObj, "hehhe", 5,
-				TimeUnit.SECONDS);
+		programClass.getMethod("doCoding", String.class).invoke(programObj, "word");
 	}
 }
 

@@ -1,7 +1,5 @@
 package com.bradypod.reflect.jdk;
 
-import java.util.concurrent.TimeUnit;
-
 /**
  * 测试类
  * 
@@ -11,8 +9,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class Programmer {
 
-	public void doCoding(String word, long sleep, TimeUnit timeUnit) {
-		return;
+	public String doCoding(String word) {
+		return "To The End: " + word;
 	}
 
 }
