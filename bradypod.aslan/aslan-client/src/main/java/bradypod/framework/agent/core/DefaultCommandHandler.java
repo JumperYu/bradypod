@@ -29,14 +29,43 @@ public class DefaultCommandHandler {
 	}
 
 	public void executeCommand(final String line, final Session session) throws IOException {
-		execute(session, line);
+		
+		Command command = Commands.getInstanst().newCommand(line);
+		
+		command.execute(new EnhanceAction() {
+			
+			@Override
+			public void onException() {
+				
+			}
+			
+			@Override
+			public void beforeMethod() {
+				
+			}
+			
+			@Override
+			public void afterReturn() {
+				print("");
+			}
+			
+			private void print(String msg) {
+				try {
+					write(session.getSocketChannel(), msg, session.getCharset());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 	/*
 	 * 执行命令
 	 */
-	private void execute(final Session session, final String command) throws IOException {
-		if (command.equals("threads")) {
+	private void execute(final Session session, final String line) throws IOException {
+		
+		
+		if (line.equals("threads")) {
 			// 触手
 			session.touch();
 			// 通道
@@ -59,9 +88,9 @@ public class DefaultCommandHandler {
 			}
 			// 输出到客户端
 			write(socketChannel, table.toString(), session.getCharset());
-		} else if (command.contains("count")) {
+		} else if (line.contains("count")) {
 			
-			String[] cmds = command.split(" ");
+			String[] cmds = line.split(" ");
 			
 			String className =  cmds[1]; // "com.bradypod.reflect.jdk.Programmer";
 			String methodName = cmds[2]; // "doCoding";
@@ -82,8 +111,8 @@ public class DefaultCommandHandler {
 			}
 		} else {
 			session.touch();
-			write(session.getSocketChannel(), "you say:" + command, session.getCharset());
-			System.out.println("receive cmd: " + command);
+			write(session.getSocketChannel(), "you say:" + line, session.getCharset());
+			System.out.println("receive cmd: " + line);
 		}
 	}
 
@@ -103,9 +132,4 @@ public class DefaultCommandHandler {
 		}
 	}
 
-	public static void main(String[] args) throws ClassNotFoundException {
-		String className = "com.bradypod.reflect.jdk.Programmer";
-		Class<?> clazz = Class.forName(className);
-		System.out.println(clazz.getName());
-	}
 }
