@@ -6,9 +6,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface Cmd {
+@Target(ElementType.FIELD)
+public @interface IndexArg {
 
-	public String name();
+	public int index();
 
+	public boolean isRequired() default false;
 }

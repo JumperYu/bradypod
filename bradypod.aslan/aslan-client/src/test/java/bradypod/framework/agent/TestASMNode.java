@@ -1,9 +1,5 @@
 package bradypod.framework.agent;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-
 import org.junit.Test;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -90,19 +86,21 @@ public class TestASMNode implements Opcodes {
 											// super.doCoding(word);
 											mv.visitVarInsn(ALOAD, 0);
 											mv.visitVarInsn(ALOAD, 1);
+											mv.visitVarInsn(ALOAD, 2);
 											mv.visitMethodInsn(INVOKESPECIAL, "com/bradypod/reflect/jdk/Programmer",
-													"doCoding", "(Ljava/lang/String;)Ljava/lang/String;", false);
-											mv.visitVarInsn(ASTORE, 2);
+													"doCoding",
+													"(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", false);
+											mv.visitVarInsn(ASTORE, 3);
 
 											// System.println.out(ret);
 											mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out",
 													"Ljava/io/PrintStream;");
-											mv.visitVarInsn(ALOAD, 2);
+											mv.visitVarInsn(ALOAD, 3);
 											mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println",
 													"(Ljava/lang/String;)V", false);
 
 											// return ret;
-											mv.visitVarInsn(ALOAD, 2);
+											mv.visitVarInsn(ALOAD, 3);
 											mv.visitInsn(ARETURN);
 										};
 									};
@@ -114,7 +112,8 @@ public class TestASMNode implements Opcodes {
 
 					byte[] byteCode = cw.toByteArray();
 
-					Files.write(Paths.get("d://Programmer$Enhanced.class"), byteCode, StandardOpenOption.CREATE);
+					// Files.write(Paths.get("d://Programmer$Enhanced.class"),
+					// byteCode, StandardOpenOption.CREATE);
 
 					Class<?> clazz = defineClass(className, byteCode, 0, byteCode.length);
 					return clazz;
@@ -132,7 +131,8 @@ public class TestASMNode implements Opcodes {
 	@Test
 	public void test02() throws Exception {
 		final String superClassName = "com.bradypod.reflect.jdk.Programmer";
-		final String enhancedExt = "$Enhanced";
+		final String enhancedExt = ""; // "$Enhanced";
+		final String methodName = "doCoding";
 
 		Class<?> programClass = Class.forName(superClassName + enhancedExt, true, new ClassLoader() {
 
@@ -163,7 +163,7 @@ public class TestASMNode implements Opcodes {
 				try {
 					ClassReader cr = new ClassReader(superClassName);
 					ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES); //
-					cr.accept(new AdviceWeaver(cw, "hi"), ASM5);
+					cr.accept(new AdviceWeaver(cw, methodName, false), ASM5);
 
 					byte[] byteCode = cw.toByteArray();
 
@@ -177,6 +177,6 @@ public class TestASMNode implements Opcodes {
 
 		});
 		Object programObj = programClass.newInstance();
-		programClass.getMethod("hi", int.class).invoke(programObj, 1);
+		programClass.getMethod(methodName, String.class, String.class).invoke(programObj, "hello", "world");
 	}
 }

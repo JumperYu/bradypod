@@ -14,7 +14,9 @@ public class AdviceWeaver extends ClassVisitor implements Opcodes {
 
 	private String targetMethod;
 	
-	private String superName;
+	private String descriptor;
+	
+	private boolean isReDefinedClass = false;
 
 	private static final String SUB_CLASS_NAME_EXT = "$Enhanced";
 	
@@ -24,17 +26,18 @@ public class AdviceWeaver extends ClassVisitor implements Opcodes {
 	 * @param cv			-- ClassWriter
 	 * @param targetMethod	-- 目标方法
 	 */
-	public AdviceWeaver(ClassVisitor cv, String targetMethod) {
+	public AdviceWeaver(ClassVisitor cv, String targetMethod, boolean isReDefinedClass) {
 		super(Opcodes.ASM5, cv);
 		this.targetMethod = targetMethod;
+		this.isReDefinedClass = isReDefinedClass;
 	}
 
 	@Override
 	public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
-		// 修改为特殊子类继承原有类
-		if ((access & ACC_INTERFACE) != ACC_INTERFACE) {
+		this.descriptor = name; // 保留原类的描述 
+		// 修改子类继承原有类
+		if (isReDefinedClass && (access & ACC_INTERFACE) != ACC_INTERFACE) {
 			superName = name;
-			this.superName = superName; // 保留原类的描述 
 			name = name.concat(SUB_CLASS_NAME_EXT);
 		}
 		super.visit(version, access, name, signature, superName, interfaces);
@@ -45,13 +48,13 @@ public class AdviceWeaver extends ClassVisitor implements Opcodes {
 		MethodVisitor mv = super.visitMethod(access, name, desc, signature, exceptions);
 		if (mv != null) {
 			// 动态无痕修改字节码, 新建子类继承目标类
-			if (name.equals("<init>")) {
+			if (isReDefinedClass && name.equals("<init>")) {
 				mv.visitVarInsn(ALOAD, 0);
-				mv.visitMethodInsn(INVOKESPECIAL, this.superName, "<init>", "()V", false);
+				mv.visitMethodInsn(INVOKESPECIAL, this.descriptor, "<init>", "()V", false);
 				mv.visitInsn(RETURN);
 				mv.visitMaxs(1, 1);
 			} else if (name.equals(targetMethod)) {
-				mv = new AdviceAdapter(mv, this.superName, targetMethod);
+				mv = new AdviceAdapter(mv, this.descriptor, targetMethod);
 			}
 		}
 		return mv;

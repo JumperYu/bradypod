@@ -9,12 +9,8 @@ package com.bradypod.reflect.jdk;
  */
 public class Programmer {
 
-	public String doCoding(String hello, String word) {
-		return "To The End: " + word;
-	}
-
-	public long hi(int count) {
-		return 123;
+	public int doCoding(String hello, String word) {
+		return 1;
 	}
 
 }

@@ -83,7 +83,7 @@ public class Session {
 			// ignore
 		}
 
-		LogUtil.log("session[{}] destroyed.");
+		LogUtil.log("session[{" + sessionId + "}] destroyed.");
 
 	}
 

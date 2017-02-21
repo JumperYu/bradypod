@@ -11,6 +11,8 @@ public class AdviceAdapter extends MethodVisitor implements Opcodes {
 	private String descriptor;
 	private String targetMethod;
 
+	private Method adviceMethod;
+
 	public AdviceAdapter(MethodVisitor mv, String descriptor, String targetMethod) {
 		super(Opcodes.ASM5, mv);
 		this.descriptor = descriptor;
@@ -23,6 +25,8 @@ public class AdviceAdapter extends MethodVisitor implements Opcodes {
 		Class<?> clazz = findClass(descriptor, Thread.currentThread().getContextClassLoader());
 		for (Method method : clazz.getMethods()) {
 			if (method.getName().equals(targetMethod)) {
+				// advice method
+				adviceMethod = method;
 				// 0为this指令
 				int slot = 1;
 				// 打印入参
@@ -36,29 +40,22 @@ public class AdviceAdapter extends MethodVisitor implements Opcodes {
 					// 计算opcode在frame中slot的大小, 64位的long&double占2位
 					slot += paramType.getSize();
 				} // --> end for
-
-				// xSTORE ret = super.method(xLOAD);
-				mv.visitVarInsn(ALOAD, 0); // super
-				slot = 1;
-				for (Class<?> type : method.getParameterTypes()) {
-					mv.visitVarInsn(ASMUtil.getXLOAD(type), slot);
-					slot += Type.getType(type).getSize();
-				}
-				mv.visitMethodInsn(INVOKESPECIAL, descriptor, targetMethod, Type.getMethodDescriptor(method), false);
-				mv.visitVarInsn(ASMUtil.getXSTORE(method.getReturnType()), slot);
-
-				// System.out.println(ret);
-				mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
-				mv.visitVarInsn(ASMUtil.getXLOAD(method.getReturnType()), slot);
-				mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println",
-						ASMUtil.getDescriptor(method.getReturnType(), true), false);
-
-				// return ret;
-				mv.visitVarInsn(ASMUtil.getXLOAD(method.getReturnType()), slot);
-				mv.visitInsn(ASMUtil.getXRETURN(method.getReturnType()));
-
 			} // --> 打印所有入参请求和返回值
 		} // --> end for
+	}
+
+	@Override
+	public void visitInsn(int opcode) {
+		if (opcode >= IRETURN && opcode <= ARETURN) {
+			if (opcode == LRETURN || opcode == DRETURN) {
+				mv.visitInsn(DUP2);
+			} else {
+				mv.visitInsn(DUP);
+				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "com/bradypod/reflect/jdk/Printer", "print",
+						Type.getMethodDescriptor(Type.VOID_TYPE, Type.getType(adviceMethod.getReturnType())), false);
+			}
+		}
+		super.visitInsn(opcode);
 	}
 
 	private static Class<?> findClass(String descriptor, ClassLoader classLoader) {

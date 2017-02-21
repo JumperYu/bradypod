@@ -1,12 +1,10 @@
 
 package bradypod.framework.agent.core;
 
+import java.lang.instrument.Instrumentation;
+
 public abstract class EnhanceAction implements Action {
-
-	public abstract void beforeMethod();
-
-	public abstract void afterReturn();
-
-	public abstract void onException();
+	
+	public abstract Enhancer enhance(Instrumentation inst);
 
 }
