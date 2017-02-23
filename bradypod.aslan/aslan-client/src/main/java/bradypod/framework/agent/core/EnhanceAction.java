@@ -5,6 +5,6 @@ import java.lang.instrument.Instrumentation;
 
 public abstract class EnhanceAction implements Action {
 	
-	public abstract Enhancer enhance(Instrumentation inst);
+	public abstract Enhancer enhance(Session session, Instrumentation inst);
 
 }

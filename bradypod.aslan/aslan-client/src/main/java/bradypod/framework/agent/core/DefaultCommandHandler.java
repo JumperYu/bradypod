@@ -5,7 +5,6 @@ import java.lang.instrument.Instrumentation;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
-import java.util.concurrent.TimeUnit;
 
 import bradypod.framework.agent.core.cmd.Command;
 
@@ -32,14 +31,8 @@ public class DefaultCommandHandler {
 	private void execute(final Session session, Command command) throws IOException {
 
 		EnhanceAction action = (EnhanceAction) command.action();
-		Enhancer enhancer = action.enhance(inst);
-		
-		try {
-			TimeUnit.SECONDS.sleep(10);
-			inst.removeTransformer(enhancer);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Enhancer enhancer = action.enhance(session, inst);
+
 //		
 //		final String line = "";
 //		

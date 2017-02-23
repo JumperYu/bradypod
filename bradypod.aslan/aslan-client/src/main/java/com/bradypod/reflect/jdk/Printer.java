@@ -18,4 +18,8 @@ public class Printer {
 		System.out.println(obj);
 	}
 
+	public static void print(Exception e) {
+		e.printStackTrace();
+	}
+	
 }

@@ -11,6 +11,7 @@ import bradypod.framework.agent.core.EnhanceAction;
 import bradypod.framework.agent.core.Enhancer;
 import bradypod.framework.agent.core.IndexArg;
 import bradypod.framework.agent.core.NameArg;
+import bradypod.framework.agent.core.Session;
 import bradypod.framework.agent.util.AslanReflectUtil;
 
 @Cmd(name = "watch")
@@ -51,7 +52,7 @@ public class WatchCommand extends Command {
 	public Action action() {
 		return new EnhanceAction() {
 			@Override
-			public Enhancer enhance(Instrumentation inst) {
+			public Enhancer enhance(Session session, Instrumentation inst) {
 
 				Enhancer enhancer = new Enhancer(classPattern, methodPattern);
 				inst.addTransformer(enhancer, true);

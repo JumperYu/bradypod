@@ -10,6 +10,9 @@ package com.bradypod.reflect.jdk;
 public class Programmer {
 
 	public int doCoding(String hello, String word) {
+		if (hello.equals("hello")) {
+			throw new IllegalArgumentException("hello is not accepted");
+		}
 		return 1;
 	}
 

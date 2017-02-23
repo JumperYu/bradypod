@@ -54,6 +54,11 @@ public class AdviceAdapter extends MethodVisitor implements Opcodes {
 				mv.visitMethodInsn(Opcodes.INVOKESTATIC, "com/bradypod/reflect/jdk/Printer", "print",
 						Type.getMethodDescriptor(Type.VOID_TYPE, Type.getType(adviceMethod.getReturnType())), false);
 			}
+		} else if (opcode == ATHROW) {
+			// throw new Exception
+			mv.visitInsn(DUP);
+			mv.visitMethodInsn(Opcodes.INVOKESTATIC, "com/bradypod/reflect/jdk/Printer", "print",
+					Type.getMethodDescriptor(Type.VOID_TYPE, Type.getType(Exception.class)), false);
 		}
 		super.visitInsn(opcode);
 	}
