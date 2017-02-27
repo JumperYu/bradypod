@@ -1,5 +1,8 @@
 package bradypod.framework.agent.core.asm;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -7,24 +10,28 @@ import org.objectweb.asm.Opcodes;
 /**
  * 采用子类继承的方式修改字节码, 做到动态无痕迹.
  * 
- * @author	xiangmin.zxm
- * @date	2017/02/15
+ * @author xiangmin.zxm
+ * @date 2017/02/15
  */
 public class AdviceWeaver extends ClassVisitor implements Opcodes {
 
 	private String targetMethod;
-	
+
 	private String descriptor;
-	
+
 	private boolean isReDefinedClass = false;
 
 	private static final String SUB_CLASS_NAME_EXT = "$Enhanced";
-	
+
+	private static final Map<String, Printer> weavers = new ConcurrentHashMap<>();
+
 	/**
 	 * 指定需要拦截的方法
 	 * 
-	 * @param cv			-- ClassWriter
-	 * @param targetMethod	-- 目标方法
+	 * @param cv
+	 *            -- ClassWriter
+	 * @param targetMethod
+	 *            -- 目标方法
 	 */
 	public AdviceWeaver(ClassVisitor cv, String targetMethod, boolean isReDefinedClass) {
 		super(Opcodes.ASM5, cv);
@@ -34,7 +41,7 @@ public class AdviceWeaver extends ClassVisitor implements Opcodes {
 
 	@Override
 	public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
-		this.descriptor = name; // 保留原类的描述 
+		this.descriptor = name; // 保留原类的描述
 		// 修改子类继承原有类
 		if (isReDefinedClass && (access & ACC_INTERFACE) != ACC_INTERFACE) {
 			superName = name;
@@ -58,5 +65,13 @@ public class AdviceWeaver extends ClassVisitor implements Opcodes {
 			}
 		}
 		return mv;
+	}
+
+	public static void reg(String classPattern, Printer printer) {
+		weavers.put(classPattern, printer);
+	}
+	
+	public static Printer getPrinter(String classPattern) {
+		return weavers.get(classPattern);
 	}
 }

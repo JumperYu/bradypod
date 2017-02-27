@@ -9,6 +9,7 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 
 import bradypod.framework.agent.core.asm.AdviceWeaver;
+import bradypod.framework.agent.core.asm.Printer;
 
 public class Enhancer implements ClassFileTransformer {
 
@@ -40,5 +41,9 @@ public class Enhancer implements ClassFileTransformer {
 
 	private boolean isIgnore(String className) {
 		return !className.equals(classPattern) || className.equals("bradypod/framework/agent/core/Enhancer");
+	}
+	
+	public void addPrinter(Printer printer) {
+		AdviceWeaver.reg(classPattern, printer);
 	}
 }

@@ -29,6 +29,7 @@ public class TestAgent {
 				.getMethod("getName", (Class<?>[]) null).invoke(runtime, (Object[]) null);
 		final int pid = Integer.parseInt(runtimeName.substring(0, runtimeName.indexOf("@")));
 		// not stop
+		// watch com.bradypod.reflect.jdk.Programmer doCoding -ab
 		Thread thread = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -36,9 +37,9 @@ public class TestAgent {
 				System.out.println("current process：" + runtimeName);
 				System.out.println("current pid：" + pid);
 				while (true) {
-					programmer.doCoding("hello", "moto!");
+					programmer.doCoding("hi", "moto!");
 					try {
-						TimeUnit.SECONDS.sleep(2);
+						TimeUnit.SECONDS.sleep(5);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}

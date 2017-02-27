@@ -12,6 +12,7 @@ import bradypod.framework.agent.core.Enhancer;
 import bradypod.framework.agent.core.IndexArg;
 import bradypod.framework.agent.core.NameArg;
 import bradypod.framework.agent.core.Session;
+import bradypod.framework.agent.core.asm.Printer;
 import bradypod.framework.agent.util.AslanReflectUtil;
 
 @Cmd(name = "watch")
@@ -52,9 +53,9 @@ public class WatchCommand extends Command {
 	public Action action() {
 		return new EnhanceAction() {
 			@Override
-			public Enhancer enhance(Session session, Instrumentation inst) {
-
+			public Enhancer enhance(Session session, Instrumentation inst, Printer printer) {
 				Enhancer enhancer = new Enhancer(classPattern, methodPattern);
+				enhancer.addPrinter(printer);
 				inst.addTransformer(enhancer, true);
 				try {
 					inst.redefineClasses(
