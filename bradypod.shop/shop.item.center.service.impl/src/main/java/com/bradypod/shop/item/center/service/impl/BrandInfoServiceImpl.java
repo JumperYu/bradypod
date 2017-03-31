@@ -7,11 +7,14 @@
 
 package com.bradypod.shop.item.center.service.impl;
 
+import org.springframework.stereotype.Service;
+
 import com.bradypod.common.service.BaseMybatisServiceImpl;
 import com.bradypod.shop.item.center.mapper.BrandInfoMapper;
 import com.bradypod.shop.item.center.po.BrandInfo;
 import com.bradypod.shop.item.center.service.BrandInfoService;
 
+@Service
 public class BrandInfoServiceImpl extends BaseMybatisServiceImpl<BrandInfoMapper, BrandInfo> implements BrandInfoService{
 
 }

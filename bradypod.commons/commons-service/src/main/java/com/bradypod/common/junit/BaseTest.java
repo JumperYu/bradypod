@@ -21,7 +21,7 @@ public class BaseTest {
 	// 1.启动spring工程需要找到对应的xml， 下面是示例
 //	@Before
 	public void initApplicationContext() {
-		System.setProperty("ENV", "release");
+		System.setProperty("ENV", "dev");
 		applicationContext = new ClassPathXmlApplicationContext(
 				"/config/spring/applicationContext-test.xml");
 	}

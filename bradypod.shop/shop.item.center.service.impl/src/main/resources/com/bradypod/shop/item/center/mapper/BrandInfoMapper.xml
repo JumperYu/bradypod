@@ -19,29 +19,21 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	<!-- 用于select查询公用抽取的列 -->
 	<sql id="select_columns">
 	    <![CDATA[
-		id,name,logo_path,order_num,status,create_time,update_time
+		id,name,logo_path
 	    ]]>
 	</sql>
+	
+	<!-- ,order_num,status,create_time,update_time -->
 
 	<!-- useGeneratedKeys="true" keyProperty="xxx" for sqlserver and mysql -->
 	<insert id="save" useGeneratedKeys="true" keyProperty="id">
     <![CDATA[
         INSERT INTO t_brand_info (
-        	id ,
         	name ,
-        	logo_path ,
-        	order_num ,
-        	status ,
-        	create_time ,
-        	update_time 
+        	logo_path
         ) VALUES (
-        	#{id} ,
         	#{name} ,
-        	#{logoPath} ,
-        	#{orderNum} ,
-        	#{status} ,
-        	#{createTime} ,
-        	#{updateTime} 
+        	#{logoPath}
         )
     ]]>
 	</insert>

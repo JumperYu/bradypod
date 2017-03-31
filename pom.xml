@@ -65,6 +65,8 @@
 		<protobuf.version>3.0.0-beta-2</protobuf.version>
 		<javassist.version>3.20.0-GA</javassist.version>
 		<cglib.version>3.2.0</cglib.version>
+		<hbase.version>0.98.24-hadoop1</hbase.version>
+		<hadoop.version>1.2.1</hadoop.version>
 	</properties>
 
 	<dependencyManagement>
@@ -527,6 +529,25 @@
 				<artifactId>jopt-simple</artifactId>
 				<version>4.3</version>
 			</dependency>
+
+			<dependency>
+				<groupId>org.apache.hbase</groupId>
+				<artifactId>hbase-client</artifactId>
+				<version>${hbase.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.hbase</groupId>
+				<artifactId>hbase-server</artifactId>
+				<version>${hbase.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.hadoop</groupId>
+				<artifactId>hadoop-client</artifactId>
+				<version>${hadoop.version}</version>
+			</dependency>
+
 
 			<!-- 有好多冲突 <dependency> <groupId>org.apache.hadoop</groupId> <artifactId>hadoop-core</artifactId> 
 				<version>1.2.1</version> </dependency> -->

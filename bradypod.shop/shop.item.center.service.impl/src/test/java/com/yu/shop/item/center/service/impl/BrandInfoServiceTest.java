@@ -1,7 +1,8 @@
 package com.yu.shop.item.center.service.impl;
 
-import java.util.Date;
+import java.util.UUID;
 
+import org.apache.commons.lang.time.StopWatch;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,6 +10,8 @@ import com.bradypod.common.junit.BaseTest;
 import com.bradypod.common.po.GenericQueryParam;
 import com.bradypod.shop.item.center.mapper.BrandInfoMapper;
 import com.bradypod.shop.item.center.po.BrandInfo;
+import com.bradypod.util.thread.ThreadPool;
+import com.bradypod.util.thread.ThreadWorker;
 
 public class BrandInfoServiceTest extends BaseTest {
 
@@ -16,6 +19,7 @@ public class BrandInfoServiceTest extends BaseTest {
 
 	@Before
 	public void getBean() {
+		initApplicationContext();
 		mapper = applicationContext.getBean(BrandInfoMapper.class);
 	}
 
@@ -23,7 +27,7 @@ public class BrandInfoServiceTest extends BaseTest {
 	public void testGet() {
 		BrandInfo brandInfo = new BrandInfo();
 		brandInfo.setId(1L);
-		log.info(mapper.get(brandInfo).toString());
+		System.out.println(mapper.get(brandInfo));
 	}
 
 	@Test
@@ -37,19 +41,37 @@ public class BrandInfoServiceTest extends BaseTest {
 	}
 
 	@Test
-	public void testSave() {
-		BrandInfo brandInfo = new BrandInfo();
-		brandInfo.setId(2L);
-		brandInfo.setCreateTime(new Date());
-		brandInfo.setName("豪斯特");
-		brandInfo.setLogoPath("1.jpg");
-		brandInfo.setOrderNum(1);
-		brandInfo.setStatus(1);
-		mapper.save(brandInfo);
+	public void testSave() throws InterruptedException {
+		int count = 1000000;
+		int thread = 100;
+		int page = 10000;
+		StopWatch stopWatch = new StopWatch();
+		stopWatch.start();
+		ThreadPool threaPool = new ThreadPool(thread);
+		threaPool.executeThread(new ThreadWorker() {
+			
+			@Override
+			public void execute() {
+				for (int i = 0; i < page; i++) {
+					BrandInfo brandInfo = new BrandInfo();
+					brandInfo.setName(UUID.randomUUID().toString().replaceAll("-", ""));
+					brandInfo.setLogoPath(UUID.randomUUID().toString().replaceAll("-", ""));
+					mapper.save(brandInfo);
+				}
+			}
+		});
+		
+		
+		stopWatch.stop();
+		System.out.println(stopWatch.getTime()  + "  " + count / stopWatch.getTime());
+		
+		while(true) {
+			
+		}
 	}
-	
+
 	@Test
-	public void testGetAll(){
+	public void testGetAll() {
 		GenericQueryParam genericQueryParam = new GenericQueryParam(0, 15);
 		genericQueryParam.setSortKey("id desc");
 		log.info(mapper.listData(genericQueryParam).toString());
