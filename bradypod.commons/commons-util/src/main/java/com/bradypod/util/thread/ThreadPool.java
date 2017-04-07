@@ -60,7 +60,9 @@ public class ThreadPool {
 							.println("---------------- Pool did not terminate --------------------");
 				}
 			}
+			System.out.println("pool done");
 		} catch (InterruptedException e) {
+			e.printStackTrace();
 			// ignore message
 			// (Re-)Cancel if current thread also interrupted
 			pool.shutdownNow();

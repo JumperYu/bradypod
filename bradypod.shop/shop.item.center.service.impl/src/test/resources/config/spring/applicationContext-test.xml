@@ -46,7 +46,8 @@
 		init-method="init" destroy-method="close">
 		<!-- 基本属性 url、user、password -->
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/test" />
+		<!-- <property name="url" value="jdbc:mysql://172.18.80.56:3306/seewo_testcase" /> -->
+		<property name="url" value="jdbc:mysql://127.0.0.1:3306/test" />
 		<property name="username" value="root" />
 		<property name="password" value="qwerty" />
 
