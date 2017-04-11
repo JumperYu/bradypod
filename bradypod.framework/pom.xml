@@ -45,5 +45,7 @@
 		<module>framework.reflect</module>
 		<module>framework.config</module>
 		<module>bradypod.framework.client</module>
+		<module>bradypod.hbase</module>
+		<module>bradypod.rocketmq</module>
 	</modules>
 </project>

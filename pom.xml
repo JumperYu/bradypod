@@ -16,7 +16,7 @@
 	</developers>
 
 	<properties>
-		<java-version>1.7</java-version>
+		<java-version>1.8</java-version>
 		<org.springframework-version>4.2.1.RELEASE</org.springframework-version>
 		<org.springframework.data.version>1.6.0.RELEASE</org.springframework.data.version>
 		<org.quartz-scheduler.version>2.2.1</org.quartz-scheduler.version>
@@ -36,7 +36,7 @@
 		<commons-beanutils.version>1.9.2</commons-beanutils.version>
 		<commons-csv.version>1.2</commons-csv.version>
 		<freemarker.version>2.3.20</freemarker.version>
-		<guava.version>19.0</guava.version>
+		<guava.version>12.0.1</guava.version>
 		<spymemcached.version>2.11.5</spymemcached.version>
 		<mysql-connector-java.version>5.1.30</mysql-connector-java.version>
 		<h2.version>1.4.189</h2.version>
@@ -62,10 +62,10 @@
 		<itextpdf.version>5.5.8</itextpdf.version>
 		<itextpdf.asian.version>5.1.1</itextpdf.asian.version>
 		<asm.version>5.0.3</asm.version>
-		<protobuf.version>3.0.0-beta-2</protobuf.version>
+		<protobuf.version>2.5.0</protobuf.version>
 		<javassist.version>3.20.0-GA</javassist.version>
 		<cglib.version>3.2.0</cglib.version>
-		<hbase.version>0.98.24-hadoop1</hbase.version>
+		<hbase.version>1.2.5</hbase.version>
 		<hadoop.version>1.2.1</hadoop.version>
 	</properties>
 
