@@ -7,6 +7,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>bradypod.rocketmq</artifactId>
+	<packaging>war</packaging>
 
 	<properties>
 		<!-- 主要依赖库的版本定义 -->
