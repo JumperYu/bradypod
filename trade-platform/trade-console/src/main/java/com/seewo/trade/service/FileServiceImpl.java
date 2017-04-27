@@ -11,9 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.commons.SayInterface;
 import com.seewo.trade.bean.JarRecord;
 import com.seewo.trade.commons.DB;
 import com.seewo.trade.utils.IdGeneration;
+import com.wjx.loader.PluginClassLoader;
+import com.wjx.loader.PluginManager;
 
 @Service
 public class FileServiceImpl implements FileService{
@@ -21,7 +24,7 @@ public class FileServiceImpl implements FileService{
 	private DB db;
 	
 	@Override
-	public void upload(MultipartFile file, String name, HttpServletRequest request) {
+	public void upload(MultipartFile file, String name,String packagePath, HttpServletRequest request) {
 		String path = "upload/" + System.currentTimeMillis()+"/"+file.getOriginalFilename();
 		String savePath=request.getServletContext().getRealPath("/")+path;
 		
@@ -44,13 +47,20 @@ public class FileServiceImpl implements FileService{
 			}
 		}
 		
+		PluginManager pluginManager = PluginManager.getMgr();
+		PluginClassLoader cl = pluginManager.addExternalJar(savePath.substring(0,savePath.lastIndexOf("/")));
+		
 		//add record
 		JarRecord record=new JarRecord();
 		record.setId(IdGeneration.getId());
 		record.setName(name);
-		record.setPath(savePath);
+		record.setPath(packagePath);
+		record.setPluginClassLoader(cl);
 		
 		db.jarMap.put(record.getId(), record);
+		
+		SayInterface s1 = pluginManager.getPlugin(packagePath, SayInterface.class,cl);
+		s1.say();
 	}
-
+	
 }

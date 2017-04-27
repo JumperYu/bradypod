@@ -10,6 +10,7 @@
 		<form action="file/upload" method="POST" enctype="multipart/form-data">
 			<input type="file" name="file">
 			name:<input type="text" name="name">
+			path:<input type="text" name="packagePath">
 			<input type="submit">
 		</form>
 </body>
