@@ -25,7 +25,6 @@ public class PluginManagerModule implements Module {
 
 	@Override
 	public void start() {
-		System.out.println("锟斤拷锟侥ｏ拷锟斤拷锟斤拷锟斤拷锟�");
 		pluginDir = new File("plugins");
 		monitor = new Monitor();
 		executor = new ScheduledThreadPoolExecutor(1);

@@ -74,7 +74,4 @@ public class Modules {
 		}, 0, 5, TimeUnit.SECONDS);
 	}
 
-	public <T> T getInstance(Class<T> clazz) {
-		return getInjector().getInstance(clazz);
-	}
 }
