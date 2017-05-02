@@ -92,6 +92,7 @@ public class ItemManagerModule implements Module {
 					String name = element.getName();
 					if (name.contains(".class")) {
 						System.out.println(name);
+						System.out.println(name.replaceAll("/", ".").replace(".class", ""));
 						Class<?> instance = loader.loadClass(name.replaceAll("/", ".").replace(".class", ""));
 						for (Class<?> clazz : instances.keySet()) {
 							if (clazz.isAssignableFrom(instance)) {
