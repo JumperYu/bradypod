@@ -22,14 +22,22 @@ public class OrderHandler {
 		Order order = new Order();
 		order.setItemId(itemId);
 		order.setNum(num);
-		order.setPrice(item.getPrice() * num);
+		order.setAmount(item.getPrice() * num);
+		order.setPrice(item.getPrice());
 		order.setTitle(item.getTitle());
 		
 		return order;
+	}
+	
+	public void confirmOrder(Long orderId) {
+		
 	}
 	
 	public void setModules(Modules modules) {
 		this.modules = modules;
 	}
 	
+	public void setItemQueryService(ItemQueryService itemQueryService) {
+		this.itemQueryService = itemQueryService;
+	}
 }

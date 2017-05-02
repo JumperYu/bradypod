@@ -6,7 +6,7 @@ public class ItemQueryService {
 	
 	
 	public Item queryItemById(Long itemId) {
-		return null;
+		return new Item(123L, "12313", 1231, 12, "1001");
 	}
 	
 }

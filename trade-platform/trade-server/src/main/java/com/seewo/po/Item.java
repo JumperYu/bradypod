@@ -52,12 +52,13 @@ public class Item {
 		this.feature = feature;
 	}
 
-	public Item(Long itemId, String title, Integer price, Integer num) {
+	public Item(Long itemId, String title, Integer price, Integer num, String feature) {
 		super();
 		this.itemId = itemId;
 		this.title = title;
 		this.price = price;
 		this.num = num;
+		this.feature = feature;
 	}
 
 }

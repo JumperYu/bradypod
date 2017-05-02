@@ -27,7 +27,7 @@ public class ItemManagerModule implements Module {
 	private List<File> plugins = new ArrayList<File>();
 
 	private Map<Class<?>, Map<String, Class<?>>> instances = new HashMap<>();
-	
+
 	private ScheduledExecutorService executor = null;
 
 	@Override
@@ -37,12 +37,16 @@ public class ItemManagerModule implements Module {
 	@Override
 	public void start() {
 		pluginDir = new File("plugins");
+		
+		instances.put(ReduceInventoryService.class, null);
+		instances.put(ItemQueryService.class, null);
+		
+		loadPlugin();
+		
 		monitor = new Monitor();
 		executor = new ScheduledThreadPoolExecutor(1);
 		executor.scheduleWithFixedDelay(monitor, 0, 1, TimeUnit.SECONDS);
 
-		instances.put(ReduceInventoryService.class, null);
-		instances.put(ItemQueryService.class, null);
 	}
 
 	@Override
@@ -54,61 +58,65 @@ public class ItemManagerModule implements Module {
 
 		@Override
 		public void run() {
-			File[] listFiles = pluginDir.listFiles(new FileFilter() {
-				@Override
-				public boolean accept(File pathname) {
-					return pathname.isDirectory();
-				}
-			});
-			for (int i = 0; i < listFiles.length; i++) {
-				File pluginFile = listFiles[i];
-				if (plugins.contains(pluginFile)) {
-					continue;
-				}
-				try {
-					Properties prop = new Properties();
-					prop.load(new FileInputStream(new File(pluginFile, "conf.properties")));
-					String feature = (String) prop.get("feature");
+			loadPlugin();
+		}
 
-					ModuleClassLoader loader = new ModuleClassLoader();
-					loader.addDirectory(new File(pluginFile, "plugin.jar"));
+	}
 
-					JarFile jarFile = new JarFile(new File(pluginFile, "plugin.jar"));
-					Enumeration<JarEntry> entries = jarFile.entries();
-					while (entries.hasMoreElements()) {
-						JarEntry element = (JarEntry) entries.nextElement();
-						String name = element.getName();
-						if (name.contains(".class")) {
-							System.out.println(name);
-							Class<?> instance = loader.loadClass(name.replaceAll("/", ".").replace(".class", ""));
-							for (Class<?> clazz : instances.keySet()) {
-								if (clazz.isAssignableFrom(instance)) {
-									Map<String, Class<?>> featureInstance = instances.get(clazz);
-									if (featureInstance == null) {
-										featureInstance = new HashMap<>();
-									}
-									featureInstance.put(feature, instance);
-									instances.put(clazz, featureInstance);
+	public void loadPlugin() {
+		File[] listFiles = pluginDir.listFiles(new FileFilter() {
+			@Override
+			public boolean accept(File pathname) {
+				return pathname.isDirectory();
+			}
+		});
+		for (int i = 0; i < listFiles.length; i++) {
+			File pluginFile = listFiles[i];
+			if (plugins.contains(pluginFile)) {
+				continue;
+			}
+			try {
+				Properties prop = new Properties();
+				prop.load(new FileInputStream(new File(pluginFile, "conf.properties")));
+				String feature = (String) prop.get("feature");
+
+				ModuleClassLoader loader = new ModuleClassLoader();
+				loader.addDirectory(new File(pluginFile, "plugin.jar"));
+
+				JarFile jarFile = new JarFile(new File(pluginFile, "plugin.jar"));
+				Enumeration<JarEntry> entries = jarFile.entries();
+				while (entries.hasMoreElements()) {
+					JarEntry element = (JarEntry) entries.nextElement();
+					String name = element.getName();
+					if (name.contains(".class")) {
+						System.out.println(name);
+						Class<?> instance = loader.loadClass(name.replaceAll("/", ".").replace(".class", ""));
+						for (Class<?> clazz : instances.keySet()) {
+							if (clazz.isAssignableFrom(instance)) {
+								Map<String, Class<?>> featureInstance = instances.get(clazz);
+								if (featureInstance == null) {
+									featureInstance = new HashMap<>();
 								}
+								featureInstance.put(feature, instance);
+								instances.put(clazz, featureInstance);
 							}
 						}
 					}
-
-					jarFile.close();
-					loader.close();
-
-					// Plugin plugin = (Plugin)
-					// loader.loadClass(prop.getProperty("pluginClass")).newInstance();
-					// plugin.start();
-					plugins.add(pluginFile);
-					// loader.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-					System.out.println("出错了 " + pluginFile);
 				}
+
+				jarFile.close();
+				loader.close();
+
+				// Plugin plugin = (Plugin)
+				// loader.loadClass(prop.getProperty("pluginClass")).newInstance();
+				// plugin.start();
+				plugins.add(pluginFile);
+				// loader.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("出错了 " + pluginFile);
 			}
 		}
-
 	}
 
 	// ReduceInventoryService
@@ -116,7 +124,7 @@ public class ItemManagerModule implements Module {
 	public <T> T getInstance(String feature, Class<T> clazz) {
 		T t = null;
 		try {
-			
+
 			Map<String, Class<?>> featureInstasnce = instances.get(clazz);
 			if (featureInstasnce != null) {
 				Class<?> instance = featureInstasnce.get(feature);
