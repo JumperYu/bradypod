@@ -1,6 +1,5 @@
 package com.seewo.trade.controller;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
