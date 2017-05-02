@@ -10,7 +10,7 @@
 	<packaging>war</packaging>
 
 	<properties>
-		<java.ver>1.8</java.ver>
+		<java.ver>1.7</java.ver>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.ver>4.2.5.RELEASE</spring.ver>
 		<aspectj.ver>1.8.6</aspectj.ver>
@@ -20,11 +20,11 @@
 
 	<dependencies>
 
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.wjx</groupId>
 			<artifactId>dynamic_loader</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
