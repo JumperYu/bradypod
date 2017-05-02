@@ -7,6 +7,8 @@ public class Order {
 	private Integer num;
 	
 	private Integer price;
+	
+	private String title;
 
 	public Long getItemId() {
 		return itemId;
@@ -32,5 +34,11 @@ public class Order {
 		this.price = price;
 	}
 	
+	public void setTitle(String title) {
+		this.title = title;
+	}
 	
+	public String getTitle() {
+		return title;
+	}
 }

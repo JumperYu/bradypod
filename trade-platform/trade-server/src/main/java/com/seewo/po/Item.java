@@ -6,9 +6,11 @@ public class Item {
 
 	private String title;
 
-	private Long price;
+	private Integer price;
 
 	private Integer num;
+	
+	private String feature;
 
 	public Long getItemId() {
 		return itemId;
@@ -26,11 +28,11 @@ public class Item {
 		this.title = title;
 	}
 
-	public Long getPrice() {
+	public Integer getPrice() {
 		return price;
 	}
 
-	public void setPrice(Long price) {
+	public void setPrice(Integer price) {
 		this.price = price;
 	}
 
@@ -41,5 +43,12 @@ public class Item {
 	public void setNum(Integer num) {
 		this.num = num;
 	}
-
+	
+	public String getFeature() {
+		return feature;
+	}
+	
+	public void setFeature(String feature) {
+		this.feature = feature;
+	}
 }

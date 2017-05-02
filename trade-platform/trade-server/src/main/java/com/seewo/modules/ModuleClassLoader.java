@@ -1,4 +1,4 @@
-package com.seewo.demo;
+package com.seewo.modules;
 
 import java.io.File;
 import java.net.JarURLConnection;
@@ -7,9 +7,9 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.net.URLConnection;
 
-public class PluginClassLoader extends URLClassLoader {
+public class ModuleClassLoader extends URLClassLoader {
 
-	public PluginClassLoader() {
+	public ModuleClassLoader() {
 		super(new URL[] {}, findParentClassLoader());
 	}
 

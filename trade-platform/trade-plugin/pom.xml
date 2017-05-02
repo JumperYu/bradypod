@@ -15,4 +15,8 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
+	
+	<build>
+		<finalName>plugin</finalName>
+	</build>
 </project>
