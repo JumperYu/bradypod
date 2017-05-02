@@ -77,15 +77,4 @@ public class Modules {
 	public <T> T getInstance(Class<T> clazz) {
 		return getInjector().getInstance(clazz);
 	}
-	
-	Injector injector;
-	
-	public Injector getInjector() {
-		if (injector == null) {
-			ItemModule itemModule = new ItemModule(null);
-			
-			// injector = Guice.createInjector(modules.values());
-		}
-		return injector;
-	}
 }

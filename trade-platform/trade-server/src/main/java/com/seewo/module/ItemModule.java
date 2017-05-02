@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.google.inject.AbstractModule;
+import com.seewo.module.Module;
 import com.seewo.po.Settings;
 import com.seewo.service.ItemQueryService;
 import com.seewo.service.impl.ItemQueryServiceImpl;
