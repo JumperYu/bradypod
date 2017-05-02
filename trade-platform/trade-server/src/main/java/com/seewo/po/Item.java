@@ -51,4 +51,13 @@ public class Item {
 	public void setFeature(String feature) {
 		this.feature = feature;
 	}
+
+	public Item(Long itemId, String title, Integer price, Integer num) {
+		super();
+		this.itemId = itemId;
+		this.title = title;
+		this.price = price;
+		this.num = num;
+	}
+
 }
