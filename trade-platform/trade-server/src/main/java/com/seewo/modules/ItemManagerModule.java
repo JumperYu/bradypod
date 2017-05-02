@@ -29,6 +29,8 @@ public class ItemManagerModule implements Module {
 	private Map<Class<?>, Map<String, Class<?>>> instances = new HashMap<>();
 
 	private ScheduledExecutorService executor = null;
+	
+	public static final String path="/Users/cvter/plugins";
 
 	@Override
 	public void destroy() {
@@ -36,7 +38,7 @@ public class ItemManagerModule implements Module {
 
 	@Override
 	public void start() {
-		pluginDir = new File("plugins");
+		pluginDir = new File(path);
 		
 		instances.put(ReduceInventoryService.class, null);
 		instances.put(ItemQueryService.class, null);

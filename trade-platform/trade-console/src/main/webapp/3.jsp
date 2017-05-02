@@ -1129,10 +1129,10 @@
                             <td id="itemId">
                                 ${resp.title}
                             </td>
-                            <td id="itemTitle">￥ ${resp.itemPrice}</td>
+                            <td id="itemTitle">￥ ${resp.price}</td>
                             <td id="itemDate">${resp.num}</td>
-                            <td id="itemD">￥ ${resp.price}</td>
-                            <td >${resp.msg}</td>
+                            <td id="itemD">￥ ${resp.amount}</td>
+                            <td ></td>
                         </tr>
 
                         </tbody>
