@@ -42,4 +42,12 @@ public class Item {
 		this.num = num;
 	}
 
+	public Item(Long itemId, String title, Long price, Integer num) {
+		super();
+		this.itemId = itemId;
+		this.title = title;
+		this.price = price;
+		this.num = num;
+	}
+
 }

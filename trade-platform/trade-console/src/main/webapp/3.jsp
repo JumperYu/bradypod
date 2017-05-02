@@ -1,7 +1,8 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-    <title>开发样例</title>
+    <title>订单</title>
     <meta name="renderer" content="webkit">
     <meta charset="UTF-8">
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
@@ -1098,30 +1099,6 @@
 <div class="container-fluid" style="display: block;">
     <div class="row-fluid">
         <div class="span12">
-            <h3>
-                ç¡®è®¤æ”¶è´§åœ°å€
-            </h3>
-            <div class="btn-group">
-                <button class="btn">ä¸œèŽžå¸‚èŽžåŸŽ11101110å·</button> <button data-toggle="dropdown" class="btn dropdown-toggle"><span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a>ä¸œèŽžå¸‚è°¢å²—é•‡1æ†1å·</a>
-                    </li>
-                    <li>
-                        <a>ä¸œèŽžå¸‚æ¨Ÿæœ¨å¤´é•‡1æ†1å·</a>
-                    </li>
-                    <li>
-                        <a>ä¸œèŽžå¸‚åŽšè¡—é•‡1909å·</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="row-fluid">
-        <div class="span12">
-            <h3>
-                ç¡®å®šè®¢å•ä¿¡æ¯
-            </h3>
             <div class="row-fluid">
                 <div class="span2">
                     <img id="url" alt="140x140" src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1493286219740&amp;di=7b60ec6c434cbf55ea7bb65c7387d6a0&amp;imgtype=0&amp;src=http%3A%2F%2Fimg2.niushe.com%2Fupload%2F201304%2F19%2F14-22-31-71-26144.jpg">
@@ -1131,37 +1108,38 @@
                         <thead>
                         <tr>
                             <th>
-                                ç¼–å·
+                                名称
                             </th>
                             <th>
-                                äº§å“åç§°
+                                原价
                             </th>
                             <th>
-                                ä¸‹å•æ—¶é—´
+                                数量
                             </th>
                             <th>
-                                çŠ¶æ€
+                                总价
+                            </th>
+                            <th>
+                                物流
                             </th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
                             <td id="itemId">
-                                1
+                                ${resp.title}
                             </td>
-                            <td id="itemTitle">Life is short,I need python</td>
-                            <td id="itemDate">Tue May 02 2017 18:21:42 GMT+0800 (CST)</td>
-                            <td id="itemD">
-                                Default
-                            </td>
+                            <td id="itemTitle">￥ ${resp.itemPrice}</td>
+                            <td id="itemDate">${resp.num}</td>
+                            <td id="itemD">￥ ${resp.price}</td>
+                            <td >${resp.msg}</td>
                         </tr>
 
                         </tbody>
                     </table>
                 </div>
                 <div class="span4">
-                    <p id="info">phpæ˜¯ä¸–ç•Œä¸Šæœ€å¥½çš„è¯­è¨€,phpæ˜¯ä¸–ç•Œä¸Šæœ€å¥½çš„è¯­è¨€,phpæ˜¯ä¸–ç•Œä¸Šæœ€å¥½çš„è¯­è¨€,phpæ˜¯ä¸–ç•Œä¸Šæœ€å¥½çš„è¯­è¨€</p>
-                    <button id="submit2" class="btn btn-large btn-block btn-danger" type="button">ç¡®è®¤è®¢å•</button>
+                    <button id="submit2" class="btn btn-large btn-block btn-danger" type="button">确认下单</button>
                 </div>
             </div>
         </div>

@@ -35,6 +35,6 @@
 		<property name="defaultEncoding" value="UTF-8" />
 	</bean>
 
-	<mvc:resources location="/resources/upload/" mapping="/resources/upload/**"></mvc:resources>
+	<mvc:resources location="/" mapping="/**"></mvc:resources>
 
 </beans>

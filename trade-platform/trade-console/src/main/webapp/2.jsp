@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -1101,7 +1102,7 @@
             <div class="row-fluid">
                 <div class="span12">
                     <div class="page-header">
-                        <h1 id="title">Life is short,I need python</h1>
+                        <h1 id="title">${resp.title}</h1>
                     </div>
                 </div>
             </div>
@@ -1110,17 +1111,19 @@
                     <img id="url" lt="140x140" src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1493286219740&amp;di=7b60ec6c434cbf55ea7bb65c7387d6a0&amp;imgtype=0&amp;src=http%3A%2F%2Fimg2.niushe.com%2Fupload%2F201304%2F19%2F14-22-31-71-26144.jpg"></img>
                 </div>
                 <div class="span6">
-                    <p id="info" class="lead">phpæ˜¯ä¸–ç•Œä¸Šæœ€å¥½çš„è¯­è¨€,phpæ˜¯ä¸–ç•Œä¸Šæœ€å¥½çš„è¯­è¨€,phpæ˜¯ä¸–ç•Œä¸Šæœ€å¥½çš„è¯­è¨€,phpæ˜¯ä¸–ç•Œä¸Šæœ€å¥½çš„è¯­è¨€</p>
+                    <p id="info" class="lead">价格：${resp.price}</p>
+                    <p id="info" class="lead">库存：${resp.num}</p>
                 </div>
             </div>
-            <form style="text-align: center" class="form-inline">
+            <form style="text-align: center" class="form-inline" action="order/item/${resp.itemId}" method="POST">
                 <fieldset>
-                    <label>æ•°é‡:</label><input name="num" type="text">
-                    <button id="submit" type="submit" class="btn">æäº¤</button>
+                    <label>数量: </label><input name="num" id="num" type="text">
+                    <button id="subBtn" type="submit" class="btn">提交</button>
                 </fieldset>
             </form>
         </div>
     </div>
 </div>
 </body>
+
 </html>
