@@ -49,7 +49,9 @@ public class TradeController {
 	
 	@RequestMapping(value = "/order/item/{id}",method=RequestMethod.POST)
 	public String addOrder(@PathVariable Long id,@RequestParam int num, ModelMap model){
+		
 		model.addAttribute("resp",orderHandler.createOrder(id, num));
+		
 		return "3";
 	}
 }

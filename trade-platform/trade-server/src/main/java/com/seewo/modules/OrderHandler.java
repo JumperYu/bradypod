@@ -13,7 +13,7 @@ public class OrderHandler {
 	
 	private Modules modules;
 	
-	public Order createOrder(Long itemId, Integer num) {
+	public Result<Order> createOrder(Long itemId, Integer num) {
 		
 		// 查询商品
 		Item item = itemQueryService.queryItemById(itemId);
@@ -24,9 +24,12 @@ public class OrderHandler {
 		ReduceInventoryService reduceInventoryService = modules.getItemManagerModule().getInstance(feature, ReduceInventoryService.class);
 		Result<Boolean> reduceInvResult = reduceInventoryService.reduceInventory(itemId, num);
 		
+		
+		Result<Order> orderResult = new Result<>();
+		
 		Order order = new Order();
 		
-		if (reduceInvResult.getData()) {
+		if (reduceInvResult.isSuccess()) {
 			// 创建订单
 			order.setItemId(itemId);
 			order.setNum(num);
@@ -44,10 +47,14 @@ public class OrderHandler {
 			
 			// 合计
 			// ...
+			orderResult.setSuccess(true);
+		} else {
+			orderResult.setMessage(reduceInvResult.getMessage());
+			orderResult.setSuccess(false);
 		}
 		
 		
-		return order;
+		return orderResult;
 	}
 	
 	public void confirmOrder(Long orderId) {

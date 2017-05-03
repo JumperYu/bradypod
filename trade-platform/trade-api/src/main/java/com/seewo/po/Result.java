@@ -4,6 +4,8 @@ public class Result<T> {
 
 	private String message;
 
+	private boolean success;
+
 	private T data;
 
 	public void setData(T data) {
@@ -20,6 +22,14 @@ public class Result<T> {
 
 	public String getMessage() {
 		return message;
+	}
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.seewo.modules;
 
 import com.seewo.po.Order;
+import com.seewo.po.Result;
 
 public class ServerStarter {
 	public static void main(String[] args) throws InterruptedException, InstantiationException, IllegalAccessException {
@@ -11,8 +12,8 @@ public class ServerStarter {
 		orderHandler.setItemQueryService(itemQueryService);
 		orderHandler.setModules(modules);
 		
-		Order order = orderHandler.createOrder(123L, 1);
+		Result<Order> result = orderHandler.createOrder(123L, 1);
 		
-		System.out.println(order);
+		System.out.println(result);
 	}
 }
