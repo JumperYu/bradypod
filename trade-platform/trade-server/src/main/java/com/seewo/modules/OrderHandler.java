@@ -33,7 +33,7 @@ public class OrderHandler {
 		Result<Order> orderResult = new Result<>();
 
 		Order order = new Order();
-
+		
 		if (reduceInvResult.isSuccess()) {
 			// 创建订单
 			order.setOrderId(System.currentTimeMillis());
