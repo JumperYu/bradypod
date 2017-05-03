@@ -27,10 +27,11 @@ public class FileServiceImpl implements FileService {
 		
 		if (pathMap.containsKey(feature.concat(module))){
 			parentDir=pathMap.get(feature.concat(module));
-			resp.setMessage("该活动模块对应jar包之前已存在，本次上传已覆盖之前jar包");
+			resp.setMessage("上传成功，该活动模块对应jar包之前已存在，本次上传已覆盖之前jar包");
 		}else{
 			parentDir = String.valueOf(System.currentTimeMillis());
 			pathMap.put(feature.concat(module), parentDir);
+			resp.setMessage("上传成功");
 		}
 		
 		String jarPath = ItemManagerModule.PATH + "/" + parentDir + "/" + ItemManagerModule.MODULE_NAME;

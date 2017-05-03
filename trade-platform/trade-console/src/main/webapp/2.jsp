@@ -1092,6 +1092,11 @@
             width: 100%;
             height: 100%;
         }
+        .span4{
+        	margin-left:15px !important;
+        	margin-right:15px !important;
+        	
+        }
     </style>
 </head>
 <body>

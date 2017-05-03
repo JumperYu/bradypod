@@ -25,7 +25,7 @@ public class FileController {
 	@RequestMapping(value = "/upload",method=RequestMethod.POST)
 	public ResultEntity uploadPic(MultipartFile file,@RequestParam String feature,@RequestParam String module) throws Exception{
 		ResultEntity res = new ResultEntity();
-		fileSrv.upload(file, feature,module);
+		res=fileSrv.upload(file, feature,module);
 		return res;
 	}
 }
