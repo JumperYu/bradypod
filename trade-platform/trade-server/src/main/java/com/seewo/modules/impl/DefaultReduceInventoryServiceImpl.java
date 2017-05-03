@@ -10,6 +10,7 @@ public class DefaultReduceInventoryServiceImpl implements ReduceInventoryService
 		System.out.println("default reduce");
 		Result<Boolean> result = new Result<Boolean>();
 		result.setData(true);
+		result.setSuccess(true);
 		return result;
 	}
 

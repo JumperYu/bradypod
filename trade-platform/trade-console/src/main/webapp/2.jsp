@@ -269,11 +269,14 @@
 
 	$('form').submit(function(){
 		$.post($(this).attr('action'),$(this).serialize(),function(data){
+			data=JSON.parse(data);
 			if(!data.success){
 				$('#myAlert').show().find('#info').html(data.message);
 				setTimeout(function(){
 					$('#myAlert').hide();
 				},3000);
+			}else{
+				location.href='order/'+data.data.orderId
 			}
 		})
 		return false;

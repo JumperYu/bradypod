@@ -1,20 +1,31 @@
 package com.seewo.po;
 
 public class Order {
-
+	private Long orderId;
+	
 	private Long itemId;
 
 	private Integer num;
 
 	private Integer price;
 	
-	private Integer logisticsPrice;
+	private Integer logisticsPrice=0;
 
 	private String title;
 
 	private Integer amount;
 	
 	private Integer height;
+
+	
+	
+	public Long getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
+	}
 
 	public Long getItemId() {
 		return itemId;

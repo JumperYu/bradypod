@@ -58,4 +58,10 @@ public class TradeController {
 			e.printStackTrace();
 		}
 	}
+	
+	@RequestMapping(value = "/order/{id}",method=RequestMethod.GET)
+	public String getOrderDetail(@PathVariable Long id , ModelMap model){
+		model.addAttribute("resp",orderHandler.queryById(id));
+		return "3";
+	}
 }

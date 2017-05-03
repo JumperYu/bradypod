@@ -1,5 +1,8 @@
 package com.seewo.modules;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.seewo.modules.api.DiscountService;
 import com.seewo.modules.api.LogisticsService;
 import com.seewo.modules.api.ReduceInventoryService;
@@ -8,6 +11,8 @@ import com.seewo.po.Order;
 import com.seewo.po.Result;
 
 public class OrderHandler {
+	
+	private Map<Long,Order> orderMap=new HashMap<>();
 	
 	private ItemQueryService itemQueryService;
 	
@@ -31,6 +36,7 @@ public class OrderHandler {
 		
 		if (reduceInvResult.isSuccess()) {
 			// 创建订单
+			order.setOrderId(System.currentTimeMillis());
 			order.setItemId(itemId);
 			order.setNum(num);
 			order.setAmount(item.getPrice() * num);
@@ -48,6 +54,9 @@ public class OrderHandler {
 			// 合计
 			// ...
 			orderResult.setSuccess(true);
+			orderResult.setData(order);
+			
+			orderMap.put(order.getOrderId(), order);
 		} else {
 			orderResult.setMessage(reduceInvResult.getMessage());
 			orderResult.setSuccess(false);
@@ -68,5 +77,9 @@ public class OrderHandler {
 	
 	public void setItemQueryService(ItemQueryService itemQueryService) {
 		this.itemQueryService = itemQueryService;
+	}
+	
+	public Order queryById(Long id){
+		return orderMap.get(id);
 	}
 }
