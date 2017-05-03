@@ -1134,17 +1134,48 @@
                             <td id="itemD">￥ ${resp.logisticsPrice}</td>
                             <td >￥ ${resp.amount}</td>
                         </tr>
-
                         </tbody>
                     </table>
                 </div>
                 <div class="span4">
                     <button id="submit2" class="btn btn-large btn-block btn-danger" type="button">确认下单</button>
                 </div>
-            </div>
+					<div style="top: 100px; left: 880px; padding-top: 8px;" id="myAlert"
+						class="popover right">
+						<div class="arrow"></div>
+						<div class="popover-content">
+							<p id="info">ddd</p>
+						</div>
+					</div>
+				</div>
         </div>
     </div>
 </div>
 
 </body>
+
+<script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js" ></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+	$('#submit2').click(function(){
+		$.post("confirm/"+${resp.orderId},function(data){
+			data=JSON.parse(data);
+			if(data.success){
+				/* $('#myAlert').show().find('#info').html("购买成功");
+				setTimeout(function(){
+					$('#myAlert').hide();
+				},3000); */
+				window.confirm("购买成功");
+				location.href='../../index.html';
+			}else{
+				$('#myAlert').show().find('#info').html(data.message);
+				setTimeout(function(){
+					$('#myAlert').hide();
+				},3000);
+			}
+		})
+		return false;
+	})
+</script>
 </html>

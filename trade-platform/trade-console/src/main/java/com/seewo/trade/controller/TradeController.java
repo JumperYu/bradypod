@@ -44,7 +44,7 @@ public class TradeController {
 	@RequestMapping(value = "/{id}",method=RequestMethod.GET)
 	public String getItemDetail(@PathVariable Long id,ModelMap model){
 		model.addAttribute("resp",itemQueryService.queryItemById(id));
-		return "2";
+		return "detail";
 	}
 	
 	@RequestMapping(value = "/order/item/{id}",method=RequestMethod.POST)
@@ -59,6 +59,15 @@ public class TradeController {
 	@RequestMapping(value = "/order/{id}",method=RequestMethod.GET)
 	public String getOrderDetail(@PathVariable Long id , ModelMap model){
 		model.addAttribute("resp",orderHandler.queryById(id));
-		return "3";
+		return "order";
+	}
+	
+	@RequestMapping(value = "/order/confirm/{id}",method=RequestMethod.POST)
+	public void addOrder(@PathVariable Long id,HttpServletResponse resp){
+		try {
+			resp.getWriter().write(new ObjectMapper().writeValueAsString(orderHandler.confirmOrder(id)));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

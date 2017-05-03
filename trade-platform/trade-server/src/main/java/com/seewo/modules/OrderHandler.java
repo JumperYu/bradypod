@@ -71,9 +71,10 @@ public class OrderHandler {
 		return orderResult;
 	}
 
-	public void confirmOrder(Long orderId) {
+	public Result<String> confirmOrder(Long orderId) {
+		Order order = orderMap.get(orderId);
 		// 扣库存
-		// itemQueryService.reduceInventory(123, 1);
+		return itemQueryService.reduceInventory(order.getItemId(), order.getNum());
 	}
 
 	public void setModules(Modules modules) {

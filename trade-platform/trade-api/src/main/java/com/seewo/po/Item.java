@@ -92,13 +92,14 @@ public class Item {
 		return witholding;
 	}
 
-	public Item(Long itemId, String title, Integer price, Integer num, String feature) {
+	public Item(Long itemId, String title, Integer price, Integer num, String feature,String url) {
 		super();
 		this.itemId = itemId;
 		this.title = title;
 		this.price = price;
 		this.num = num;
 		this.feature = feature;
+		this.url=url;
 	}
 
 }
