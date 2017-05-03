@@ -15,8 +15,10 @@ public class Item {
 	private String feature; // 特征
 
 	private Integer height; // 重量
-	
+
 	private String url;
+
+	private String witholding; // 预留库存
 
 	public Long getItemId() {
 		return itemId;
@@ -80,6 +82,14 @@ public class Item {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public void setWitholding(String witholding) {
+		this.witholding = witholding;
+	}
+
+	public String getWitholding() {
+		return witholding;
 	}
 
 	public Item(Long itemId, String title, Integer price, Integer num, String feature) {
