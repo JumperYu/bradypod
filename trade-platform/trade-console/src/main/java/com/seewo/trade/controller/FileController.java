@@ -1,10 +1,9 @@
 package com.seewo.trade.controller;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,9 +23,9 @@ public class FileController {
 	private FileService fileSrv;
 	
 	@RequestMapping(value = "/upload",method=RequestMethod.POST)
-	public ResultEntity uploadPic(MultipartFile file,String name,String packagePath,HttpServletRequest request) throws Exception{
+	public ResultEntity uploadPic(MultipartFile file,@RequestParam String feature,@RequestParam String module) throws Exception{
 		ResultEntity res = new ResultEntity();
-		fileSrv.upload(file, name,packagePath,request);
+		fileSrv.upload(file, feature,module);
 		return res;
 	}
 }

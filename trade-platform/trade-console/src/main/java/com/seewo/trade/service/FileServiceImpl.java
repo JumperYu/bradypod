@@ -3,39 +3,36 @@ package com.seewo.trade.service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
-import javax.servlet.http.HttpServletRequest;
+import java.util.Properties;
 
 import org.aspectj.util.FileUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-//import com.commons.SayInterface;
-import com.seewo.trade.bean.JarRecord;
-import com.seewo.trade.commons.DB;
-import com.seewo.trade.utils.IdGeneration;
-//import com.wjx.loader.PluginClassLoader;
-//import com.wjx.loader.PluginManager;
+import com.seewo.modules.ItemManagerModule;
 
 @Service
 public class FileServiceImpl implements FileService{
-	@Autowired
-	private DB db;
-	
 	@Override
-	public void upload(MultipartFile file, String name,String packagePath, HttpServletRequest request) {
-		String path = "upload/" + System.currentTimeMillis()+"/"+file.getOriginalFilename();
-		String savePath=request.getServletContext().getRealPath("/")+path;
+	public void upload(MultipartFile file,String feature,String module) {
+		long currentTimeMillis = System.currentTimeMillis();
+		String jarPath = ItemManagerModule.path+"/" + currentTimeMillis+"/plugin.jar";
+		String propPath = ItemManagerModule.path+"/" + currentTimeMillis+"/conf.properties";
 		
-		if(!(new File(savePath).getParentFile().exists())){
-			new File(savePath).getParentFile().mkdirs();
+		
+		if(!(new File(jarPath).getParentFile().exists())){
+			new File(jarPath).getParentFile().mkdirs();
 		}
 		
-		//保存在服务器
 		FileOutputStream fos=null;
+		
 		try {
-			fos=new FileOutputStream(new File(savePath));
+			Properties pro=new Properties();
+			pro.setProperty("feature", feature);
+			pro.setProperty("module", module);
+			pro.store(new FileOutputStream(propPath), null);
+			
+			fos=new FileOutputStream(new File(jarPath));
 			FileUtil.copyStream(file.getInputStream(), fos);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -46,21 +43,5 @@ public class FileServiceImpl implements FileService{
 				throw new RuntimeException(e);
 			}
 		}
-		
-//		PluginManager pluginManager = PluginManager.getMgr();
-//		PluginClassLoader cl = pluginManager.addExternalJar(savePath.substring(0,savePath.lastIndexOf("/")));
-//		
-//		//add record
-//		JarRecord record=new JarRecord();
-//		record.setId(IdGeneration.getId());
-//		record.setName(name);
-//		record.setPath(packagePath);
-//		record.setPluginClassLoader(cl);
-//		
-//		db.jarMap.put(record.getId(), record);
-//		
-//		SayInterface s1 = pluginManager.getPlugin(packagePath, SayInterface.class,cl);
-//		s1.say();
 	}
-	
 }

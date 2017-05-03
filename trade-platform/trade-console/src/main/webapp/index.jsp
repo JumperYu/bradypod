@@ -8,9 +8,16 @@
 </head>
 <body>
 		<form action="file/upload" method="POST" enctype="multipart/form-data">
-			<input type="file" name="file">
-			name:<input type="text" name="name">
-			path:<input type="text" name="packagePath">
+			<p>特征：<select name="feature">
+				  <option value ="1001">活动1</option>
+				  <option value ="1002">活动2</option>
+				  <option value="1003">活动3</option>
+				</select></p>
+			<p>模块：<select name="module">
+				  <option value ="item1">模块1</option>
+				  <option value ="item1">模块2</option>
+				</select></p>
+			<p>jar文件：<input type="file" name="file"></p>
 			<input type="submit">
 		</form>
 </body>
