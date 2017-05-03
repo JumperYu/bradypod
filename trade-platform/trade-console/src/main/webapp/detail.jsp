@@ -247,7 +247,7 @@
 						<form style="" class="form-inline"
 							action="order/item/${resp.itemId}" method="POST">
 							<fieldset>
-								<label>数量: &nbsp; &nbsp;</label><input style="width:40px;line-height:28px;" name="num" id="num" type="number">
+								<label>数量: &nbsp; &nbsp;</label><input style="width:40px;line-height:28px;" name="num" id="num" type="number" min="1" max="${resp.num}" value="1">
 								<button id="subBtn" type="submit" class="btn btn-primary">提交</button>
 							</fieldset>
 						</form>
