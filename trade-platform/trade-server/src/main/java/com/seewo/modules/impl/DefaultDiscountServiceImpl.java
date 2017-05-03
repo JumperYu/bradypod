@@ -2,13 +2,19 @@ package com.seewo.modules.impl;
 
 import com.seewo.modules.api.DiscountService;
 import com.seewo.po.Order;
+import com.seewo.po.Result;
 
 public class DefaultDiscountServiceImpl implements DiscountService {
 
 	@Override
-	public Order discount(Order order) {
+	public Result<Order> discount(Order order) {
 		System.out.println("default discount");
-		return order;
+		
+		Result<Order> result = new Result<Order>();
+		result.setData(order);
+		result.setSuccess(true);
+		
+		return result;
 	}
 
 }

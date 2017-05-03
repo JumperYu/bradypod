@@ -1,9 +1,10 @@
 package com.seewo.modules.api;
 
 import com.seewo.po.Order;
+import com.seewo.po.Result;
 
 public interface DiscountService {
 		
-	public Order discount(Order order);
+	public Result<Order> discount(Order order);
 	
 }

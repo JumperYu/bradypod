@@ -46,7 +46,11 @@ public class OrderHandler {
 			// 计算优惠
 			DiscountService discountService = modules.getItemManagerModule().getInstance(feature,
 					DiscountService.class);
-			order = discountService.discount(order);
+			
+			Result<Order> discountResult = discountService.discount(order);
+			if (discountResult.isSuccess()) {
+				order = discountResult.getData();
+			}
 
 			// 计算物流
 			LogisticsService logisticsService = modules.getItemManagerModule().getInstance(feature,
