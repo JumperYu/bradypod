@@ -1127,12 +1127,12 @@
                         <tbody>
                         <tr>
                             <td id="itemId">
-                                ${resp.title}
+                                ${resp.data.title}
                             </td>
-                            <td id="itemTitle">￥ ${resp.price}</td>
-                            <td id="itemDate">${resp.num}</td>
-                            <td id="itemD">￥ </td>
-                            <td >￥ ${resp.amount}</td>
+                            <td id="itemTitle">￥ ${resp.data.price}</td>
+                            <td id="itemDate">${resp.data.num}</td>
+                            <td id="itemD">￥ ${resp.data.logisticsPrice}</td>
+                            <td >￥ ${resp.data.amount}</td>
                         </tr>
 
                         </tbody>

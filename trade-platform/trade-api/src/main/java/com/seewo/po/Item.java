@@ -15,6 +15,8 @@ public class Item {
 	private String feature; // 特征
 
 	private Integer height; // 重量
+	
+	private String url;
 
 	public Long getItemId() {
 		return itemId;
@@ -70,6 +72,14 @@ public class Item {
 
 	public void setHeight(Integer height) {
 		this.height = height;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public Item(Long itemId, String title, Integer price, Integer num, String feature) {
