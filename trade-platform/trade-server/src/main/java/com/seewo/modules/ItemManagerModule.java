@@ -15,10 +15,14 @@ import java.util.concurrent.TimeUnit;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import com.google.common.collect.Maps;
 import com.seewo.modules.api.DiscountService;
 import com.seewo.modules.api.ItemQueryService;
 import com.seewo.modules.api.LogisticsService;
 import com.seewo.modules.api.ReduceInventoryService;
+import com.seewo.modules.impl.DefaultDiscountServiceImpl;
+import com.seewo.modules.impl.DefaultLogisticsServiceImpl;
+import com.seewo.modules.impl.DefaultReduceInventoryServiceImpl;
 
 public class ItemManagerModule implements Module {
 
@@ -31,8 +35,12 @@ public class ItemManagerModule implements Module {
 	private Map<Class<?>, Map<String, Class<?>>> instances = new HashMap<>();
 
 	private ScheduledExecutorService executor = null;
-	
-	public static final String path="/data/plugins";
+
+	public static final String PATH = "/data/plugins";
+
+	public static final String MODULE_NAME = "module.jar";
+
+	public static final String CONIFG_NAME = "conf.properties";
 
 	@Override
 	public void destroy() {
@@ -40,15 +48,27 @@ public class ItemManagerModule implements Module {
 
 	@Override
 	public void start() {
-		pluginDir = new File(path);
-		
-		instances.put(ReduceInventoryService.class, null);
+		pluginDir = new File(PATH);
+
 		instances.put(ItemQueryService.class, null);
-		instances.put(DiscountService.class, null);
-		instances.put(LogisticsService.class, null);
 		
+		Map<String, Class<?>> map = Maps.newHashMap();
+		map.put("default", DefaultReduceInventoryServiceImpl.class);
+		
+		instances.put(ReduceInventoryService.class, map);
+		
+		map = Maps.newHashMap();
+		map.put("default", DefaultDiscountServiceImpl.class);
+		
+		instances.put(DiscountService.class, map);
+		
+		map = Maps.newHashMap();
+		map.put("default", DefaultLogisticsServiceImpl.class);
+		
+		instances.put(LogisticsService.class, map);
+
 		loadPlugin();
-		
+
 		monitor = new Monitor();
 		executor = new ScheduledThreadPoolExecutor(1);
 		executor.scheduleWithFixedDelay(monitor, 0, 1, TimeUnit.SECONDS);
@@ -82,13 +102,13 @@ public class ItemManagerModule implements Module {
 			}
 			try {
 				Properties prop = new Properties();
-				prop.load(new FileInputStream(new File(pluginFile, "conf.properties")));
+				prop.load(new FileInputStream(new File(pluginFile, CONIFG_NAME)));
 				String feature = (String) prop.get("feature");
 
 				ModuleClassLoader loader = new ModuleClassLoader();
-				loader.addDirectory(new File(pluginFile, "plugin.jar"));
+				loader.addDirectory(new File(pluginFile, MODULE_NAME));
 
-				JarFile jarFile = new JarFile(new File(pluginFile, "plugin.jar"));
+				JarFile jarFile = new JarFile(new File(pluginFile, MODULE_NAME));
 				Enumeration<JarEntry> entries = jarFile.entries();
 				while (entries.hasMoreElements()) {
 					JarEntry element = (JarEntry) entries.nextElement();
@@ -128,6 +148,9 @@ public class ItemManagerModule implements Module {
 
 			Map<String, Class<?>> featureInstasnce = instances.get(clazz);
 			if (featureInstasnce != null) {
+				if (!featureInstasnce.containsKey(feature)) {
+					feature = "default";
+				}
 				Class<?> instance = featureInstasnce.get(feature);
 				if (instance != null) {
 					t = (T) instance.newInstance();

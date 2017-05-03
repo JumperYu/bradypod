@@ -5,6 +5,7 @@ import com.seewo.modules.api.LogisticsService;
 import com.seewo.modules.api.ReduceInventoryService;
 import com.seewo.po.Item;
 import com.seewo.po.Order;
+import com.seewo.po.Result;
 
 public class OrderHandler {
 	
@@ -21,28 +22,31 @@ public class OrderHandler {
 		
 		// 预扣库存
 		ReduceInventoryService reduceInventoryService = modules.getItemManagerModule().getInstance(feature, ReduceInventoryService.class);
-		reduceInventoryService.reduceInventory(itemId, num);
+		Result<Boolean> reduceInvResult = reduceInventoryService.reduceInventory(itemId, num);
 		
-		// 创建订单
-		Order order = new Order();
-		order.setItemId(itemId);
-		order.setNum(num);
-		order.setAmount(item.getPrice() * num);
-		order.setPrice(item.getPrice());
-		order.setTitle(item.getTitle());
+		if (reduceInvResult.getData()) {
+			// 创建订单
+			Order order = new Order();
+			order.setItemId(itemId);
+			order.setNum(num);
+			order.setAmount(item.getPrice() * num);
+			order.setPrice(item.getPrice());
+			order.setTitle(item.getTitle());
+			
+			// 计算优惠
+			DiscountService discountService = modules.getItemManagerModule().getInstance(feature, DiscountService.class);
+			order = discountService.discount(order);
+			
+			// 计算物流
+			LogisticsService logisticsService = modules.getItemManagerModule().getInstance(feature, LogisticsService.class);
+			order = logisticsService.logisticsCost(order);
+			
+			// 合计
+			// ...
+		}
 		
-		// 计算优惠
-		DiscountService discountService = modules.getItemManagerModule().getInstance(feature, DiscountService.class);
-		order = discountService.discount(order);
 		
-		// 计算物流
-		LogisticsService logisticsService = modules.getItemManagerModule().getInstance(feature, LogisticsService.class);
-		order = logisticsService.logisticsCost(order);
-		
-		// 合计
-		// ...
-		
-		return order;
+		return null;
 	}
 	
 	public void confirmOrder(Long orderId) {

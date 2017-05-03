@@ -6,6 +6,8 @@
 		<artifactId>trade-platform</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+	
+	<packaging>jar</packaging>
 
 	<artifactId>trade-server</artifactId>
 

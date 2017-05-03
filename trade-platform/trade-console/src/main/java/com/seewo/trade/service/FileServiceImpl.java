@@ -12,31 +12,30 @@ import org.springframework.web.multipart.MultipartFile;
 import com.seewo.modules.ItemManagerModule;
 
 @Service
-public class FileServiceImpl implements FileService{
+public class FileServiceImpl implements FileService {
 	@Override
-	public void upload(MultipartFile file,String feature,String module) {
+	public void upload(MultipartFile file, String feature, String module) {
 		long currentTimeMillis = System.currentTimeMillis();
-		String jarPath = ItemManagerModule.path+"/" + currentTimeMillis+"/plugin.jar";
-		String propPath = ItemManagerModule.path+"/" + currentTimeMillis+"/conf.properties";
-		
-		
-		if(!(new File(jarPath).getParentFile().exists())){
+		String jarPath = ItemManagerModule.PATH + "/" + currentTimeMillis + "/" + ItemManagerModule.MODULE_NAME;
+		String propPath = ItemManagerModule.PATH + "/" + currentTimeMillis + "/" + ItemManagerModule.CONIFG_NAME;
+
+		if (!(new File(jarPath).getParentFile().exists())) {
 			new File(jarPath).getParentFile().mkdirs();
 		}
-		
-		FileOutputStream fos=null;
-		
+
+		FileOutputStream fos = null;
+
 		try {
-			Properties pro=new Properties();
+			Properties pro = new Properties();
 			pro.setProperty("feature", feature);
 			pro.setProperty("module", module);
 			pro.store(new FileOutputStream(propPath), null);
-			
-			fos=new FileOutputStream(new File(jarPath));
+
+			fos = new FileOutputStream(new File(jarPath));
 			FileUtil.copyStream(file.getInputStream(), fos);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				fos.close();
 			} catch (IOException e) {
