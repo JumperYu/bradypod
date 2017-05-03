@@ -24,9 +24,10 @@ public class OrderHandler {
 		ReduceInventoryService reduceInventoryService = modules.getItemManagerModule().getInstance(feature, ReduceInventoryService.class);
 		Result<Boolean> reduceInvResult = reduceInventoryService.reduceInventory(itemId, num);
 		
+		Order order = new Order();
+		
 		if (reduceInvResult.getData()) {
 			// 创建订单
-			Order order = new Order();
 			order.setItemId(itemId);
 			order.setNum(num);
 			order.setAmount(item.getPrice() * num);
@@ -46,7 +47,7 @@ public class OrderHandler {
 		}
 		
 		
-		return null;
+		return order;
 	}
 	
 	public void confirmOrder(Long orderId) {

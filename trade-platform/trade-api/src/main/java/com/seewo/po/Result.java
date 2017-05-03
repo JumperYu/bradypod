@@ -22,4 +22,9 @@ public class Result<T> {
 		return message;
 	}
 
+	@Override
+	public String toString() {
+		return "Result [message=" + message + ", data=" + data + "]";
+	}
+
 }
