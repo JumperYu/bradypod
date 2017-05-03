@@ -43,6 +43,7 @@ public class OrderHandler {
 			order.setPrice(item.getPrice());
 			order.setTitle(item.getTitle());
 			order.setUrl(item.getUrl());
+			order.setWeight(order.getNum()*item.getWeight());
 
 			// 计算优惠
 			DiscountService discountService = modules.getItemManagerModule().getInstance(feature,

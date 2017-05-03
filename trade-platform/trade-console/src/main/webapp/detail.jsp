@@ -244,6 +244,7 @@
                 <div style="margin-top:42px;"class="col-md-6">
                     <p id="info" class="lead">价格：${resp.price}</p>
                     <p id="info" class="lead">库存：${resp.num}</p>
+                    <p id="info" class="lead">重量：${resp.weight}</p>
 						<form style="" class="form-inline"
 							action="order/item/${resp.itemId}" method="POST">
 							<fieldset>

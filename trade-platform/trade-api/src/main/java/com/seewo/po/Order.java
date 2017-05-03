@@ -17,7 +17,7 @@ public class Order {
 
 	private Integer amount;
 	
-	private Integer height;
+	private Integer weight;
 
 	
 	
@@ -77,12 +77,12 @@ public class Order {
 		this.logisticsPrice = logisticsPrice;
 	}
 
-	public Integer getHeight() {
-		return height;
+	public Integer getWeight() {
+		return weight;
 	}
 
-	public void setHeight(Integer height) {
-		this.height = height;
+	public void setWeight(Integer weight) {
+		this.weight = weight;
 	}
 
 	public String getUrl() {

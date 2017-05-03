@@ -1117,6 +1117,9 @@
                                 数量
                             </th>
                             <th>
+                                重量
+                            </th>
+                            <th>
                                 物流费
                             </th>
                             <th>
@@ -1131,6 +1134,7 @@
                             </td>
                             <td id="itemTitle">￥ ${resp.price}</td>
                             <td id="itemDate">${resp.num}</td>
+                            <td id="itemDate">${resp.weight}</td>
                             <td id="itemD">￥ ${resp.logisticsPrice}</td>
                             <td >￥ ${resp.amount}</td>
                         </tr>

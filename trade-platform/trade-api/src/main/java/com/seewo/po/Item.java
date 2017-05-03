@@ -14,7 +14,7 @@ public class Item {
 
 	private String feature; // 特征
 
-	private Integer height; // 重量
+	private Integer weight; // 重量
 
 	private String url;
 
@@ -68,12 +68,12 @@ public class Item {
 		this.feature = feature;
 	}
 
-	public Integer getHeight() {
-		return height;
+	public Integer getWeight() {
+		return weight;
 	}
 
-	public void setHeight(Integer height) {
-		this.height = height;
+	public void setWeight(Integer weight) {
+		this.weight = weight;
 	}
 
 	public String getUrl() {
@@ -92,7 +92,7 @@ public class Item {
 		return witholding;
 	}
 
-	public Item(Long itemId, String title, Integer price, Integer num, String feature,String url) {
+	public Item(Long itemId, String title, Integer price, Integer num,Integer weight, String feature,String url) {
 		super();
 		this.itemId = itemId;
 		this.title = title;
@@ -100,6 +100,7 @@ public class Item {
 		this.num = num;
 		this.feature = feature;
 		this.url=url;
+		this.weight=weight;
 	}
 
 }
