@@ -6,20 +6,6 @@
 		<artifactId>trade-platform</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-
-	<artifactId>trade-server</artifactId>
-
-	<dependencies>
-		<dependency>
-			<groupId>com.seewo</groupId>
-			<artifactId>trade-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.inject</groupId>
-			<artifactId>guice</artifactId>
-			<version>4.1.0</version>
-		</dependency>
-	</dependencies>
-
+	<artifactId>trade-api</artifactId>
+	
 </project>

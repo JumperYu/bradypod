@@ -10,6 +10,7 @@
 		<module>trade-console</module>
 		<module>trade-server</module>
 		<module>trade-plugin</module>
+		<module>trade-api</module>
 	</modules>
 
 	<properties>

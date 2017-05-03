@@ -15,7 +15,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import com.seewo.modules.api.DiscountService;
 import com.seewo.modules.api.ItemQueryService;
+import com.seewo.modules.api.LogisticsService;
 import com.seewo.modules.api.ReduceInventoryService;
 
 public class ItemManagerModule implements Module {
@@ -42,13 +44,14 @@ public class ItemManagerModule implements Module {
 		
 		instances.put(ReduceInventoryService.class, null);
 		instances.put(ItemQueryService.class, null);
+		instances.put(DiscountService.class, null);
+		instances.put(LogisticsService.class, null);
 		
 		loadPlugin();
 		
 		monitor = new Monitor();
 		executor = new ScheduledThreadPoolExecutor(1);
 		executor.scheduleWithFixedDelay(monitor, 0, 1, TimeUnit.SECONDS);
-
 	}
 
 	@Override
@@ -109,12 +112,7 @@ public class ItemManagerModule implements Module {
 
 				jarFile.close();
 				loader.close();
-
-				// Plugin plugin = (Plugin)
-				// loader.loadClass(prop.getProperty("pluginClass")).newInstance();
-				// plugin.start();
 				plugins.add(pluginFile);
-				// loader.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("出错了 " + pluginFile);
