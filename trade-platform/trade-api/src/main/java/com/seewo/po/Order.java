@@ -14,6 +14,7 @@ public class Order {
 
 	private Integer amount;
 	
+	private Integer height;
 
 	public Long getItemId() {
 		return itemId;
@@ -61,5 +62,13 @@ public class Order {
 
 	public void setLogisticsPrice(Integer logisticsPrice) {
 		this.logisticsPrice = logisticsPrice;
+	}
+
+	public Integer getHeight() {
+		return height;
+	}
+
+	public void setHeight(Integer height) {
+		this.height = height;
 	}
 }

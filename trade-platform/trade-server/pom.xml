@@ -10,7 +10,6 @@
 	<packaging>jar</packaging>
 
 	<artifactId>trade-server</artifactId>
-	<packaging>jar</packaging>
 
 	<dependencies>
 		<dependency>

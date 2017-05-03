@@ -11,6 +11,8 @@ public class Item {
 	private Integer num;
 	
 	private String feature;
+	
+	private Integer height;
 
 	public Long getItemId() {
 		return itemId;
@@ -50,6 +52,14 @@ public class Item {
 	
 	public void setFeature(String feature) {
 		this.feature = feature;
+	}
+
+	public Integer getHeight() {
+		return height;
+	}
+
+	public void setHeight(Integer height) {
+		this.height = height;
 	}
 
 	public Item(Long itemId, String title, Integer price, Integer num, String feature) {
