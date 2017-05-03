@@ -27,7 +27,7 @@
         sub,sup{position:relative;font-size:75%;line-height:0;vertical-align:baseline;}
         sup{top:-0.5em;}
         sub{bottom:-0.25em;}
-        img{max-width:100%;width:auto\9;height:auto;vertical-align:middle;border:0;-ms-interpolation-mode:bicubic;}
+        img{max-width:100%;width:280px;height:350px;vertical-align:middle;border:0;-ms-interpolation-mode:bicubic;}
         #map_canvas img,.google-maps img{max-width:none;}
         button,input,select,textarea{margin:0;font-size:100%;vertical-align:middle;}
         button,input{*overflow:visible;line-height:normal;}
@@ -1162,7 +1162,7 @@ $(function(){
 							var data=result.data[i];
 							var str="<div class='span4'>"+
 							"<h3 class='text-center'>"+data.title+"</h3>"+
-							"<img alt='140x140'"+
+							"<img "+
 								"src='"+data.url+"'>"+
 							"<p>"+
 								"<em>价格： "+data.price+"</em>"+

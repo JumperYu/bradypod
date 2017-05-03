@@ -239,7 +239,7 @@
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <img style="width:320px;margin:0 auto;display:block;" id="url" lt="140x140" src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1493286219740&amp;di=7b60ec6c434cbf55ea7bb65c7387d6a0&amp;imgtype=0&amp;src=http%3A%2F%2Fimg2.niushe.com%2Fupload%2F201304%2F19%2F14-22-31-71-26144.jpg"></img>
+                    <img style="width:320px;margin:0 auto;display:block;" id="url" lt="140x140" src="${resp.url}"></img>
                 </div>
                 <div style="margin-top:42px;"class="col-md-6">
                     <p id="info" class="lead">价格：${resp.price}</p>

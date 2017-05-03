@@ -1101,7 +1101,7 @@
         <div class="span12">
             <div class="row-fluid">
                 <div class="span2">
-                    <img id="url" alt="140x140" src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1493286219740&amp;di=7b60ec6c434cbf55ea7bb65c7387d6a0&amp;imgtype=0&amp;src=http%3A%2F%2Fimg2.niushe.com%2Fupload%2F201304%2F19%2F14-22-31-71-26144.jpg">
+                    <img id="url" alt="140x140" src="${resp.url}">
                 </div>
                 <div class="span6">
                     <table class="table">

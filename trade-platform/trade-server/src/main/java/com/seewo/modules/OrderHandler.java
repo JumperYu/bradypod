@@ -42,6 +42,7 @@ public class OrderHandler {
 			order.setAmount(item.getPrice() * num);
 			order.setPrice(item.getPrice());
 			order.setTitle(item.getTitle());
+			order.setUrl(item.getUrl());
 
 			// 计算优惠
 			DiscountService discountService = modules.getItemManagerModule().getInstance(feature,
