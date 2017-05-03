@@ -59,6 +59,7 @@ public class OrderHandler {
 	
 	public void confirmOrder(Long orderId) {
 		// 扣库存
+	// itemQueryService.reduceInventory(123, 1);
 	}
 	
 	public void setModules(Modules modules) {

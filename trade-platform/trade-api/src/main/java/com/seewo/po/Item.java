@@ -2,17 +2,19 @@ package com.seewo.po;
 
 public class Item {
 
-	private Long itemId;
+	private Long itemId; // 标识
 
-	private String title;
+	private String title; // 标题
 
-	private Integer price;
+	private String desc; // 描述
 
-	private Integer num;
-	
-	private String feature;
-	
-	private Integer height;
+	private Integer price; // 单价
+
+	private Integer num; // 库存
+
+	private String feature; // 特征
+
+	private Integer height; // 重量
 
 	public Long getItemId() {
 		return itemId;
@@ -20,6 +22,14 @@ public class Item {
 
 	public void setItemId(Long itemId) {
 		this.itemId = itemId;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+
+	public String getDesc() {
+		return desc;
 	}
 
 	public String getTitle() {
@@ -45,11 +55,11 @@ public class Item {
 	public void setNum(Integer num) {
 		this.num = num;
 	}
-	
+
 	public String getFeature() {
 		return feature;
 	}
-	
+
 	public void setFeature(String feature) {
 		this.feature = feature;
 	}

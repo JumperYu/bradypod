@@ -91,6 +91,6 @@
 
 
 	<build>
-		<finalName>trade-console</finalName>
+		<finalName>ROOT</finalName>
 	</build>
 </project>
