@@ -33,4 +33,17 @@
 		</pluginManagement>
 	</build>
 
+	<distributionManagement>
+		<repository>
+			<id>releases</id>
+			<name>releases</name>
+			<url>http://mvn.gz.cvte.cn/nexus/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>snapshots</name>
+			<url>http://mvn.gz.cvte.cn/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 </project>
