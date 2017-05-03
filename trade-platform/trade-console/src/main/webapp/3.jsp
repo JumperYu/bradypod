@@ -1117,10 +1117,10 @@
                                 数量
                             </th>
                             <th>
-                                总价
+                                物流费
                             </th>
                             <th>
-                                物流
+                                总价
                             </th>
                         </tr>
                         </thead>
@@ -1131,8 +1131,8 @@
                             </td>
                             <td id="itemTitle">￥ ${resp.price}</td>
                             <td id="itemDate">${resp.num}</td>
-                            <td id="itemD">￥ ${resp.amount}</td>
-                            <td ></td>
+                            <td id="itemD">￥ </td>
+                            <td >￥ ${resp.amount}</td>
                         </tr>
 
                         </tbody>
