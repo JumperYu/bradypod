@@ -30,7 +30,7 @@ public class ItemManagerModule implements Module {
 
 	private ScheduledExecutorService executor = null;
 	
-	public static final String path="/Users/zxm/work/seewo/bradypod/trade-platform/trade-server/plugins";
+	public static final String path="/data/plugins";
 
 	@Override
 	public void destroy() {

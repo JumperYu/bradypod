@@ -34,8 +34,7 @@ public class ModuleClassLoader extends URLClassLoader {
 	}
 
 	private static ClassLoader findParentClassLoader() {
-
-		return ClassLoader.getSystemClassLoader();
+		return ModuleClassLoader.class.getClassLoader();
 	}
 
 }
