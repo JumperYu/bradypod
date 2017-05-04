@@ -10,6 +10,9 @@
     body{
         color:black;
     }
+    .container{
+    	padding-top:50px;
+    }
     .a-upload {
     padding: 4px 10px;
     line-height: 20px;
@@ -22,7 +25,9 @@
     overflow: hidden;
     display: inline-block;
     *display: inline;
-    *zoom: 1
+    *zoom: 1;
+    width:120px;
+    text-align:center;
 }
 
 .a-upload  input {
@@ -113,9 +118,13 @@ select{
                 <p style="line-height:34px;text-align:right;" class="text-muted">上传子模块:</p>
             </div>
             <div class="col-md-8">
-                <a href="javascript:;">
+            <a href="javascript:;" class="a-upload">
+    			<input type="file" name="file" id="upload">
+    			<span>点击上传文件</span>
+			</a>
+                <!-- <a href="javascript:;">
                     <input type="file" name="file" id="upload">
-                </a>
+                </a> -->
             </div>
         </div>
         <div class="row">
@@ -127,7 +136,7 @@ select{
                 <div style="top:-19px;left:169px;padding-top:8px;" id="myAlert" class="popover right">
                     <div class="arrow"></div>
                     <div class="popover-content">
-                        <p id="info"></p>
+                        <p style="color:red;"id="info"></p>
                     </div>
                 </div>
             </div>
@@ -138,6 +147,12 @@ select{
 <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js" ></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script>
+	$('#upload').change(function(e){
+		var arr = (e.target.value+"").split('\\');
+		var name = arr[arr.length - 1];
+		$('.a-upload').find('span').html(name);
+		
+	});
 	$('form').submit(function() {
 		var formData = new FormData();
 		var name1 = $("select[name='feature']").val();

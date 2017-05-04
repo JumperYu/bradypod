@@ -1103,7 +1103,7 @@
                 <div class="span2">
                     <img id="url" alt="140x140" src="${resp.url}">
                 </div>
-                <div class="span6">
+                <div style="position:relative;margin-top:37px;height:231px;" class="span6">
                     <table class="table">
                         <thead>
                         <tr>
@@ -1141,7 +1141,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="span4">
+                <div style="margin-top:52px;" class="span4">
                     <button id="submit2" class="btn btn-large btn-block btn-danger" type="button">确认下单</button>
                 </div>
 					<div style="top: 100px; left: 880px; padding-top: 8px;" id="myAlert"
@@ -1155,13 +1155,49 @@
         </div>
     </div>
 </div>
-
+<div id="myAlert1" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button id="close" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">提示</h4>
+      </div>
+      <div class="modal-body">
+        <p id="info" >购买成功</p>
+      </div>
+      <div class="modal-footer">
+        <button id="cancel" type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button id="sure" type="button" class="btn btn-primary">确定</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 </body>
 
 <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js" ></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script type="text/javascript">
-
+	function handelCancel(){
+		$('#submit2').addClass('btn-primary');
+		$('#submit2').removeClass('btn-danger');
+		$('#submit2').html('回到首页');
+		$('#submit2').unbind('click');
+		$('#submit2').click(function(){
+			location.href='../../index.html';
+		})
+	}
+	$('#myAlert1').find('#cancel').click(function(){
+		$('#myAlert1').addClass('fade');
+		handelCancel()
+	})
+	$('#myAlert1').find('#close').click(function(){
+		$('#myAlert1').addClass('fade');
+		handelCancel()
+	})
+	$('#myAlert1').find('#sure').click(function(){
+		//$('#myAlert').addClass('fade');
+		location.href='../../index.html';
+	})
 	$('#submit2').click(function(){
 		$.post("confirm/"+${resp.orderId},function(data){
 			data=JSON.parse(data);
@@ -1170,8 +1206,8 @@
 				setTimeout(function(){
 					$('#myAlert').hide();
 				},3000); */
-				window.confirm("购买成功");
-				location.href='../../index.html';
+				$('#myAlert1').find('#info').html('购买成功')
+				$('#myAlert1').removeClass('fade');
 			}else{
 				$('#myAlert').show().find('#info').html(data.message);
 				setTimeout(function(){
