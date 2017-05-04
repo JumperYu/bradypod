@@ -241,7 +241,13 @@
                 <div class="col-md-6">
                     <img style="width:320px;margin:0 auto;display:block;" id="url" lt="140x140" src="${resp.url}"></img>
                 </div>
-                <div style="margin-top:42px;"class="col-md-6">
+                <div style="position:relative;margin-top:42px;"class="col-md-6">
+                		<div style="left:169px;padding-top:8px;" id="myAlert" class="popover right">
+		                    <div class="arrow"></div>
+		                    <div class="popover-content">
+		                        <p style="color:red;" id="info"></p>
+		                    </div>
+                		</div>
                     <p id="info" class="lead">价格：${resp.price} ￥</p>
                     <p id="info" class="lead">库存：${resp.num}</p>
                     <p id="info" class="lead">重量：${resp.weight} KG</p>
@@ -253,12 +259,7 @@
 								<button id="subBtn" type="submit" class="btn btn-primary">提交</button>
 							</fieldset>
 						</form>
-						 <div style="top:95px;left:169px;padding-top:8px;" id="myAlert" class="popover right">
-		                    <div class="arrow"></div>
-		                    <div class="popover-content">
-		                        <p id="info"></p>
-		                    </div>
-                		</div>
+						 
 					</div>
             </div>
             
@@ -273,6 +274,8 @@
 		$.post($(this).attr('action'),$(this).serialize(),function(data){
 			data=JSON.parse(data);
 			if(!data.success){
+				//console.log($('#ubBtn').offset().top)
+				$('#myAlert').css("top",($('#subBtn').offset().top - 224)+'px');
 				$('#myAlert').show().find('#info').html(data.message);
 				setTimeout(function(){
 					$('#myAlert').hide();

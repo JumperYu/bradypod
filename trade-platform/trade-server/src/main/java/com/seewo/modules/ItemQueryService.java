@@ -36,7 +36,6 @@ public class ItemQueryService {
 					"https://g-search3.alicdn.com/img/bao/uploaded/i4/i4/751306283/TB2DJzhoFXXXXXsXpXXXXXXXXXX_!!751306283.jpg_460x460Q90.jpg_.webp");
 			items.put(item.getItemId(), item);
 		}
-
 		items.put(item1.getItemId(), item1);
 		items.put(item2.getItemId(), item2);
 		items.put(item3.getItemId(), item3);
