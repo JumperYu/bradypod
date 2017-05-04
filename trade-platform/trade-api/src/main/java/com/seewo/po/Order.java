@@ -1,23 +1,24 @@
 package com.seewo.po;
 
 public class Order {
+	
 	private Long orderId;
 	
 	private Long itemId;
 	
 	private String url;
 
-	private Integer num;
+	private Integer num; // 商品个数
 
-	private Integer price;
+	private Integer price; // 单价
 	
-	private Integer logisticsPrice=0;
+	private Integer logisticsPrice = 0; // 运费
 
 	private String title;
 
-	private Integer amount;
+	private Integer amount; // 总价
 	
-	private Integer weight;
+	private Integer weight; // 商品重量
 
 	
 	
