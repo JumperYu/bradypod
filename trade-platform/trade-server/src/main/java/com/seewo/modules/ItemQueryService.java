@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.common.collect.Lists;
 import com.seewo.po.Item;
 import com.seewo.po.Order;
 import com.seewo.po.Result;
@@ -23,13 +24,22 @@ public class ItemQueryService {
 				"https://g-search3.alicdn.com/img/bao/uploaded/i4/i4/751306283/TB2DJzhoFXXXXXsXpXXXXXXXXXX_!!751306283.jpg_460x460Q90.jpg_.webp");
 		Item item5 = new Item(5L, "鲜花", 500, 10000000, 20, "1005",
 				"https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2565682480,1049014799&fm=23&gp=0.jpg");
-		Item item6 = new Item(6L, "EN5", 600, 10000000, 30, "1006", "http://www.seewo.com/Uploads/goods/1474543035.png");
+		Item item6 = new Item(6L, "EN5", 600, 10000000, 30, "1006",
+				"http://www.seewo.com/Uploads/goods/1474543035.png");
+		
+		for (int i = 7; i <= 30; i++) {
+			Item item = new Item(Long.valueOf(i), "商品-" + i, 1000, 10000000, 30, (1000 + i) + "",
+					"https://g-search3.alicdn.com/img/bao/uploaded/i4/i4/751306283/TB2DJzhoFXXXXXsXpXXXXXXXXXX_!!751306283.jpg_460x460Q90.jpg_.webp");
+			items.put(item.getItemId(), item);
+		}
+		
 		items.put(item1.getItemId(), item1);
 		items.put(item2.getItemId(), item2);
 		items.put(item3.getItemId(), item3);
 		items.put(item4.getItemId(), item4);
 		items.put(item5.getItemId(), item5);
 		items.put(item6.getItemId(), item6);
+		
 	}
 
 	public Collection<Item> getItems() {
@@ -71,5 +81,11 @@ public class ItemQueryService {
 		result.setSuccess(true);
 
 		return result;
+	}
+
+	public void reloadItems() {
+		for (Item item : items.values()) {
+			item.setNum(100000000);
+		}
 	}
 }
