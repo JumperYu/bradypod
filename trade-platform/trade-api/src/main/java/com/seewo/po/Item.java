@@ -19,7 +19,7 @@ public class Item {
 	private String url;
 
 	private String witholding; // 预留库存
-
+	
 	public Long getItemId() {
 		return itemId;
 	}
@@ -102,5 +102,15 @@ public class Item {
 		this.url=url;
 		this.weight=weight;
 	}
-
+	public Item(Long itemId, String title, Integer price, Integer num,Integer weight, String feature,String url,String descript) {
+		super();
+		this.itemId = itemId;
+		this.title = title;
+		this.price = price;
+		this.num = num;
+		this.feature = feature;
+		this.url=url;
+		this.weight=weight;
+		this.desc=descript;
+	}
 }

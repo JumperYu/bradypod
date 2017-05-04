@@ -245,6 +245,7 @@
                     <p id="info" class="lead">价格：${resp.price} ￥</p>
                     <p id="info" class="lead">库存：${resp.num}</p>
                     <p id="info" class="lead">重量：${resp.weight} KG</p>
+                    <p id="info" class="lead">描述：${resp.desc}</p>
 						<form style="" class="form-inline"
 							action="order/item/${resp.itemId}" method="POST">
 							<fieldset>
