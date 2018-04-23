@@ -31,7 +31,7 @@ public class ActiveKeyDetect {
 
 	/**
 	 * 全局计数器 outer-key:时间片(环) 固定3个环节点：0,1,2 (0,1)-2 (1,2)-0 (2,0)-1
-	 * 同时最多有两个环节点处于可用（活动）状态，那第3个节点就处于游离态，游离态的可以清理掉 inner-key:inventoryId
+	 * 同时最多有两个环节点处于可用（活动）状态，那第3个节点就处于游离态，游离态的可以清理掉 inner-key:inventoryI	d
 	 * inner-value:每个inventoryId 对于的 AtomicInteger
 	 * 
 	 */

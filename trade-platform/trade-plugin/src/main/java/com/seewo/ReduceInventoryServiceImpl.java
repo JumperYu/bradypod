@@ -7,7 +7,7 @@ public class ReduceInventoryServiceImpl implements ReduceInventoryService{
 
 
 	@Override
-	public Result<Boolean> reduceInventory(Long itemId, Integer num) {
+	public Result<Boolean> witholdInventory(Long itemId, Integer num) {
 		System.out.println("reduce");
 		return null;
 	}

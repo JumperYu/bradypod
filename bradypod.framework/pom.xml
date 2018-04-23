@@ -5,6 +5,7 @@
 		<groupId>com.bradypod</groupId>
 		<artifactId>bradypod.pom</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../</relativePath>
 	</parent>
 
 	<description>树懒框架</description>
@@ -44,8 +45,8 @@
 		<module>framework.poi</module>
 		<module>framework.reflect</module>
 		<module>framework.config</module>
-		<module>bradypod.framework.client</module>
 		<module>bradypod.hbase</module>
 		<module>bradypod.rocketmq</module>
+		<module>guava</module>
 	</modules>
 </project>
