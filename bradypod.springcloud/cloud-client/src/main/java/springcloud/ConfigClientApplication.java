@@ -15,7 +15,7 @@ public class ConfigClientApplication {
     }
 
     // git配置文件里的key
-    @Value("${service-consumer}")
+    @Value("${name}")
     String name;
 
     @RequestMapping(value = "/hi")
