@@ -6,7 +6,7 @@ spring:
       server:
         git:
           uri: https://github.com/JumperYu/bradypod
-          search-paths: bradypod.springcloud/config-repo
+          search-paths: /**
           username: previous_yu@163.com
           password: zxm2006
       label: master
@@ -15,11 +15,11 @@ spring:
           dev
 
 server:
-  port: 8080
+  port: 8090
 
-eureka:
-  client:
-    serviceUrl:
-       defaultZone: http://localhost:1111/eureka/
-    fetch-registry: false
-    register-with-eureka: false
+#eureka:
+#  client:
+#    serviceUrl:
+#       defaultZone: http://localhost:1111/eureka/
+#    fetch-registry: false
+#    register-with-eureka: false
