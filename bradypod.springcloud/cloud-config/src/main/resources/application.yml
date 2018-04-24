@@ -5,24 +5,21 @@ spring:
     config:
       server:
         git:
-          #GIT仓库地址
           uri: https://github.com/JumperYu/bradypod
-          #配置仓库路径下相对搜索位置，可配置多个
           search-paths: /**
-          #访问GIT仓库的用户名
           username: previous_yu@163.com
-          #访问GIT仓库的用户密码
           password: zxm2006
       label: master
+      uri: http://localhost:8080/
   profile:
           dev
 
 server:
-  port: 8083
+  port: 8080
 
 eureka:
   client:
     serviceUrl:
-       defaultZone: http://localhost:8080/eureka/
+       defaultZone: http://localhost:1111/eureka/
     fetch-registry: false
     register-with-eureka: false
