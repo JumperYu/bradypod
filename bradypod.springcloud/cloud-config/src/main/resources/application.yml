@@ -1,18 +1,21 @@
 spring:
   application:
-    name: cloud-server-config
+    name: cloud-config
   cloud:
     config:
       server:
         git:
           #GIT仓库地址
-          uri: https://github.com/yst6857/spring-cloud-demo.git
+          uri: https://github.com/JumperYu/bradypod
           #配置仓库路径下相对搜索位置，可配置多个
-          search-paths: config-repo
+          search-paths: /**
           #访问GIT仓库的用户名
-          username: yangst6857@163.com
+          username: previous_yu@163.com
           #访问GIT仓库的用户密码
-          password: yst904530
+          password: zxm2006
+      label: master
+  profile:
+          dev
 
 server:
   port: 8083
@@ -21,3 +24,5 @@ eureka:
   client:
     serviceUrl:
        defaultZone: http://localhost:8080/eureka/
+    fetch-registry: false
+    register-with-eureka: false
