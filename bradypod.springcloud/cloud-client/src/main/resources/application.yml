@@ -1,13 +1,11 @@
 spring:
-  application:
-    name: cloud-client
   cloud:
     config:
+      # 这个参数一直不生效
       uri: http://localhost:8080
       name: cloud-config
       profile: dev
       label: master
-
 
 server:
   port: 8090
