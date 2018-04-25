@@ -5,11 +5,12 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/JumperYu/bradypod
+#          uri: https://github.com/JumperYu/bradypod
+          uri: file://${user.home}/work/seewo/bradypod
           search-paths: bradypod.springcloud/config-repo
 #          username: ***
 #          password: ***
       label: master
 
 server:
-  port: 8888
+  port: 8080

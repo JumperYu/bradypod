@@ -9,7 +9,7 @@
     <packaging>pom</packaging>
 
     <name>bradypod.springcloud</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Demo project for Spring Cloud</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -20,6 +20,7 @@
     <modules>
         <module>cloud-config</module>
         <module>cloud-client</module>
+        <module>cloud-server-eureka</module>
     </modules>
 
 </project>

@@ -9,7 +9,7 @@
     <artifactId>cloud-config</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>bradypod.springcloud</name>
+    <name>cloud-config</name>
     <description>Demo project for Spring Cloud config</description>
 
     <parent>

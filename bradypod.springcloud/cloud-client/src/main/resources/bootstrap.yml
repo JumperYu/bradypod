@@ -6,6 +6,3 @@ spring:
       name: cloud-config
       profile: dev
       label: master
-
-server:
-  port: 8090
