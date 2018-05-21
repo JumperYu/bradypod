@@ -10,14 +10,20 @@
 	<inceptionYear>2015.09.10</inceptionYear>
 	<developers>
 		<developer>
-			<name>zengxm</name>
+			<name>previous_yu</name>
 			<url>https://github.com/JumperYu/bradypod</url>
 		</developer>
 	</developers>
 
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.2.RELEASE</version>
+	</parent>
+
 	<properties>
 		<java-version>1.8</java-version>
-		<org.springframework-version>4.2.1.RELEASE</org.springframework-version>
+		<org.springframework-version>5.0.6.RELEASE</org.springframework-version>
 		<org.springframework.data.version>1.6.0.RELEASE</org.springframework.data.version>
 		<org.quartz-scheduler.version>2.2.1</org.quartz-scheduler.version>
 		<joda-time.version>2.3</joda-time.version>
@@ -44,18 +50,16 @@
 		<mina-core.version>2.0.9</mina-core.version>
 		<hessian.version>4.0.38</hessian.version>
 		<org.slf4j-version>1.7.7</org.slf4j-version>
-		<jackson-version>2.3.3</jackson-version>
+		<jackson-version>2.9.5</jackson-version>
 		<gson.version>2.3.1</gson.version>
 		<org.json.version>20141113</org.json.version>
 		<fastjson.version>1.2.7</fastjson.version>
-		<logback.version>1.0.13</logback.version>
-		<junit.version>4.11</junit.version>
-		<jetty.version>6.1.24</jetty.version>
+		<logback.version>1.2.3</logback.version>
+		<junit.version>4.12</junit.version>
 		<maven-shade-plugin.version>2.4.1</maven-shade-plugin.version>
-		<jetty-maven-plugin.version>9.2.9.v20150224</jetty-maven-plugin.version>
 		<elasticsearch.version>1.7.1</elasticsearch.version>
 		<lucene.version>5.4.0</lucene.version>
-		<netty.version>4.0.24.Final</netty.version>
+		<netty.version>4.1.25.Final</netty.version>
 		<stanford-corenlp.version>3.5.2</stanford-corenlp.version>
 		<dom4j.version>1.6.1</dom4j.version>
 		<poi.version>3.13</poi.version>
@@ -548,8 +552,7 @@
 				<version>${hadoop.version}</version>
 			</dependency>
 
-
-			<!-- 有好多冲突 <dependency> <groupId>org.apache.hadoop</groupId> <artifactId>hadoop-core</artifactId> 
+			<!-- 有好多冲突 <dependency> <groupId>org.apache.hadoop</groupId> <artifactId>hadoop-core</artifactId>
 				<version>1.2.1</version> </dependency> -->
 			<!-- test -->
 			<dependency>
@@ -564,62 +567,7 @@
 				<version>${org.springframework-version}</version>
 				<scope>test</scope>
 			</dependency>
-			<!-- jetty start -->
-			<dependency>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>jetty</artifactId>
-				<version>${jetty.version}</version>
-				<scope>test</scope>
-				<exclusions>
-					<exclusion>
-						<groupId>org.mortbay.jetty</groupId>
-						<artifactId>servlet-api</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>jsp-2.1-jetty</artifactId>
-				<version>${jetty.version}</version>
-				<scope>test</scope>
-			</dependency>
-			<!-- jetty end -->
 		</dependencies>
 	</dependencyManagement>
-
-	<distributionManagement>
-		<!-- <repository> <id>releases</id> <name>Internal Releases</name> <url>http://192.168.1.130:5050/nexus/content/repositories/releases</url> 
-			</repository> <snapshotRepository> <id>snapshots</id> <name>Internal Snapshots</name> 
-			<url>http://192.168.1.130:5050/nexus/content/repositories/snapshots</url> 
-			</snapshotRepository> -->
-	</distributionManagement>
-
-
-	<build>
-		<pluginManagement>
-			<plugins>
-				<!-- compile plugin -->
-				<plugin>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.3</version>
-					<configuration>
-						<source>${java-version}</source>
-						<target>${java-version}</target>
-						<encoding>UTF-8</encoding>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.eclipse.jetty</groupId>
-					<artifactId>jetty-maven-plugin</artifactId>
-					<version>${jetty-maven-plugin.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-shade-plugin</artifactId>
-					<version>${maven-shade-plugin.version}</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
 
 </project>
