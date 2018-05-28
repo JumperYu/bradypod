@@ -26,9 +26,6 @@ public class Movie {
 	@Relationship(type = "ACTED_IN", direction = Relationship.INCOMING)
 	private List<Role> roles;
 
-	public Movie() {
-	}
-
 	public Movie(String title, int released, String tagline) {
 		this.title = title;
 		this.released = released;

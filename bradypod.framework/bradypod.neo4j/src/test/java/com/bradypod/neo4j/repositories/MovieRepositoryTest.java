@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
@@ -75,7 +76,11 @@ public class MovieRepositoryTest {
 	 */
 	@Test
 	public void testGraph() {
-		Collection<Movie> graph = movieRepository.graph(5);
+		int limit = 5;
+
+		Collection<Movie> graph = movieRepository.graph(limit);
+
+		System.out.println(graph);
 
 		assertEquals(1, graph.size());
 
@@ -85,5 +90,23 @@ public class MovieRepositoryTest {
 
 		assertEquals("The Matrix", movie.getTitle());
 		assertEquals("Keanu Reeves", movie.getRoles().iterator().next().getPerson().getName());
+	}
+
+	@Test
+	public void testSave() {
+
+		Movie movie = new Movie("卧虎苍龙", 2009, "无名剑客");
+		movieRepository.save(movie);
+
+		Person person = new Person("李连杰", 1964);
+		personRepository.save(person);
+
+		Role role = new Role(movie, person);
+		role.addRoleName("无名");
+
+		movie.addRole(role);
+
+		movieRepository.save(movie);
+
 	}
 }
