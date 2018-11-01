@@ -28,5 +28,6 @@
 		<module>bradypod.rocketmq</module>
 		<module>guava</module>
 		<module>bradypod.neo4j</module>
+		<module>framework.design</module>
 	</modules>
 </project>
