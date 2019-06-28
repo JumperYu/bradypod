@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-import cn.org.rapid_framework.generator.GeneratorProperties;
+import cn.org.rapid_framework.generator.util.GeneratorProperties;
 import cn.org.rapid_framework.generator.provider.db.table.TableFactory;
 import cn.org.rapid_framework.generator.util.StringHelper;
 /**

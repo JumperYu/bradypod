@@ -8,7 +8,7 @@
 		${user.home},property之间也可以相互引用
 	</comment>
 
-	<entry key="basepackage">com.bradypod.shop.item.center</entry>
+	<entry key="basepackage">com.wupol.uc</entry>
 
 	<!-- jsp namespace: web/${namespace}/${className}/list.jsp -->
 	<entry key="namespace">pages</entry>
@@ -20,8 +20,8 @@
 	<entry key="tableRemovePrefixes">t_</entry>
 
 
-	<entry key="jdbc.username">zxm</entry>
-	<entry key="jdbc.password">qwerty</entry>
+	<entry key="jdbc.username">dba</entry>
+	<entry key="jdbc.password">o3nc#sJU</entry>
 
 <!-- 	<entry key="jdbc.username">root</entry>
 	<entry key="jdbc.password">root</entry> -->
@@ -41,7 +41,7 @@
 	<!-- H2 <entry key="jdbc.url">jdbc:h2:tcp://localhost/test</entry> <entry key="jdbc.driver">org.h2.Driver</entry> -->
 
 	<!-- Mysql -->
-	<entry key="jdbc.url">jdbc:mysql://mysql.bradypod.com:3306/item_center?useUnicode=true&amp;characterEncoding=UTF-8</entry>
+	<entry key="jdbc.url">jdbc:mysql://localhost:3306/vistel_usercenter?useUnicode=true&amp;characterEncoding=UTF-8</entry>
 	<!-- <entry key="jdbc.url">jdbc:mysql://192.168.1.130:3306/ttwg_trade?useUnicode=true&amp;characterEncoding=UTF-8</entry> -->
 	<entry key="jdbc.driver">com.mysql.jdbc.Driver</entry>
 

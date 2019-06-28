@@ -1,8 +1,7 @@
 
-
 /**
+ * desc
  *
- * @author zengxm<github.com/JumperYu>
- *
- * @date ${now?string('yyyy-MM-dd')}
+ * @Author: xiangmin.zeng@vistel.cn
+ * @Create: ${now?string('yyyy/MM/dd')}
  */

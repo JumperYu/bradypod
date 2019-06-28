@@ -1,8 +1,7 @@
 package com.bradypod.test;
 
-import org.junit.Test;
-
 import cn.org.rapid_framework.generator.GeneratorFacade;
+import org.junit.Test;
 
 /**
  * 测试生成数据
@@ -25,12 +24,16 @@ public class TestGenerator {
 //		generatorFacade.generateByTable("t_brand_info", "template");
 //		generatorFacade.deleteByTable("t_comment", "template");
 //		generatorFacade.generateByTable("t_comment", "template");
-		generatorFacade.deleteByTable("t_trade_supplier_settlement", "template");
-		generatorFacade.generateByTable("t_trade_supplier_settlement", "template");
-//		generatorFacade.deleteByTable("t_brand_info", "template");
-//		generatorFacade.generateByTable("t_brand_info", "template");
-//		generatorFacade.deleteByTable("t_ctg_info", "template");
-//		generatorFacade.generateByTable("t_ctg_info", "template");
+//		generatorFacade.deleteByTable("t_user", "template");
+//		generatorFacade.generateByTable("t_user", "template");
+//		generatorFacade.deleteByTable("t_role", "template");
+//		generatorFacade.generateByTable("t_role", "template");
+//		generatorFacade.deleteByTable("t_user_role", "template");
+//		generatorFacade.generateByTable("t_user_role", "template");
+//		generatorFacade.deleteByTable("t_application", "template");
+//		generatorFacade.generateByTable("t_application", "template");
+		generatorFacade.deleteByTable("t_user", "template");
+		generatorFacade.generateByTable("t_user", "template");
 //		generatorFacade.deleteByTable("t_ctg_item", "template");
 //		generatorFacade.generateByTable("t_ctg_item", "template");
 //		generatorFacade.deleteByTable("t_ctg_attri", "template");

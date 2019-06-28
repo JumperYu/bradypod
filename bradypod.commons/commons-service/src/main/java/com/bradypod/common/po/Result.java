@@ -12,85 +12,84 @@ import com.bradypod.common.util.Encoder;
  *
  * @author zengxm
  * @date 2015年4月23日
- *
  */
 public class Result<T> implements Serializable {
 
-	private static final long serialVersionUID = 6925016030680603630L;
+    private static final long serialVersionUID = 6925016030680603630L;
 
-	/**
-	 * 返回代码
-	 */
-	private int code;
+    /**
+     * 返回代码
+     */
+    private int code;
 
-	/**
-	 * 错误信息
-	 */
-	private String message;
+    /**
+     * 错误信息
+     */
+    private String message;
 
-	/**
-	 * 返回对象
-	 */
-	private T result;
+    /**
+     * 返回对象
+     */
+    private T result;
 
-	/**
-	 * 是否成功，readonly
-	 */
-	private boolean success;
+    /**
+     * 是否成功，readonly
+     */
+    private boolean success;
 
-	public Result() {
-	}
+    public Result() {
+    }
 
-	public Result(int code, String message) {
-		this.setCode(code);
-		this.setMessage(message);
-	}
+    public Result(int code, String message) {
+        this.setCode(code);
+        this.setMessage(message);
+    }
 
-	public Result(int code, T result) {
-		this.setCode(code);
-		this.result = result;
-	}
+    public Result(int code, T result) {
+        this.setCode(code);
+        this.result = result;
+    }
 
-	public Result(int code, T result, String message) {
-		this.setCode(code);
-		this.result = result;
-		this.setMessage(message);
-	}
+    public Result(int code, T result, String message) {
+        this.setCode(code);
+        this.result = result;
+        this.setMessage(message);
+    }
 
-	public boolean isSuccess() {
-		return success;
-	}
+    public boolean isSuccess() {
+        return success;
+    }
 
-	public int getCode() {
-		return code;
-	}
+    public int getCode() {
+        return code;
+    }
 
-	public void setCode(int code) {
-		this.code = code;
-		this.success = (code == ResultCode.SUCCESS);
-	}
+    public void setCode(int code) {
+        this.code = code;
+        this.success = (code == ResultCode.SUCCESS);
+    }
 
-	public String getMessage() {
-		return message;
-	}
+    public String getMessage() {
+        return message;
+    }
 
-	public void setMessage(String message) {
-		// TODO Unicode转码， 带来了开发的不变， 暂时取消
-		this.message = Encoder.toUnicode(message);
+    public void setMessage(String message) {
+        // TODO Unicode转码， 带来了开发的不变， 暂时取消
+        this.message = Encoder.toUnicode(message);
 //		this.message = message;
-	}
+    }
 
-	public T getResult() {
-		return result;
-	}
+    public T getResult() {
+        return result;
+    }
 
-	public void setResult(T result) {
-		this.result = result;
-	}
-	
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this,
-				ToStringStyle.SHORT_PREFIX_STYLE);
-	}
+    public void setResult(T result) {
+        this.result = result;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this,
+                ToStringStyle.SHORT_PREFIX_STYLE);
+    }
 }

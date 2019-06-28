@@ -1,4 +1,4 @@
-package cn.org.rapid_framework.generator;
+package cn.org.rapid_framework.generator.util;
 
 import java.io.IOException;
 import java.util.Arrays;

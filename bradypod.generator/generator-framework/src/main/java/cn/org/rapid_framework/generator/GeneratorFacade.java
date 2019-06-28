@@ -19,6 +19,7 @@ import cn.org.rapid_framework.generator.provider.java.model.JavaClass;
 import cn.org.rapid_framework.generator.util.BeanHelper;
 import cn.org.rapid_framework.generator.util.GLogger;
 import cn.org.rapid_framework.generator.util.GeneratorException;
+import cn.org.rapid_framework.generator.util.GeneratorProperties;
 import cn.org.rapid_framework.generator.util.typemapping.DatabaseTypeUtils;
 
 /**

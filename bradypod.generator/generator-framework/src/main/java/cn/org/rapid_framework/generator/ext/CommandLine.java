@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.Scanner;
 
 import cn.org.rapid_framework.generator.GeneratorFacade;
-import cn.org.rapid_framework.generator.GeneratorProperties;
+import cn.org.rapid_framework.generator.util.GeneratorProperties;
 import cn.org.rapid_framework.generator.util.ArrayHelper;
 import cn.org.rapid_framework.generator.util.StringHelper;
 import cn.org.rapid_framework.generator.util.SystemHelper;
