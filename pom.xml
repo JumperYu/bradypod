@@ -59,7 +59,7 @@
 		<maven-shade-plugin.version>2.4.1</maven-shade-plugin.version>
 		<elasticsearch.version>1.7.1</elasticsearch.version>
 		<lucene.version>5.4.0</lucene.version>
-		<netty.version>4.1.25.Final</netty.version>
+		<netty.version>4.1.42.Final</netty.version>
 		<stanford-corenlp.version>3.5.2</stanford-corenlp.version>
 		<dom4j.version>1.6.1</dom4j.version>
 		<poi.version>3.13</poi.version>
