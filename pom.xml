@@ -391,7 +391,7 @@
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-validator</artifactId>
-				<version>5.2.1.Final</version>
+				<version>5.3.5.Final</version>
 				<!-- <exclusions> <exclusion> <artifactId>jaxb-impl</artifactId> <groupId>com.sun.xml.bind</groupId> 
 					</exclusion> <exclusion> <artifactId>jaxb-api</artifactId> <groupId>javax.xml.bind</groupId> 
 					</exclusion> </exclusions> -->
