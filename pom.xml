@@ -57,7 +57,7 @@
 		<logback.version>1.2.3</logback.version>
 		<junit.version>4.12</junit.version>
 		<maven-shade-plugin.version>2.4.1</maven-shade-plugin.version>
-		<elasticsearch.version>1.7.1</elasticsearch.version>
+		<elasticsearch.version>6.8.13</elasticsearch.version>
 		<lucene.version>5.4.0</lucene.version>
 		<netty.version>4.1.25.Final</netty.version>
 		<stanford-corenlp.version>3.5.2</stanford-corenlp.version>
