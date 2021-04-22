@@ -29,7 +29,7 @@
 		<joda-time.version>2.3</joda-time.version>
 		<org.aspectj.version>1.7.4</org.aspectj.version>
 		<mybatis-spring.version>1.2.3</mybatis-spring.version>
-		<mybatis.version>3.3.0</mybatis.version>
+		<mybatis.version>3.5.6</mybatis.version>
 		<mybatis-redis.version>1.0.0-beta1</mybatis-redis.version>
 		<druid.version>1.0.15</druid.version>
 		<httpclient.version>4.3.3</httpclient.version>
