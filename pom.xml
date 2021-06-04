@@ -32,7 +32,7 @@
 		<mybatis.version>3.3.0</mybatis.version>
 		<mybatis-redis.version>1.0.0-beta1</mybatis-redis.version>
 		<druid.version>1.0.15</druid.version>
-		<httpclient.version>4.3.3</httpclient.version>
+		<httpclient.version>4.5.13</httpclient.version>
 		<httpmime.version>4.4-alpha1</httpmime.version>
 		<commons-io.version>2.4</commons-io.version>
 		<commons-pool.version>1.6</commons-pool.version>
