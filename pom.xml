@@ -45,7 +45,7 @@
 		<guava.version>24.1-jre</guava.version>
 		<spymemcached.version>2.11.5</spymemcached.version>
 		<mysql-connector-java.version>5.1.30</mysql-connector-java.version>
-		<h2.version>1.4.189</h2.version>
+		<h2.version>2.0.206</h2.version>
 		<jedis.version>2.7.3</jedis.version>
 		<mina-core.version>2.0.9</mina-core.version>
 		<hessian.version>4.0.38</hessian.version>
