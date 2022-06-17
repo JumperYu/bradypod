@@ -53,7 +53,7 @@
 		<jackson-version>2.9.5</jackson-version>
 		<gson.version>2.3.1</gson.version>
 		<org.json.version>20141113</org.json.version>
-		<fastjson.version>1.2.7</fastjson.version>
+		<fastjson.version>1.2.83</fastjson.version>
 		<logback.version>1.2.3</logback.version>
 		<junit.version>4.12</junit.version>
 		<maven-shade-plugin.version>2.4.1</maven-shade-plugin.version>
