@@ -70,7 +70,7 @@
 		<javassist.version>3.20.0-GA</javassist.version>
 		<cglib.version>3.2.0</cglib.version>
 		<hbase.version>1.2.5</hbase.version>
-		<hadoop.version>1.2.1</hadoop.version>
+		<hadoop.version>2.7.0</hadoop.version>
 	</properties>
 
 	<dependencyManagement>
